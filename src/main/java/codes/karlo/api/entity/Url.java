@@ -24,8 +24,10 @@ public class Url {
 
     @NotBlank(message = "You need to add url for shortening")
     @URL(message = "Long URL not valid")
+    @Column(unique = true)
     private String longUrl;
 
+    @Column(unique = true)
     private String shortUrl;
 
     private LocalDateTime createDate;
