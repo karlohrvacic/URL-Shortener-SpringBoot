@@ -1,6 +1,6 @@
 package codes.karlo.api.service;
 
-import codes.karlo.api.entitiy.Url;
+import codes.karlo.api.entity.Url;
 import codes.karlo.api.repository.UrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,8 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public Url fetchUrlByShortUrl(String shortUrl) {
-        return urlRepository.findByShortUrl(shortUrl);
+        return urlRepository.findByShortUrl(shortUrl)
+                .map(url -> saveUrl(url.onVisit()))
+                .orElse(null);
     }
 }

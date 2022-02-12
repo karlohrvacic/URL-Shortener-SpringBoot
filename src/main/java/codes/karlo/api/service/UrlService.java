@@ -1,6 +1,6 @@
 package codes.karlo.api.service;
 
-import codes.karlo.api.entitiy.Url;
+import codes.karlo.api.entity.Url;
 
 import java.util.List;
 
