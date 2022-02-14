@@ -1,6 +1,7 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.entity.Url;
+import codes.karlo.api.exception.LongUrlNotSpecifiedException;
 import codes.karlo.api.exception.UrlNotFoundException;
 import codes.karlo.api.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UrlController {
     }
 
     @PostMapping
-    public Url saveUrl(@Valid @RequestBody Url url) {
+    public Url saveUrl(@Valid @RequestBody Url url) throws LongUrlNotSpecifiedException, UrlNotFoundException {
         return urlService.saveUrl(url);
     }
 
@@ -31,7 +32,7 @@ public class UrlController {
     }
 
     @GetMapping("/{short}")
-    public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException {
+    public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException, LongUrlNotSpecifiedException {
         return urlService.fetchUrlByShortUrl(shortUrl);
     }
 
