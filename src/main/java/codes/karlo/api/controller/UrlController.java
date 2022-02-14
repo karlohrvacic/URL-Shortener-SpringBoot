@@ -1,9 +1,8 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.entity.Url;
+import codes.karlo.api.exception.UrlNotFoundException;
 import codes.karlo.api.service.UrlService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,6 @@ import java.util.List;
 public class UrlController {
 
     private final UrlService urlService;
-
-    private final Logger logger = LoggerFactory.getLogger(UrlController.class);
 
     @Autowired
     public UrlController(UrlService urlService) {
@@ -34,7 +31,7 @@ public class UrlController {
     }
 
     @GetMapping("/{short}")
-    public Url fetchUrlByShort(@PathVariable("short") String shortUrl) {
+    public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException {
         return urlService.fetchUrlByShortUrl(shortUrl);
     }
 

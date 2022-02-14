@@ -32,4 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-src/java/codes.karlo.api/resources/application.properties
+src/java/codes.karlo.api/resources/application.yaml
