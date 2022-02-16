@@ -32,7 +32,7 @@ public class UrlController {
     }
 
     @GetMapping("/{short}")
-    public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException, LongUrlNotSpecifiedException {
+    public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException {
         return urlService.fetchUrlByShortUrl(shortUrl);
     }
 
