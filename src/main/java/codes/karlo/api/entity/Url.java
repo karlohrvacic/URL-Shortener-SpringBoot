@@ -39,7 +39,6 @@ public class Url {
     public Url(String longUrl, String shortUrl) {
         this.longUrl = longUrl;
         this.shortUrl = shortUrl;
-
     }
 
     @PrePersist
