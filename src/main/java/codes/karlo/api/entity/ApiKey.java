@@ -24,6 +24,7 @@ public class ApiKey {
     @ManyToOne
     private User user;
 
+    @Column(unique = true)
     private String apiKey;
 
     private Long apiCallsLimit;

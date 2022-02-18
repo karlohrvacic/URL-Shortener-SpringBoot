@@ -1,19 +1,11 @@
 spring:
-  datasource:
-    username: root
-    url: jdbc:postgresql://localhost:5432/url
-    password: root
+  profiles:
+    active: dev
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL82Dialect
-    properties:
-      hibernate:
-        format_sql: 'true'
-    show-sql: 'true'
     hibernate:
       ddl-auto: update
-server:
-  error:
-    include-message: always
+
 management:
   endpoints:
     web:

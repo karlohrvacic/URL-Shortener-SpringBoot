@@ -36,9 +36,14 @@ public class User {
     private String password;
 
     @OneToMany
-    private List<ApiKey> apiKeyList;
+    @ToString.Exclude
+    private List<ApiKey> apiKeys;
 
-    private Boolean isAdmin;
+    @OneToMany
+    @ToString.Exclude
+    private List<Url> urls;
+
+    private String role;
 
     private LocalDateTime createDate;
 
@@ -46,7 +51,7 @@ public class User {
 
     @PrePersist
     public void onCreate() {
-        this.isAdmin = false;
+        this.role = "USER";
         this.createDate = LocalDateTime.now();
     }
 
@@ -55,11 +60,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && name.equals(user.name) && email.equals(user.email) && password.equals(user.password) && Objects.equals(isAdmin, user.isAdmin) && Objects.equals(createDate, user.createDate) && Objects.equals(lastLogin, user.lastLogin);
+        return id.equals(user.id) && name.equals(user.name) && email.equals(user.email) && password.equals(user.password) && Objects.equals(role, user.role) && Objects.equals(createDate, user.createDate) && Objects.equals(lastLogin, user.lastLogin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, isAdmin, createDate, lastLogin);
+        return Objects.hash(id, name, email, password, role, createDate, lastLogin);
     }
 }

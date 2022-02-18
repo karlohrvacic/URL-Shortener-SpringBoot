@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/url")
@@ -20,19 +21,24 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-    @PostMapping
-    public Url saveUrl(@Valid @RequestBody Url url) throws LongUrlNotSpecifiedException, UrlNotFoundException {
+    @PostMapping("/{api_key}")
+    public Url saveUrl(@Valid @RequestBody Url url,
+                       @PathVariable("api_key") String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException {
+        //TODO apiKey optional, gives permission for custom short url
+
         return urlService.saveUrl(url);
     }
-
-//    @GetMapping
-//    public List<Url> fetchUrls() {
-//        return urlService.fetchUrls();
-//    }
 
     @GetMapping("/{short}")
     public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException {
         return urlService.fetchUrlByShortUrl(shortUrl);
+    }
+
+    @GetMapping("/{api_key}")
+    public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) {
+        //TODO require AUTH gives all urls from key owner
+
+        return urlService.fetchUrls();
     }
 
 }
