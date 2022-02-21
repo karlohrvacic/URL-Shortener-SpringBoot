@@ -35,8 +35,7 @@ public class UrlController {
                     description = "Long URL not specified",
                     content = @Content)
     })
-    public Url saveUrl(@Valid @RequestBody Url url,
-                       @PathVariable("api_key") String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException {
+    public Url saveUrl(@Valid @RequestBody Url url, @PathVariable("api_key") String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException {
         //TODO apiKey optional, gives permission for custom short url
 
         return urlService.saveUrl(url);

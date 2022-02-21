@@ -29,4 +29,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(message);
     }
+
+    @ExceptionHandler(EmailExistsException.class)
+    public ResponseEntity<ErrorMessage> emailExistsException(EmailExistsException exception) {
+
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(message);
+    }
 }
