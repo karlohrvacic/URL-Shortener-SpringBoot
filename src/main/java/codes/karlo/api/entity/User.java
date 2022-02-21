@@ -17,6 +17,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Table(name = "app_user")
 public class User {
 
     @Id
@@ -43,7 +44,9 @@ public class User {
     @ToString.Exclude
     private List<Url> urls;
 
-    private String role;
+    @OneToMany
+    @ToString.Exclude
+    private List<Authorities> authorities;
 
     private LocalDateTime createDate;
 
@@ -51,7 +54,6 @@ public class User {
 
     @PrePersist
     public void onCreate() {
-        this.role = "USER";
         this.createDate = LocalDateTime.now();
     }
 
@@ -60,11 +62,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && name.equals(user.name) && email.equals(user.email) && password.equals(user.password) && Objects.equals(role, user.role) && Objects.equals(createDate, user.createDate) && Objects.equals(lastLogin, user.lastLogin);
+        return id.equals(user.id) && name.equals(user.name) && email.equals(user.email) && password.equals(user.password) && Objects.equals(createDate, user.createDate) && Objects.equals(lastLogin, user.lastLogin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, role, createDate, lastLogin);
+        return Objects.hash(id, name, email, password, createDate, lastLogin);
     }
 }
