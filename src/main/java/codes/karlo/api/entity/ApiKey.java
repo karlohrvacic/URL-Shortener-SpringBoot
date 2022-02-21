@@ -1,5 +1,6 @@
 package codes.karlo.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -24,6 +25,10 @@ public class ApiKey {
     @Column(unique = true)
     private String apiKey;
 
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User owner;
+
     private Long apiCallsLimit;
 
     private Long apiCallsUsed;
@@ -35,6 +40,7 @@ public class ApiKey {
     @PrePersist
     public void onCreate() {
         this.createDate = LocalDateTime.now();
+        this.apiCallsUsed = 0L;
     }
 
     @Override

@@ -39,6 +39,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         User user = userService.getUserFromToken();
 
         apiKey.setApiKey(RandomStringUtils.random(API_KEY_LENGTH, true, true));
+        apiKey.setOwner(user);
 
         user.getApiKeys().add(apiKey);
         userRepository.save(user);

@@ -3,6 +3,7 @@ package codes.karlo.api.controller;
 import codes.karlo.api.entity.Url;
 import codes.karlo.api.exception.LongUrlNotSpecifiedException;
 import codes.karlo.api.exception.UrlNotFoundException;
+import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("api/v1/url")
@@ -26,7 +29,7 @@ public class UrlController {
     }
 
     @Operation(summary = "Send URL for shortening")
-    @PostMapping("/{api_key}")
+    @RequestMapping(method = POST, value = {"/", "/{api_key}"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Returns saved URL",
@@ -35,10 +38,11 @@ public class UrlController {
                     description = "Long URL not specified",
                     content = @Content)
     })
-    public Url saveUrl(@Valid @RequestBody Url url, @PathVariable("api_key") String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException {
-        //TODO apiKey optional, gives permission for custom short url
+    public Url saveUrl(@Valid @RequestBody Url url,
+                       @PathVariable(required = false, name = "api_key") String api_key)
+            throws LongUrlNotSpecifiedException, UrlNotFoundException {
 
-        return urlService.saveUrl(url);
+        return urlService.saveUrl(url, api_key);
     }
 
     @Operation(summary = "Get full URL from generated short URL")
@@ -49,10 +53,9 @@ public class UrlController {
 
     @Operation(summary = "Get all URLs made by API key owner")
     @GetMapping("/{api_key}")
-    public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) {
-        //TODO require AUTH gives all urls from key owner
+    public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) throws UserDoesntExistException {
 
-        return urlService.fetchUrls();
+        return urlService.fetchUrls(apiKey);
     }
 
 }

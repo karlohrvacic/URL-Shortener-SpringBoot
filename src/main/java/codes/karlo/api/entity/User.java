@@ -1,5 +1,6 @@
 package codes.karlo.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -36,10 +37,12 @@ public class User {
     @Length(min = 8, message = "Password needs to be at least 8 characters long")
     private String password;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ApiKey> apiKeys;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Url> urls;
