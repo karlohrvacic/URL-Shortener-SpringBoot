@@ -4,3 +4,6 @@ spring:
 
 frontend:
   url: https://l.karlo.codes
+
+api:
+  key-length: 128

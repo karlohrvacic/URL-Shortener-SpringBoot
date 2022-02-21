@@ -25,7 +25,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String email) {
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
 
         return userRepository
                 .findByEmail(email)
@@ -34,6 +34,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(User user) {
+        System.out.println(user);
         List<GrantedAuthority> grantedAuthorities = user
                 .getAuthorities()
                 .stream()

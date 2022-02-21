@@ -29,14 +29,12 @@ public class UrlServiceImpl implements UrlService {
             int SHORT_URL_LENGTH = 10;
             url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
         }
-        Url savedUrl;
-        try {
-            savedUrl = urlRepository.save(url);
-        } catch (DataIntegrityViolationException e) {
-            savedUrl = fetchUrlByLongUrl(url.getLongUrl());
-        }
 
-        return savedUrl;
+        try {
+            return urlRepository.save(url);
+        } catch (DataIntegrityViolationException e) {
+            return fetchUrlByLongUrl(url.getLongUrl());
+        }
     }
 
     @Override

@@ -40,13 +40,13 @@ public class AuthController {
     @Operation(summary = "Register user")
     @PostMapping("/register")
     public User register(@Valid @RequestBody User user) throws EmailExistsException {
-        System.out.println(user);
         return userService.register(user);
     }
 
     @Operation(summary = "Login user")
     @PostMapping("/login")
     public ResponseEntity<JWTToken> fetchUrlByShort(@Valid @RequestBody AuthController.LoginDTO login) {
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 login.getEmail(),
                 login.getPassword()

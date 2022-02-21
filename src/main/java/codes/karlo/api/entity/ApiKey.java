@@ -21,13 +21,12 @@ public class ApiKey {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private User user;
-
     @Column(unique = true)
     private String apiKey;
 
     private Long apiCallsLimit;
+
+    private Long apiCallsUsed;
 
     private LocalDateTime createDate;
 

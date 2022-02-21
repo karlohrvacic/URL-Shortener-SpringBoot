@@ -2,10 +2,13 @@ package codes.karlo.api.service;
 
 import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.EmailExistsException;
+import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.repository.AuthoritiesRepository;
 import codes.karlo.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +32,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) throws EmailExistsException {
 
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         user.setAuthorities(List.of(Objects.requireNonNull(
                 authoritiesRepository
-                        .findByName("USER")
+                        .findByName("ROLE_USER")
                         .orElse(null))));
         try {
             return userRepository.save(user);
@@ -46,5 +48,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> fetchUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserFromToken() throws UserDoesntExistException {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UserDoesntExistException("User doesn't exist"));
     }
 }

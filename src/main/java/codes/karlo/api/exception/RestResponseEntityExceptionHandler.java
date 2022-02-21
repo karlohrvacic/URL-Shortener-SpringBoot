@@ -17,25 +17,32 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(message);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
-    @ExceptionHandler(LongUrlNotSpecifiedException.class)
-    public ResponseEntity<ErrorMessage> longUrlNotSpecifiedException(LongUrlNotSpecifiedException exception) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorMessage> longUrlNotSpecifiedException(Exception exception) {
 
         ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
-
-    @ExceptionHandler(EmailExistsException.class)
-    public ResponseEntity<ErrorMessage> emailExistsException(EmailExistsException exception) {
-
-        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(message);
-    }
+//
+//    @ExceptionHandler(EmailExistsException.class)
+//    public ResponseEntity<ErrorMessage> emailExistsException(EmailExistsException exception) {
+//
+//        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+//
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                .body(message);
+//    }
+//
+//    @ExceptionHandler(UsernameNotFoundException.class)
+//    public ResponseEntity<ErrorMessage> emailExistsException(UsernameNotFoundException exception) {
+//
+//        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+//
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                .body(message);
+//    }
 }

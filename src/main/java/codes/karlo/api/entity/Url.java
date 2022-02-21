@@ -30,9 +30,6 @@ public class Url {
     @Column(unique = true)
     private String shortUrl;
 
-    @ManyToOne
-    private User owner;
-
     private LocalDateTime createDate;
 
     private LocalDateTime lastAccessed;

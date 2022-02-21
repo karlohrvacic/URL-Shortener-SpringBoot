@@ -36,11 +36,11 @@ public class User {
     @Length(min = 8, message = "Password needs to be at least 8 characters long")
     private String password;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ApiKey> apiKeys;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Url> urls;
 
