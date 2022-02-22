@@ -1,6 +1,10 @@
 spring:
   application:
     name: URL Shortener
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    hibernate:
+      ddl-auto: update
 
 frontend:
   url: https://l.karlo.codes
