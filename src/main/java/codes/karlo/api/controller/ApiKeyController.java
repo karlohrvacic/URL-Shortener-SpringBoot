@@ -4,15 +4,13 @@ import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.exception.ApiKeyDoesntExist;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.ApiKeyService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/key")
+@CrossOrigin("${frontend.url}")
 public class ApiKeyController {
 
     private final ApiKeyService apiKeyService;

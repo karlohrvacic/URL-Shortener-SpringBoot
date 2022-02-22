@@ -19,6 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("api/v1/url")
+@CrossOrigin("*")
 public class UrlController {
 
     private final UrlService urlService;
