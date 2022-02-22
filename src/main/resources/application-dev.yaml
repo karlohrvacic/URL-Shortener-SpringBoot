@@ -17,8 +17,11 @@ server:
 frontend:
   url: "*"
 
+url:
+  short-length: 5
+
 api:
-  key-length: 64
+  key-length: 12
 
 jwt:
   token-validity-seconds: 3600

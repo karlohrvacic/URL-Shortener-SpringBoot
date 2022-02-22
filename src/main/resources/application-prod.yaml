@@ -6,4 +6,7 @@ frontend:
   url: https://l.karlo.codes
 
 api:
-  key-length: 128
+  key-length: 64
+
+url:
+  short-length: 8

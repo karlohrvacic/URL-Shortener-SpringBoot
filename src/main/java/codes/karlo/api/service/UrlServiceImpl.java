@@ -10,6 +10,7 @@ import codes.karlo.api.repository.UrlRepository;
 import codes.karlo.api.repository.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class UrlServiceImpl implements UrlService {
     private final ApiKeyRepository apiKeyRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+
+    @Value("${url.short-length}")
+    private int SHORT_URL_LENGTH;
 
 
     @Autowired
@@ -40,13 +44,13 @@ public class UrlServiceImpl implements UrlService {
         ApiKey apiKey = apiKeyRepository.findApiKeyByApiKey(api_key);
 
         if (url.getShortUrl() == null || apiKey == null) {
-            int SHORT_URL_LENGTH = 10;
+
             url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
         }
 
         try {
             if (apiKey != null) {
-                apiKey.setApiCallsUsed(apiKey.getApiCallsUsed());
+                apiKey.setApiCallsUsed(apiKey.getApiCallsUsed() + 1);
                 apiKeyRepository.save(apiKey);
 
                 User user = apiKey.getOwner();
@@ -54,6 +58,9 @@ public class UrlServiceImpl implements UrlService {
                 user.getUrls().add(url);
                 userRepository.save(user);
 
+                Url finalUrl = url;
+                url = user.getUrls().stream().filter(u -> u.getLongUrl().equals(finalUrl.getLongUrl())).findFirst()
+                        .orElse(finalUrl);
             } else {
                 url = urlRepository.save(url);
             }
@@ -74,14 +81,7 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Url fetchUrlByShortUrl(String shortUrl) throws UrlNotFoundException {
         return urlRepository.findByShortUrl(shortUrl)
-                .map(url -> {
-                    try {
-                        return saveUrl(url.onVisit(), null);
-                    } catch (LongUrlNotSpecifiedException | UrlNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    return url;
-                })
+                .map(url -> urlRepository.save(url.onVisit()))
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 

@@ -46,13 +46,13 @@ public class UrlController {
     }
 
     @Operation(summary = "Get full URL from generated short URL")
-    @GetMapping("/{short}")
+    @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException {
         return urlService.fetchUrlByShortUrl(shortUrl);
     }
 
     @Operation(summary = "Get all URLs made by API key owner")
-    @GetMapping("/{api_key}")
+    @GetMapping("/myUrls/{api_key}")
     public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) throws UserDoesntExistException {
 
         return urlService.fetchUrls(apiKey);

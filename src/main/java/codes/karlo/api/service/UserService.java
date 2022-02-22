@@ -14,4 +14,5 @@ public interface UserService {
 
     User getUserFromToken() throws UserDoesntExistException;
 
+    User fetchCurrentUser() throws UserDoesntExistException;
 }

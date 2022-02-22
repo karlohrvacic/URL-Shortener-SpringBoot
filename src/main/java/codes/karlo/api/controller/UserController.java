@@ -1,6 +1,7 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.entity.User;
+import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,11 @@ public class UserController {
     @GetMapping
     public List<User> fetchUsers() {
         return userService.fetchUsers();
+    }
+
+    @GetMapping("/whoAmI")
+    public User currentUser() throws UserDoesntExistException {
+        return userService.fetchCurrentUser();
     }
 
 }

@@ -60,4 +60,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new UserDoesntExistException("User doesn't exist"));
     }
+
+    @Override
+    public User fetchCurrentUser() throws UserDoesntExistException {
+        User user = getUserFromToken();
+
+        user.setPassword("hidden");
+
+        return user;
+    }
 }
