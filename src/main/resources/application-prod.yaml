@@ -7,7 +7,7 @@ spring:
       ddl-auto: update
 
 frontend:
-  url: https://l.karlo.codes
+  url: https://l1.karlo.codes
 
 api:
   key-length: 64
