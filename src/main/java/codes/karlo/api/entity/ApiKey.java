@@ -1,6 +1,5 @@
 package codes.karlo.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -25,8 +24,7 @@ public class ApiKey {
     @Column(unique = true)
     private String apiKey;
 
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User owner;
 
     private Long apiCallsLimit;

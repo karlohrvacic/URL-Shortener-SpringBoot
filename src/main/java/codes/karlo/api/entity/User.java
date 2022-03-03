@@ -2,6 +2,7 @@ package codes.karlo.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -38,12 +39,12 @@ public class User {
     private String password;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     @ToString.Exclude
     private List<ApiKey> apiKeys;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     @ToString.Exclude
     private List<Url> urls;
 
@@ -63,13 +64,13 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return id.equals(user.id) && name.equals(user.name) && email.equals(user.email) && password.equals(user.password) && Objects.equals(createDate, user.createDate) && Objects.equals(lastLogin, user.lastLogin);
+        return id != null && Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, createDate, lastLogin);
+        return getClass().hashCode();
     }
 }

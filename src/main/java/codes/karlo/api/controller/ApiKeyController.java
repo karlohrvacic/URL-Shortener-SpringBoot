@@ -1,7 +1,7 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.entity.ApiKey;
-import codes.karlo.api.exception.ApiKeyDoesntExist;
+import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.ApiKeyService;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class ApiKeyController {
     }
 
     @GetMapping("/revoke/{id}")
-    public ApiKey fetchMyApiKeys(@PathVariable("id") Long id) throws UserDoesntExistException, ApiKeyDoesntExist {
+    public ApiKey fetchMyApiKeys(@PathVariable("id") Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
         return apiKeyService.revokeApiKey(id);
     }
 

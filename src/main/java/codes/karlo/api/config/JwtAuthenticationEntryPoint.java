@@ -1,6 +1,6 @@
 package codes.karlo.api.config;
 
-import codes.karlo.api.exception.ApiError;
+import codes.karlo.api.exception.ApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +32,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
-        ApiError apiError = new ApiError(UNAUTHORIZED);
+        ApiException apiError = new ApiException(UNAUTHORIZED);
         apiError.setMessage(e.getMessage());
         apiError.setDebugMessage(e.getMessage());
 

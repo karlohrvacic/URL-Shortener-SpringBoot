@@ -1,11 +1,13 @@
-package codes.karlo.api.service;
+package codes.karlo.api.service.impl;
 
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.entity.User;
-import codes.karlo.api.exception.ApiKeyDoesntExist;
+import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.repository.ApiKeyRepository;
 import codes.karlo.api.repository.UserRepository;
+import codes.karlo.api.service.ApiKeyService;
+import codes.karlo.api.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,13 +56,13 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey revokeApiKey(Long id) throws UserDoesntExistException, ApiKeyDoesntExist {
+    public ApiKey revokeApiKey(Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
         ApiKey apiKey = userService.getUserFromToken()
                 .getApiKeys()
                 .stream()
-                .filter(a ->
-                        a.getId().equals(id)).findFirst()
-                .orElseThrow(() -> new ApiKeyDoesntExist("Api key doesn't exist"));
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ApiKeyDoesntExistException("Api key doesn't exist"));
 
         apiKey.setExpirationDate(LocalDateTime.now());
         return apiKeyRepository.save(apiKey);

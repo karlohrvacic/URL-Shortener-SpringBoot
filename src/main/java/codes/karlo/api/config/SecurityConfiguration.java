@@ -2,7 +2,6 @@ package codes.karlo.api.config;
 
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.DomainUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,16 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final DomainUserDetailsService userDetailsService;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtFilter jwtFilter;
-    private final UserRepository userRepository;
 
-    @Autowired
-    public SecurityConfiguration(DomainUserDetailsService userDetailsService, UserRepository userRepository, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtFilter jwtFilter) {
+    public SecurityConfiguration(DomainUserDetailsService userDetailsService, JwtFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtFilter = jwtFilter;
-        this.userRepository = userRepository;
     }
 
     @Bean
@@ -54,18 +48,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(
-                        (request, response, ex) -> {
-                            response.sendError(
-                                    HttpServletResponse.SC_UNAUTHORIZED,
-                                    ex.getMessage()
-                            );
-                        }
+                        (request, response, ex) -> response.sendError(
+                                HttpServletResponse.SC_UNAUTHORIZED,
+                                ex.getMessage()
+                        )
                 )
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/auth/**")
-                .permitAll()
-                .antMatchers("/api/v1/url/**")
+                .antMatchers("/api/v1/auth/**", "/api/v1/url/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -84,6 +74,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }
