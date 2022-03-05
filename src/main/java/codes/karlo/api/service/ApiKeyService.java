@@ -14,4 +14,8 @@ public interface ApiKeyService {
 
     ApiKey revokeApiKey(Long id) throws UserDoesntExistException, ApiKeyDoesntExistException;
 
+    ApiKey apiKeyUseAction(ApiKey apiKey);
+
+    ApiKey fetchApiKeyByKey(String key) throws ApiKeyDoesntExistException;
+
 }

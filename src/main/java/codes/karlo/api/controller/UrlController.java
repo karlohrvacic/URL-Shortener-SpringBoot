@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+@CommonsLog
 @RestController
 @RequestMapping("api/v1/url")
 @CrossOrigin("*")
@@ -31,7 +33,7 @@ public class UrlController {
     }
 
     @Operation(summary = "Send URL for shortening")
-    @RequestMapping(method = POST, value = {"/", "/{api_key}"})
+    @RequestMapping(method = POST, value = {"/new", "/new/{api_key}"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Returns saved URL",
@@ -55,7 +57,7 @@ public class UrlController {
 
     @Operation(summary = "Get all URLs made by API key owner")
     @GetMapping("/myUrls/{api_key}")
-    public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) throws UserDoesntExistException {
+    public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) throws UserDoesntExistException, ApiKeyDoesntExistException {
 
         return urlService.fetchUrls(apiKey);
     }

@@ -7,8 +7,6 @@ import codes.karlo.api.repository.AuthoritiesRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,4 +64,17 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+    @Override
+    public User fetchUserFromEmail(String email) throws UserDoesntExistException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserDoesntExistException("User not found in the database"));
+    }
+
+    @Override
+    public User persistUser(User user) {
+        return userRepository.save(user);
+    }
+
+
 }

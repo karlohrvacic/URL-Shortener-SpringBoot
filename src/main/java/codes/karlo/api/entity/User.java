@@ -44,7 +44,7 @@ public class User {
     private List<ApiKey> apiKeys;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(mappedBy = "owner")
     @ToString.Exclude
     private List<Url> urls;
 
@@ -61,6 +61,10 @@ public class User {
         this.createDate = LocalDateTime.now();
     }
 
+    public void userLoggedIn() {
+        this.lastLogin = LocalDateTime.now();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,4 +77,5 @@ public class User {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

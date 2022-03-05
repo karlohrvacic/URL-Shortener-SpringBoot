@@ -40,7 +40,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
         User user = userService.getUserFromToken();
 
-        apiKey.setApiKey(RandomStringUtils.random(API_KEY_LENGTH, true, true));
+        apiKey.setKey(RandomStringUtils.random(API_KEY_LENGTH, true, true));
         apiKey.setOwner(user);
 
         user.getApiKeys().add(apiKey);
@@ -66,6 +66,22 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
         apiKey.setExpirationDate(LocalDateTime.now());
         return apiKeyRepository.save(apiKey);
+    }
+
+    @Override
+    public ApiKey apiKeyUseAction(ApiKey apiKey) {
+
+        apiKey.setApiCallsUsed(apiKey.getApiCallsUsed() + 1);
+        System.out.println(apiKey);
+
+        return apiKeyRepository.save(apiKey);
+    }
+
+    @Override
+    public ApiKey fetchApiKeyByKey(String key) throws ApiKeyDoesntExistException {
+        System.out.println(apiKeyRepository.findApiKeyByKey(key));
+        return apiKeyRepository.findApiKeyByKey(key)
+                .orElseThrow(() -> new ApiKeyDoesntExistException("Sent API key doesn't exist"));
     }
 
 }

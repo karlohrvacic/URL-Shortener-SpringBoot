@@ -34,7 +34,6 @@ public class DomainUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(User user) {
-        System.out.println(user);
         List<GrantedAuthority> grantedAuthorities = user
                 .getAuthorities()
                 .stream()

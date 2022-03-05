@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/url
+    url: jdbc:postgresql://localhost:5432/url
     username: root
     password: root
   jpa:
     properties:
       hibernate:
         format_sql: 'true'
-    show-sql: 'true'
+    show-sql: false
   application:
     name: URL Shortener DevMode
 

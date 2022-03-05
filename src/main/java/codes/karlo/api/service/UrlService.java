@@ -12,7 +12,7 @@ public interface UrlService {
 
     Url saveUrl(Url url, String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException, ApiKeyDoesntExistException;
 
-    List<Url> fetchUrls(String apiKey) throws UserDoesntExistException;
+    List<Url> fetchUrls(String apiKey) throws UserDoesntExistException, ApiKeyDoesntExistException;
 
     Url fetchUrlByShortUrl(String shortUrl) throws UrlNotFoundException;
 

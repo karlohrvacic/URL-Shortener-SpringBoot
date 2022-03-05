@@ -4,10 +4,12 @@ import codes.karlo.api.config.JwtFilter;
 import codes.karlo.api.config.TokenProvider;
 import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.EmailExistsException;
+import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@CommonsLog
 @RestController
 @RequestMapping("api/v1/auth")
 @CrossOrigin("${frontend.url}")
@@ -40,12 +43,15 @@ public class AuthController {
     @Operation(summary = "Register user")
     @PostMapping("/register")
     public User register(@Valid @RequestBody User user) throws EmailExistsException {
+        log.info("Register controller invoked for user " + user);
         return userService.register(user);
     }
 
     @Operation(summary = "Login user")
     @PostMapping("/login")
-    public ResponseEntity<JWTToken> fetchUrlByShort(@Valid @RequestBody AuthController.LoginDTO login) {
+    public ResponseEntity<JWTToken> fetchUrlByShort(@Valid @RequestBody AuthController.LoginDTO login) throws UserDoesntExistException {
+
+        log.info("Login controller invoked for user " + login.getEmail());
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 login.getEmail(),
@@ -59,6 +65,13 @@ public class AuthController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+
+        User user = userService.fetchUserFromEmail(login.getEmail());
+        user.userLoggedIn();
+        userService.persistUser(user);
+
+        log.info("Issuing a token for " + user);
 
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }

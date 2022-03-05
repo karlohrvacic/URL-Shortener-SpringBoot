@@ -1,5 +1,6 @@
 package codes.karlo.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.URL;
@@ -30,8 +31,12 @@ public class Url {
     @Column(unique = true)
     private String shortUrl;
 
+    @JsonBackReference
     @ManyToOne
     private User owner;
+
+    @ManyToOne
+    private ApiKey apiKey;
 
     private LocalDateTime createDate;
 
