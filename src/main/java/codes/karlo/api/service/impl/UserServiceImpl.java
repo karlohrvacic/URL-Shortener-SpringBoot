@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
                 authoritiesRepository
                         .findByName("ROLE_USER")
                         .orElse(null))));
+
         try {
             return userRepository.save(user);
         } catch (DataIntegrityViolationException e) {

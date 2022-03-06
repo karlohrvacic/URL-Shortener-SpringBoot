@@ -22,7 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @CommonsLog
 @RestController
 @RequestMapping("api/v1/url")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class UrlController {
 
     private final UrlService urlService;
