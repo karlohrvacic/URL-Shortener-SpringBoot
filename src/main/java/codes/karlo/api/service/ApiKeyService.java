@@ -18,4 +18,5 @@ public interface ApiKeyService {
 
     ApiKey fetchApiKeyByKey(String key) throws ApiKeyDoesntExistException;
 
+    List<ApiKey> fetchAllApiKeys();
 }

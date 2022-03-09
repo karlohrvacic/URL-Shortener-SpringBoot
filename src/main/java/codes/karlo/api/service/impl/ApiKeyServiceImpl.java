@@ -84,4 +84,9 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Sent API key doesn't exist"));
     }
 
+    @Override
+    public List<ApiKey> fetchAllApiKeys() {
+        return apiKeyRepository.findAll();
+    }
+
 }

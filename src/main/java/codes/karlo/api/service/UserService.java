@@ -19,4 +19,8 @@ public interface UserService {
     User fetchUserFromEmail(String email) throws UserDoesntExistException;
 
     User persistUser(User user);
+
+    List<User> fetchAllUsers();
+
+    void deleteUserById(Long id);
 }

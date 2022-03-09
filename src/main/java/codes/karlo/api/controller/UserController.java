@@ -4,10 +4,8 @@ import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> fetchUsers() {
         return userService.fetchUsers();
     }
@@ -31,6 +30,18 @@ public class UserController {
     @GetMapping("/whoAmI")
     public User currentUser() throws UserDoesntExistException {
         return userService.fetchCurrentUser();
+    }
+
+    @GetMapping("/all-users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<User> fetchAllUsers() {
+        return userService.fetchAllUsers();
+    }
+
+    @DeleteMapping({"/{id}"})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
     }
 
 }

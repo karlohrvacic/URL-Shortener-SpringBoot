@@ -56,7 +56,7 @@ public class UrlController {
     }
 
     @Operation(summary = "Get all URLs made by API key owner")
-    @GetMapping("/myUrls/{api_key}")
+    @GetMapping("/my-urls/{api_key}")
     public List<Url> fetchUrls(@PathVariable("api_key") String apiKey) throws UserDoesntExistException, ApiKeyDoesntExistException {
 
         return urlService.fetchUrls(apiKey);
