@@ -4,6 +4,7 @@ import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +35,9 @@ public class UserController {
 
     @GetMapping("/all-users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<User> fetchAllUsers() {
-        return userService.fetchAllUsers();
+    public Page<User> fetchAllUsers(@RequestParam(name = "page") final int page,
+                                    @RequestParam(name = "size") final int size) {
+        return userService.fetchAllUsers(page, size);
     }
 
     @DeleteMapping({"/{id}"})

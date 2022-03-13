@@ -8,6 +8,10 @@ import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -78,8 +82,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> fetchAllUsers() {
-        return userRepository.findAll();
+    public Page<User> fetchAllUsers(final int page, final int size) {
+
+        final Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        return userRepository.findAll(pageable);
     }
 
     @Override

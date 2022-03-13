@@ -36,6 +36,14 @@ public class ApiKeyController {
         return apiKeyService.fetchAllApiKeys();
     }
 
+    @PutMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<ApiKey> updateApiKey() {
+
+        //TODO
+        return apiKeyService.fetchAllApiKeys();
+    }
+
     @GetMapping("/revoke/{id}")
     public ApiKey revokeApiKey(@PathVariable("id") Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
         return apiKeyService.revokeApiKey(id);
