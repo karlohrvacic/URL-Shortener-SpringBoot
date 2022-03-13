@@ -10,7 +10,6 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Authorities {
@@ -33,5 +32,13 @@ public class Authorities {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Authorities{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -51,18 +51,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserFromToken() throws UserDoesntExistException {
+    public User getUserFromToken() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
 
         return userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserDoesntExistException("User doesn't exist"));
+                .orElse(null);
     }
 
     @Override
-    public User fetchCurrentUser() throws UserDoesntExistException {
+    public User fetchCurrentUser() {
         User user = getUserFromToken();
 
         user.setPassword("hidden");
@@ -77,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User persistUser(User user) {
-        return userRepository.save(user);
+    public void persistUser(User user) {
+        userRepository.save(user);
     }
 
     @Override

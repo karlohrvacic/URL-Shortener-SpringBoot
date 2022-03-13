@@ -1,10 +1,7 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.entity.Url;
-import codes.karlo.api.exception.ApiKeyDoesntExistException;
-import codes.karlo.api.exception.LongUrlNotSpecifiedException;
-import codes.karlo.api.exception.UrlNotFoundException;
-import codes.karlo.api.exception.UserDoesntExistException;
+import codes.karlo.api.exception.*;
 import codes.karlo.api.service.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -44,7 +41,7 @@ public class UrlController {
     })
     public Url saveUrl(@Valid @RequestBody Url url,
                        @PathVariable(required = false, name = "api_key") String api_key)
-            throws LongUrlNotSpecifiedException, UrlNotFoundException, ApiKeyDoesntExistException {
+            throws LongUrlNotSpecifiedException, UrlNotFoundException, ApiKeyDoesntExistException, UserDoesntHaveApiKey {
 
         return urlService.saveUrl(url, api_key);
     }

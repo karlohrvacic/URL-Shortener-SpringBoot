@@ -14,7 +14,6 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Url {
@@ -67,5 +66,19 @@ public class Url {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Url{" +
+                "id=" + id +
+                ", longUrl='" + longUrl + '\'' +
+                ", shortUrl='" + shortUrl + '\'' +
+                ", owner id=" + owner.getId() +
+                ", apiKey id=" + apiKey.getId() +
+                ", createDate=" + createDate +
+                ", lastAccessed=" + lastAccessed +
+                ", visits=" + visits +
+                '}';
     }
 }

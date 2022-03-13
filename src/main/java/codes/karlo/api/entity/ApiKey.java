@@ -14,7 +14,6 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class ApiKey {
@@ -30,6 +29,7 @@ public class ApiKey {
     @ManyToOne
     private User owner;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "apiKey")
     private List<Url> urls;
 
@@ -58,5 +58,19 @@ public class ApiKey {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ApiKey{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", owner=" + owner.getId() +
+                ", urls size=" + urls.size() +
+                ", apiCallsLimit=" + apiCallsLimit +
+                ", apiCallsUsed=" + apiCallsUsed +
+                ", createDate=" + createDate +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }
