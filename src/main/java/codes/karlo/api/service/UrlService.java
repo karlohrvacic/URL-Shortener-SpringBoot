@@ -1,16 +1,13 @@
 package codes.karlo.api.service;
 
 import codes.karlo.api.entity.Url;
-import codes.karlo.api.exception.ApiKeyDoesntExistException;
-import codes.karlo.api.exception.LongUrlNotSpecifiedException;
-import codes.karlo.api.exception.UrlNotFoundException;
-import codes.karlo.api.exception.UserDoesntExistException;
+import codes.karlo.api.exception.*;
 
 import java.util.List;
 
 public interface UrlService {
 
-    Url saveUrl(Url url, String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException, ApiKeyDoesntExistException;
+    Url saveUrl(Url url, String api_key) throws LongUrlNotSpecifiedException, UrlNotFoundException, ApiKeyDoesntExistException, UserDoesntHaveApiKey;
 
     List<Url> fetchUrls(String apiKey) throws UserDoesntExistException, ApiKeyDoesntExistException;
 

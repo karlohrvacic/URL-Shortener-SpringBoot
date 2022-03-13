@@ -1,6 +1,7 @@
 package codes.karlo.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.URL;
@@ -14,9 +15,9 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Url {
 
     @Id
@@ -31,7 +32,6 @@ public class Url {
     @Column(unique = true)
     private String shortUrl;
 
-    @JsonBackReference
     @ManyToOne
     private User owner;
 
@@ -67,5 +67,19 @@ public class Url {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Url{" +
+                "id=" + id +
+                ", longUrl='" + longUrl + '\'' +
+                ", shortUrl='" + shortUrl + '\'' +
+                ", owner id=" + owner +
+                ", apiKey id=" + apiKey +
+                ", createDate=" + createDate +
+                ", lastAccessed=" + lastAccessed +
+                ", visits=" + visits +
+                '}';
     }
 }

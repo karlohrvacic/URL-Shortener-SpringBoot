@@ -50,10 +50,10 @@ public class AppExceptionAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
-    @ExceptionHandler({Exception.class})
-    public ResponseEntity<ErrorMessage> generalError(Exception exception) {
+    @ExceptionHandler({UserDoesntHaveApiKey.class})
+    public ResponseEntity<ErrorMessage> generalError(UserDoesntHaveApiKey exception) {
 
-        ErrorMessage message = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }

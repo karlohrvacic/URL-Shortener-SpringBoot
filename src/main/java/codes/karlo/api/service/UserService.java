@@ -13,13 +13,13 @@ public interface UserService {
 
     List<User> fetchUsers();
 
-    User getUserFromToken() throws UserDoesntExistException;
+    User getUserFromToken();
 
-    User fetchCurrentUser() throws UserDoesntExistException;
+    User fetchCurrentUser();
 
     User fetchUserFromEmail(String email) throws UserDoesntExistException;
 
-    User persistUser(User user);
+    void persistUser(User user);
 
     Page<User> fetchAllUsers(int page, int size);
 

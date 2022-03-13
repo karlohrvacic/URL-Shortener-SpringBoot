@@ -1,6 +1,7 @@
 package codes.karlo.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -14,9 +15,9 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ApiKey {
 
     @Id
@@ -26,7 +27,6 @@ public class ApiKey {
     @Column(unique = true)
     private String key;
 
-    @JsonBackReference
     @ManyToOne
     private User owner;
 
@@ -58,5 +58,19 @@ public class ApiKey {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ApiKey{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", owner=" + owner +
+                ", urls size=" + urls +
+                ", apiCallsLimit=" + apiCallsLimit +
+                ", apiCallsUsed=" + apiCallsUsed +
+                ", createDate=" + createDate +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }

@@ -12,8 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,18 +51,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserFromToken() throws UserDoesntExistException {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+    public User getUserFromToken() {
 
-        return userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserDoesntExistException("User doesn't exist"));
+        Authentication loggedInUser = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        String username = loggedInUser.getName();
+
+        return userRepository.findByEmail(username)
+                .orElse(null);
     }
 
     @Override
-    public User fetchCurrentUser() throws UserDoesntExistException {
+    public User fetchCurrentUser() {
         User user = getUserFromToken();
 
         user.setPassword("hidden");
@@ -77,8 +78,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User persistUser(User user) {
-        return userRepository.save(user);
+    public void persistUser(User user) {
+        userRepository.save(user);
     }
 
     @Override

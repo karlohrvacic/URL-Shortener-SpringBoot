@@ -1,6 +1,7 @@
 package codes.karlo.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.Length;
@@ -16,10 +17,10 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "app_user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
@@ -38,18 +39,13 @@ public class User {
     @Length(min = 8, message = "Password needs to be at least 8 characters long")
     private String password;
 
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    @ToString.Exclude
     private List<ApiKey> apiKeys;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "owner")
-    @ToString.Exclude
     private List<Url> urls;
 
     @OneToMany
-    @ToString.Exclude
     private List<Authorities> authorities;
 
     private LocalDateTime createDate;
@@ -78,4 +74,18 @@ public class User {
         return getClass().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password length='" + password + '\'' +
+                ", apiKeys size=" + apiKeys +
+                ", urls size=" + urls +
+                ", authorities=" + authorities +
+                ", createDate=" + createDate +
+                ", lastLogin=" + lastLogin +
+                '}';
+    }
 }
