@@ -1,5 +1,7 @@
 package codes.karlo.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.Length;
@@ -18,6 +20,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "app_user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
@@ -77,9 +80,9 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", password length='" + password.length() + '\'' +
-                ", apiKeys size=" + apiKeys.size() +
-                ", urls size=" + urls.size() +
+                ", password length='" + password + '\'' +
+                ", apiKeys size=" + apiKeys +
+                ", urls size=" + urls +
                 ", authorities=" + authorities +
                 ", createDate=" + createDate +
                 ", lastLogin=" + lastLogin +
