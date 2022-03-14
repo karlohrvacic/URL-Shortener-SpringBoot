@@ -1,9 +1,9 @@
 package codes.karlo.api.service.impl;
 
+import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
-import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.repository.ApiKeyRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.ApiKeyService;
@@ -34,7 +34,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey generateNewApiKey() throws UserDoesntExistException {
+    public ApiKey generateNewApiKey() {
 
         ApiKey apiKey = new ApiKey();
 
@@ -50,13 +50,13 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public List<ApiKey> fetchMyApiKeys() throws UserDoesntExistException {
+    public List<ApiKey> fetchMyApiKeys() {
 
         return userService.getUserFromToken().getApiKeys();
     }
 
     @Override
-    public ApiKey revokeApiKey(Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
+    public ApiKey revokeApiKey(Long id) throws ApiKeyDoesntExistException {
         ApiKey apiKey = userService.getUserFromToken()
                 .getApiKeys()
                 .stream()
@@ -69,12 +69,12 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey apiKeyUseAction(ApiKey apiKey) {
+    public void apiKeyUseAction(ApiKey apiKey) {
 
         apiKey.setApiCallsUsed(apiKey.getApiCallsUsed() + 1);
         System.out.println(apiKey);
 
-        return apiKeyRepository.save(apiKey);
+        apiKeyRepository.save(apiKey);
     }
 
     @Override
@@ -87,6 +87,13 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Override
     public List<ApiKey> fetchAllApiKeys() {
         return apiKeyRepository.findAll();
+    }
+
+    @Override
+    public List<ApiKey> updateKey(ApiKeyUpdateDto apiKeyUpdateDto) {
+        //todo
+
+        return null;
     }
 
 }

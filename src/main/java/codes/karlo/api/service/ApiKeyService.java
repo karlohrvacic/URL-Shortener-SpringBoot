@@ -1,5 +1,6 @@
 package codes.karlo.api.service;
 
+import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.UserDoesntExistException;
@@ -14,9 +15,11 @@ public interface ApiKeyService {
 
     ApiKey revokeApiKey(Long id) throws UserDoesntExistException, ApiKeyDoesntExistException;
 
-    ApiKey apiKeyUseAction(ApiKey apiKey);
+    void apiKeyUseAction(ApiKey apiKey);
 
     ApiKey fetchApiKeyByKey(String key) throws ApiKeyDoesntExistException;
 
     List<ApiKey> fetchAllApiKeys();
+
+    List<ApiKey> updateKey(ApiKeyUpdateDto apiKeyUpdateDto);
 }
