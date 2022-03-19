@@ -65,8 +65,8 @@ public class ApiKey {
         return "ApiKey{" +
                 "id=" + id +
                 ", key='" + key + '\'' +
-                ", owner=" + owner +
-                ", urls size=" + urls +
+                ", owner=" + owner.getId() +
+                ", urls size=" + urls.size() +
                 ", apiCallsLimit=" + apiCallsLimit +
                 ", apiCallsUsed=" + apiCallsUsed +
                 ", createDate=" + createDate +

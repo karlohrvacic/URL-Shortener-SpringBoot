@@ -22,7 +22,8 @@ public class AppExceptionAdvice {
     @ExceptionHandler({EmailExistsException.class,
             LongUrlNotSpecifiedException.class,
             UserDoesntExistException.class,
-            UserDoesntHaveApiKey.class})
+            UserDoesntHaveApiKey.class,
+            ShortUrlAlreadyExistsException.class})
     public ResponseEntity<ErrorMessage> badRequestAdvice(Exception exception) {
 
         ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
