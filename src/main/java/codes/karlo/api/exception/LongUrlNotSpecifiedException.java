@@ -1,6 +1,6 @@
 package codes.karlo.api.exception;
 
-public class LongUrlNotSpecifiedException extends Exception {
+public class LongUrlNotSpecifiedException extends CommonException {
 
     public LongUrlNotSpecifiedException() {
         super();
@@ -18,7 +18,4 @@ public class LongUrlNotSpecifiedException extends Exception {
         super(cause);
     }
 
-    protected LongUrlNotSpecifiedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

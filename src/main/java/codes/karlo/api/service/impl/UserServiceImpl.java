@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final AuthoritiesRepository authoritiesRepository;
 
     @Override
-    public User register(User user) throws EmailExistsException {
+    public User register(User user) {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User fetchUserFromEmail(String email) throws UserDoesntExistException {
+    public User fetchUserFromEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDoesntExistException("User not found in the database"));
     }

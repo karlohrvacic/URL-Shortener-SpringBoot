@@ -26,7 +26,6 @@ public class Url {
 
     @NotBlank(message = "You need to add url for shortening")
     @URL(message = "Long URL not valid")
-    @Column(unique = true)
     private String longUrl;
 
     @Column(unique = true)
@@ -43,6 +42,8 @@ public class Url {
     private LocalDateTime lastAccessed;
 
     private Long visits;
+
+    private Long visitLimit;
 
     @PrePersist
     public void onCreate() {

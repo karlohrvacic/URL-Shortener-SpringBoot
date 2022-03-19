@@ -1,6 +1,6 @@
 package codes.karlo.api.exception;
 
-public class UrlNotFoundException extends Exception {
+public class UrlNotFoundException extends CommonException {
 
     public UrlNotFoundException() {
         super();
@@ -18,7 +18,4 @@ public class UrlNotFoundException extends Exception {
         super(cause);
     }
 
-    protected UrlNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

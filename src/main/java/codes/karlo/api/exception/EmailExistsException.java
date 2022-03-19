@@ -1,6 +1,7 @@
 package codes.karlo.api.exception;
 
-public class EmailExistsException extends Exception {
+public class EmailExistsException extends CommonException {
+
     public EmailExistsException() {
         super();
     }
@@ -17,7 +18,5 @@ public class EmailExistsException extends Exception {
         super(cause);
     }
 
-    protected EmailExistsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+
 }

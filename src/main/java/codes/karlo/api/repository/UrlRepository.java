@@ -17,4 +17,6 @@ public interface UrlRepository extends JpaRepository<Url, Long> {
 
     Optional<List<Url>> findAllByOwner(User owner);
 
+    boolean existsUrlByLongUrl(String longUrl);
+
 }

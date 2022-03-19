@@ -1,22 +1,20 @@
 package codes.karlo.api.service;
 
 import codes.karlo.api.entity.ApiKey;
-import codes.karlo.api.exception.ApiKeyDoesntExistException;
-import codes.karlo.api.exception.UserDoesntExistException;
 
 import java.util.List;
 
 public interface ApiKeyService {
 
-    ApiKey generateNewApiKey() throws UserDoesntExistException;
+    ApiKey generateNewApiKey();
 
-    List<ApiKey> fetchMyApiKeys() throws UserDoesntExistException;
+    List<ApiKey> fetchMyApiKeys();
 
-    ApiKey revokeApiKey(Long id) throws UserDoesntExistException, ApiKeyDoesntExistException;
+    ApiKey revokeApiKey(Long id);
 
     ApiKey apiKeyUseAction(ApiKey apiKey);
 
-    ApiKey fetchApiKeyByKey(String key) throws ApiKeyDoesntExistException;
+    ApiKey fetchApiKeyByKey(String key);
 
     List<ApiKey> fetchAllApiKeys();
 }

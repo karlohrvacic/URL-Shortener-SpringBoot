@@ -1,6 +1,6 @@
 package codes.karlo.api.exception;
 
-public class UserDoesntExistException extends Exception {
+public class UserDoesntExistException extends CommonException {
 
     public UserDoesntExistException() {
         super();
@@ -18,7 +18,4 @@ public class UserDoesntExistException extends Exception {
         super(cause);
     }
 
-    protected UserDoesntExistException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

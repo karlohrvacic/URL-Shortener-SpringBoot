@@ -1,15 +1,13 @@
 package codes.karlo.api.service;
 
 import codes.karlo.api.entity.User;
-import codes.karlo.api.exception.EmailExistsException;
-import codes.karlo.api.exception.UserDoesntExistException;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface UserService {
 
-    User register(User user) throws EmailExistsException;
+    User register(User user);
 
     List<User> fetchUsers();
 
@@ -17,7 +15,7 @@ public interface UserService {
 
     User fetchCurrentUser();
 
-    User fetchUserFromEmail(String email) throws UserDoesntExistException;
+    User fetchUserFromEmail(String email);
 
     void persistUser(User user);
 

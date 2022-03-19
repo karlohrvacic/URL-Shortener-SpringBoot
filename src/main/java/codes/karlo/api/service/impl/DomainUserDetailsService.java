@@ -1,4 +1,4 @@
-package codes.karlo.api.service;
+package codes.karlo.api.service.impl;
 
 import codes.karlo.api.entity.User;
 import codes.karlo.api.repository.UserRepository;

@@ -1,6 +1,7 @@
 package codes.karlo.api.exception;
 
-public class UserDoesntHaveApiKey extends Exception {
+public class UserDoesntHaveApiKey extends CommonException {
+
     public UserDoesntHaveApiKey() {
         super();
     }
