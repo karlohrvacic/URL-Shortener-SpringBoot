@@ -11,15 +11,18 @@ import codes.karlo.api.service.UrlService;
 import codes.karlo.api.service.UserService;
 import codes.karlo.api.validator.ApiKeyValidator;
 import codes.karlo.api.validator.UrlValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @CommonsLog
+@RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
 
     private final UrlRepository urlRepository;
@@ -31,35 +34,38 @@ public class UrlServiceImpl implements UrlService {
     @Value("${url.short-length}")
     private int SHORT_URL_LENGTH;
 
-    public UrlServiceImpl(UrlRepository urlRepository, ApiKeyService apiKeyService, UserService userService, UrlValidator urlValidator, ApiKeyValidator apiKeyValidator) {
-        this.urlRepository = urlRepository;
-        this.apiKeyService = apiKeyService;
-        this.userService = userService;
-        this.urlValidator = urlValidator;
-        this.apiKeyValidator = apiKeyValidator;
-    }
-
+    @Transactional
     @Override
-    public Url saveUrl(Url url, String apiKey) {
+    public Url saveUrlWithApiKey(Url url, String apiKey) {
 
         urlValidator.longUrlInUrl(url);
+        apiKeyValidator.apiKeyExistsByKeyAndIsValid(apiKey);
 
-        if (apiKey != null) {
-            apiKeyValidator.apiKeyExistsByKeyAndIsValid(apiKey);
-        }
+        setShortUrlForLoggedInUser(url, apiKey);
 
-        if (urlRepository.existsUrlByLongUrl(url.getLongUrl()) && apiKey == null) {
+        log.info("Saving URL");
+        return urlRepository.save(url);
+
+    }
+
+    @Transactional
+    @Override
+    public Url saveUrlRandomShortUrl(Url url) {
+        urlValidator.longUrlInUrl(url);
+
+        if (urlRepository.existsUrlByLongUrl(url.getLongUrl())) {
 
             Url existingLongUrl = fetchUrlByLongUrl(url.getLongUrl());
             log.warn("Long url already exists in DB, will return URL from long URL" + existingLongUrl.getShortUrl());
             if (existingLongUrl.isActive()) return existingLongUrl;
         }
 
-        setShortUrl(url, apiKey);
+        url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
+
+        urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
         log.info("Saving URL");
         return urlRepository.save(url);
-
     }
 
     @Override
@@ -92,31 +98,33 @@ public class UrlServiceImpl implements UrlService {
         return RandomStringUtils.random(length, true, false);
     }
 
-    private void setShortUrl(Url url, String key) {
+    private void setShortUrlForLoggedInUser(Url url, String key) {
 
         log.info("Setting short URL");
 
-        ApiKey apiKey = key != null ? apiKeyService.fetchApiKeyByKey(key) : null;
+        ApiKey apiKey = (key != null) ? apiKeyService.fetchApiKeyByKey(key) : null;
 
-        if (apiKey == null && userService.getUserFromToken() != null) {
+        if (apiKey != null) {
+            apiKey = apiKeyService.fetchApiKeyByKey(key);
+        } else {
             apiKey = getFirstApiKeyForLoggedInUser();
         }
 
         urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
-        if (url.getShortUrl() == null || apiKey == null) {
-            url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
+        if (url.getShortUrl().length() < 1) {
 
+            url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
             log.info("URL got generated short URL " + url.getShortUrl());
 
-        } else {
-            url.setApiKey(apiKey);
-            url.setOwner(apiKey.getOwner());
-            apiKeyService.apiKeyUseAction(apiKey);
-
-            log.info("URL got api key attached and is keeping custom short url: " + url.getShortUrl());
-
         }
+
+        url.setApiKey(apiKey);
+        url.setOwner(apiKey.getOwner());
+        apiKeyService.apiKeyUseAction(apiKey);
+
+        log.info("URL got api key attached and is keeping custom short url: " + url.getShortUrl());
+
     }
 
     private ApiKey getFirstApiKeyForLoggedInUser() throws UserDoesntHaveApiKey {

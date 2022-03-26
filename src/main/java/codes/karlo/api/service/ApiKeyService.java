@@ -1,5 +1,6 @@
 package codes.karlo.api.service;
 
+import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ApiKeyService {
     ApiKey fetchApiKeyByKey(String key);
 
     List<ApiKey> fetchAllApiKeys();
+
+    List<ApiKey> updateKey(ApiKeyUpdateDto apiKeyUpdateDto);
 }

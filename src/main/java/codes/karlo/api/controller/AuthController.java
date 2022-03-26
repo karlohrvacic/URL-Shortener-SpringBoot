@@ -2,13 +2,13 @@ package codes.karlo.api.controller;
 
 import codes.karlo.api.config.JwtFilter;
 import codes.karlo.api.config.TokenProvider;
+import codes.karlo.api.dto.JWTTokenDto;
+import codes.karlo.api.dto.LoginDto;
 import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @CommonsLog
 @RestController
@@ -49,7 +48,7 @@ public class AuthController {
 
     @Operation(summary = "Login user")
     @PostMapping("/login")
-    public ResponseEntity<JWTToken> fetchUrlByShort(@Valid @RequestBody AuthController.LoginDTO login) throws UserDoesntExistException {
+    public ResponseEntity<JWTTokenDto> fetchUrlByShort(@Valid @RequestBody LoginDto login) throws UserDoesntExistException {
 
         log.info("Login controller invoked for user " + login.getEmail());
 
@@ -73,29 +72,7 @@ public class AuthController {
 
         log.info("Issuing a token for " + user);
 
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new JWTTokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 
-    @Getter
-    @Setter
-    static class JWTToken {
-        private String token;
-
-        public JWTToken(String token) {
-            this.token = token;
-        }
-
-    }
-
-    @Getter
-    @Setter
-    static class LoginDTO {
-
-        @NotNull
-        private String email;
-
-        @NotNull
-        private String password;
-
-    }
 }

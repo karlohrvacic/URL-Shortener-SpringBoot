@@ -46,7 +46,7 @@ class UrlControllerTest {
                 .build();
 
         String api_key = "";
-        Mockito.when(urlService.saveUrl(inputUrl, api_key))
+        Mockito.when(urlService.saveUrlWithApiKey(inputUrl, api_key))
                 .thenReturn(url);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/url")
