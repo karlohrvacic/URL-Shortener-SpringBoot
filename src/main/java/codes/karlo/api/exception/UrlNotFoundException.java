@@ -1,6 +1,10 @@
 package codes.karlo.api.exception;
 
-public class UrlNotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class UrlNotFoundException extends CommonException {
 
     public UrlNotFoundException() {
         super();
@@ -18,7 +22,4 @@ public class UrlNotFoundException extends Exception {
         super(cause);
     }
 
-    protected UrlNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Builder
@@ -26,7 +27,6 @@ public class Url {
 
     @NotBlank(message = "You need to add url for shortening")
     @URL(message = "Long URL not valid")
-    @Column(unique = true)
     private String longUrl;
 
     @Column(unique = true)
@@ -44,15 +44,24 @@ public class Url {
 
     private Long visits;
 
+    private Long visitLimit;
+
+    private boolean isActive;
+
     @PrePersist
     public void onCreate() {
         this.visits = 0L;
         this.createDate = LocalDateTime.now();
+        this.isActive = true;
     }
 
     public Url onVisit() {
         this.visits++;
         this.lastAccessed = LocalDateTime.now();
+        if (this.visits >= Optional.ofNullable(visitLimit).orElse(this.visits + 1)) {
+            isActive = false;
+        }
+        System.out.println(this);
         return this;
     }
 
@@ -75,8 +84,8 @@ public class Url {
                 "id=" + id +
                 ", longUrl='" + longUrl + '\'' +
                 ", shortUrl='" + shortUrl + '\'' +
-                ", owner id=" + owner +
-                ", apiKey id=" + apiKey +
+                ", owner id=" + owner.getId() +
+                ", apiKey id=" + apiKey.getId() +
                 ", createDate=" + createDate +
                 ", lastAccessed=" + lastAccessed +
                 ", visits=" + visits +

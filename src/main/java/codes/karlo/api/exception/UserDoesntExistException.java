@@ -1,6 +1,10 @@
 package codes.karlo.api.exception;
 
-public class UserDoesntExistException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class UserDoesntExistException extends CommonException {
 
     public UserDoesntExistException() {
         super();
@@ -18,7 +22,4 @@ public class UserDoesntExistException extends Exception {
         super(cause);
     }
 
-    protected UserDoesntExistException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

@@ -49,6 +49,7 @@ public class UrlController {
     @Operation(summary = "Get full URL from generated short URL")
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") String shortUrl) throws UrlNotFoundException {
+
         return urlService.fetchUrlByShortUrl(shortUrl);
     }
 

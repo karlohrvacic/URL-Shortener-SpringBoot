@@ -1,6 +1,5 @@
 package codes.karlo.api.service.impl;
 
-import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
@@ -56,7 +55,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey revokeApiKey(Long id) throws ApiKeyDoesntExistException {
+    public ApiKey revokeApiKey(Long id) {
         ApiKey apiKey = userService.getUserFromToken()
                 .getApiKeys()
                 .stream()
@@ -69,16 +68,15 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public void apiKeyUseAction(ApiKey apiKey) {
+    public ApiKey apiKeyUseAction(ApiKey apiKey) {
 
         apiKey.setApiCallsUsed(apiKey.getApiCallsUsed() + 1);
-        System.out.println(apiKey);
 
-        apiKeyRepository.save(apiKey);
+        return apiKeyRepository.save(apiKey);
     }
 
     @Override
-    public ApiKey fetchApiKeyByKey(String key) throws ApiKeyDoesntExistException {
+    public ApiKey fetchApiKeyByKey(String key) {
         System.out.println(apiKeyRepository.findApiKeyByKey(key));
         return apiKeyRepository.findApiKeyByKey(key)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Sent API key doesn't exist"));
@@ -87,13 +85,6 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Override
     public List<ApiKey> fetchAllApiKeys() {
         return apiKeyRepository.findAll();
-    }
-
-    @Override
-    public List<ApiKey> updateKey(ApiKeyUpdateDto apiKeyUpdateDto) {
-        //todo
-
-        return null;
     }
 
 }

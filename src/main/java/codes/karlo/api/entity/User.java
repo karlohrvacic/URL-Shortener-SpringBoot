@@ -81,8 +81,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password length='" + password + '\'' +
-                ", apiKeys size=" + apiKeys +
-                ", urls size=" + urls +
+                ", apiKeys size=" + apiKeys.size() +
+                ", urls size=" + urls.size() +
                 ", authorities=" + authorities +
                 ", createDate=" + createDate +
                 ", lastLogin=" + lastLogin +
