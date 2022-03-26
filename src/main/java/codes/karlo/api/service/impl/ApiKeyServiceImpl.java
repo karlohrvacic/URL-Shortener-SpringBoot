@@ -1,5 +1,6 @@
 package codes.karlo.api.service.impl;
 
+import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.entity.User;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
@@ -7,8 +8,8 @@ import codes.karlo.api.repository.ApiKeyRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.ApiKeyService;
 import codes.karlo.api.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final ApiKeyRepository apiKeyRepository;
@@ -24,13 +26,6 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Value("${api.key-length}")
     private int API_KEY_LENGTH;
-
-    @Autowired
-    public ApiKeyServiceImpl(ApiKeyRepository apiKeyRepository, UserRepository userRepository, UserService userService) {
-        this.apiKeyRepository = apiKeyRepository;
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
 
     @Override
     public ApiKey generateNewApiKey() {
@@ -77,7 +72,6 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public ApiKey fetchApiKeyByKey(String key) {
-        System.out.println(apiKeyRepository.findApiKeyByKey(key));
         return apiKeyRepository.findApiKeyByKey(key)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Sent API key doesn't exist"));
     }
@@ -85,6 +79,11 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Override
     public List<ApiKey> fetchAllApiKeys() {
         return apiKeyRepository.findAll();
+    }
+
+    @Override
+    public List<ApiKey> updateKey(ApiKeyUpdateDto apiKeyUpdateDto) {
+        return null;
     }
 
 }

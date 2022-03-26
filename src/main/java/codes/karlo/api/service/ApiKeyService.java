@@ -13,7 +13,7 @@ public interface ApiKeyService {
 
     ApiKey revokeApiKey(Long id);
 
-    void apiKeyUseAction(ApiKey apiKey);
+    ApiKey apiKeyUseAction(ApiKey apiKey);
 
     ApiKey fetchApiKeyByKey(String key);
 

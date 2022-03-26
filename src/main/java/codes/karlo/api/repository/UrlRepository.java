@@ -21,6 +21,13 @@ public interface UrlRepository extends JpaRepository<Url, Long> {
             "limit 1", nativeQuery = true)
     Optional<Url> findByLongUrlAndActiveIsTrue(String longUrl);
 
+    @Query(value = "select * " +
+            "from Url u " +
+            "where u.short_url = ?1 and u.is_active = true " +
+            "order by u.create_date asc " +
+            "limit 1", nativeQuery = true)
+    Optional<Url> findByShortUrlAndActiveIsTrue(String longUrl);
+
     Optional<List<Url>> findAllByOwner(User owner);
 
     boolean existsUrlByLongUrl(String longUrl);

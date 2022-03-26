@@ -6,7 +6,7 @@ import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.repository.AuthoritiesRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
