@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/key")
-@CrossOrigin("${frontend.url}")
+@CrossOrigin("${app.frontend-url}")
 @RequiredArgsConstructor
 public class ApiKeyController {
 

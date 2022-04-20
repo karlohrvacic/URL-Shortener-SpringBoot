@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CommonsLog
 @RestController
 @RequestMapping("api/v1/auth")
-@CrossOrigin("${frontend.url}")
+@CrossOrigin("${app.frontend-url}")
 public class AuthController {
 
     private final UserService userService;
