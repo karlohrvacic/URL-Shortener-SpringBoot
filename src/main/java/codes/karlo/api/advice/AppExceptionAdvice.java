@@ -18,9 +18,9 @@ public class AppExceptionAdvice {
 
     @ExceptionHandler({UrlNotFoundException.class,
             ApiKeyDoesntExistException.class})
-    public ResponseEntity<ErrorMessage> notFoundAdvice(Exception exception) {
+    public ResponseEntity<ErrorMessage> notFoundAdvice(final Exception exception) {
 
-        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        final ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
@@ -30,9 +30,9 @@ public class AppExceptionAdvice {
             UserDoesntExistException.class,
             UserDoesntHaveApiKey.class,
             ShortUrlAlreadyExistsException.class})
-    public ResponseEntity<ErrorMessage> badRequestAdvice(Exception exception) {
+    public ResponseEntity<ErrorMessage> badRequestAdvice(final Exception exception) {
 
-        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+        final ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }

@@ -1,12 +1,7 @@
 spring:
   application:
     name: URL Shortener
-
-frontend:
-  url: https://l1.karlo.codes
-
-api:
-  key-length: 64
-
-url:
-  short-length: 8
+app:
+  frontend-url: https://l1.karlo.codes
+  api-key-length: 64
+  url-short-length: 8

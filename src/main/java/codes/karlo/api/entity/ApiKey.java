@@ -58,10 +58,10 @@ public class ApiKey {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ApiKey apiKey = (ApiKey) o;
+        final ApiKey apiKey = (ApiKey) o;
         return id != null && Objects.equals(id, apiKey.id);
     }
 

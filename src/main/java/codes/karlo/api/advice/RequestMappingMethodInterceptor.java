@@ -12,9 +12,9 @@ public class RequestMappingMethodInterceptor implements MethodInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestMappingMethodInterceptor.class);
 
     @Override
-    public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+    public Object invoke(final MethodInvocation methodInvocation) throws Throwable {
 
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         builder.append("Method invoked = ").append(methodInvocation.getThis().getClass().getName())
                 .append(".").append(methodInvocation.getMethod().getName()).append(" (");
@@ -22,7 +22,7 @@ public class RequestMappingMethodInterceptor implements MethodInterceptor {
 
         if (methodArguments.length != 0) {
             String prefix = "";
-            for (Object methodArgument : methodArguments) {
+            for (final Object methodArgument : methodArguments) {
                 builder.append(prefix);
                 prefix = ",";
                 builder.append(methodArgument.toString());

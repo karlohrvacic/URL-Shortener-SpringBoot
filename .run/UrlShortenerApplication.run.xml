@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="UrlShortenerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="test" />
+    <option name="ACTIVE_PROFILES" value="dev" />
     <module name="urlShortener" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="codes.karlo.api.UrlShortenerApplication" />
     <method v="2">

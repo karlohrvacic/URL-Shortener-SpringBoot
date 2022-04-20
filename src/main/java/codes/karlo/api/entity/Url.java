@@ -75,10 +75,10 @@ public class Url {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Url url = (Url) o;
+        final Url url = (Url) o;
         return id != null && Objects.equals(id, url.id);
     }
 

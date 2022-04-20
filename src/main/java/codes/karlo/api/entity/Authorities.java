@@ -30,10 +30,10 @@ public class Authorities implements GrantedAuthority {
     private String name;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Authorities that = (Authorities) o;
+        final Authorities that = (Authorities) o;
         return id != null && Objects.equals(id, that.id);
     }
 

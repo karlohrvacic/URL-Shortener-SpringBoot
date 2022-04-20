@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class LongUrlNotSpecifiedException extends CommonException {
 
 
-    public LongUrlNotSpecifiedException(String message) {
+    public LongUrlNotSpecifiedException(final String message) {
         super(message);
     }
 
-    public LongUrlNotSpecifiedException(String message, Throwable cause) {
+    public LongUrlNotSpecifiedException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public LongUrlNotSpecifiedException(Throwable cause) {
+    public LongUrlNotSpecifiedException(final Throwable cause) {
         super(cause);
     }
 

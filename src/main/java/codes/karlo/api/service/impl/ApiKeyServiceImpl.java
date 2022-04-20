@@ -1,5 +1,6 @@
 package codes.karlo.api.service.impl;
 
+import codes.karlo.api.config.AppProperties;
 import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.entity.User;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +23,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     private final UserRepository userRepository;
     private final UserService userService;
 
-    @Value("${api.key-length}")
-    private final int API_KEY_LENGTH;
+   private final AppProperties appProperties;
 
     @Override
     public ApiKey generateNewApiKey() {
@@ -33,7 +32,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
         final User user = userService.getUserFromToken();
 
-        apiKey.setKey(RandomStringUtils.random(API_KEY_LENGTH, true, true));
+        apiKey.setKey(RandomStringUtils.random(appProperties.getApiKeyLength(), true, true));
         apiKey.setOwner(user);
 
         user.getApiKeys().add(apiKey);
@@ -82,6 +81,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public List<ApiKey> updateKey(final ApiKeyUpdateDto apiKeyUpdateDto) {
+        //todo
         return null;
     }
 

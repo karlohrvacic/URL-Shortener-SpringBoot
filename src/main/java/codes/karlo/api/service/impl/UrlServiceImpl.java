@@ -1,5 +1,6 @@
 package codes.karlo.api.service.impl;
 
+import codes.karlo.api.config.AppProperties;
 import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.entity.Url;
 import codes.karlo.api.entity.User;
@@ -15,7 +16,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +30,7 @@ public class UrlServiceImpl implements UrlService {
     private final UrlValidator urlValidator;
     private final ApiKeyValidator apiKeyValidator;
 
-    @Value("${url.short-length}")
-    private final int SHORT_URL_LENGTH;
+    private final AppProperties appProperties;
 
     @Transactional
     @Override
@@ -59,7 +58,7 @@ public class UrlServiceImpl implements UrlService {
             if (existingLongUrl.isActive()) return existingLongUrl;
         }
 
-        url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
+        url.setShortUrl(generateShortUrl(appProperties.getUrlShortLength()));
 
         urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
@@ -113,7 +112,7 @@ public class UrlServiceImpl implements UrlService {
 
         if (url.getShortUrl().length() < 1) {
 
-            url.setShortUrl(generateShortUrl(SHORT_URL_LENGTH));
+            url.setShortUrl(generateShortUrl(appProperties.getUrlShortLength()));
             log.info("URL got generated short URL " + url.getShortUrl());
 
         }

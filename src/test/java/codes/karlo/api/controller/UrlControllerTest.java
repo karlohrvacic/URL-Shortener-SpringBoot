@@ -37,14 +37,14 @@ class UrlControllerTest {
 
     @Test
     void saveUrl() throws Exception {
-        Url inputUrl = Url.builder()
+        final Url inputUrl = Url.builder()
                 .longUrl("https://karlo.codes")
                 .shortUrl("karlo")
                 .visits(0L)
                 .createDate(LocalDateTime.now())
                 .build();
 
-        String api_key = "";
+        final String api_key = "";
         Mockito.when(urlService.saveUrlWithApiKey(inputUrl, api_key))
                 .thenReturn(url);
 

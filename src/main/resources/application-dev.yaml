@@ -10,19 +10,11 @@ spring:
     show-sql: false
   application:
     name: URL Shortener DevMode
-
+app:
+  frontend-url: "*"
+  short-url-length: 5
+  api-key-length: 12
+  jwt-token-validity-seconds: 3600
+  jwt-base64-secret: MzMzYjg3YTRmYmU0YmM4YzJkZWE4NTJlZGEzMDgzZjkzOWNjM2MwMWQ4NzI2MjgwZWU0MzM5ZTY0MGEzMjg1YzIwMjU1MWM5ZTNkMzg5YWNiMjExNGJlMTE4NjZlMWMxODIxNjYwMTBkZTRiZWRlNzU3MDc5ZThhMDcxMjlkMGE
 server:
   port: 8080
-
-frontend:
-  url: "*"
-
-url:
-  short-length: 5
-
-api:
-  key-length: 12
-
-jwt:
-  token-validity-seconds: 3600
-  base64-secret: MzMzYjg3YTRmYmU0YmM4YzJkZWE4NTJlZGEzMDgzZjkzOWNjM2MwMWQ4NzI2MjgwZWU0MzM5ZTY0MGEzMjg1YzIwMjU1MWM5ZTNkMzg5YWNiMjExNGJlMTE4NjZlMWMxODIxNjYwMTBkZTRiZWRlNzU3MDc5ZThhMDcxMjlkMGE
