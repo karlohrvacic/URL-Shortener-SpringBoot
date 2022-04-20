@@ -2,7 +2,6 @@ package codes.karlo.api.service;
 
 import codes.karlo.api.dto.ApiKeyUpdateDto;
 import codes.karlo.api.entity.ApiKey;
-
 import java.util.List;
 
 public interface ApiKeyService {

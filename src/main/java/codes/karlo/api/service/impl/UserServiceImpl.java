@@ -6,6 +6,8 @@ import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.repository.AuthoritiesRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.UserService;
+import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -17,9 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final AuthoritiesRepository authoritiesRepository;
 
     @Override
-    public User register(User user) {
+    public User register(final User user) {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userRepository.save(user);
-        } catch (DataIntegrityViolationException e) {
+        } catch (final DataIntegrityViolationException e) {
             throw new EmailExistsException("Email already exists!");
         }
     }
@@ -53,10 +52,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserFromToken() {
 
-        Authentication loggedInUser = SecurityContextHolder
+        final Authentication loggedInUser = SecurityContextHolder
                 .getContext()
                 .getAuthentication();
-        String username = loggedInUser.getName();
+        final String username = loggedInUser.getName();
 
         return userRepository.findByEmail(username)
                 .orElse(null);
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User fetchCurrentUser() {
-        User user = getUserFromToken();
+        final User user = getUserFromToken();
 
         user.setPassword("hidden");
 
@@ -72,13 +71,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User fetchUserFromEmail(String email) {
+    public User fetchUserFromEmail(final String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDoesntExistException("User not found in the database"));
     }
 
     @Override
-    public void persistUser(User user) {
+    public void persistUser(final User user) {
         userRepository.save(user);
     }
 
@@ -91,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteUserById(final Long id) {
         userRepository.deleteById(id);
     }
 

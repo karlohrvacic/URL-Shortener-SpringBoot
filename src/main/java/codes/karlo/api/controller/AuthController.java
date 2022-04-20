@@ -9,6 +9,7 @@ import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import javax.validation.Valid;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,9 +19,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CommonsLog
 @RestController
@@ -33,7 +36,7 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Autowired
-    public AuthController(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AuthController(final UserService userService, final TokenProvider tokenProvider, final AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
@@ -41,32 +44,32 @@ public class AuthController {
 
     @Operation(summary = "Register user")
     @PostMapping("/register")
-    public User register(@Valid @RequestBody User user) throws EmailExistsException {
+    public User register(@Valid @RequestBody final User user) throws EmailExistsException {
         log.info("Register controller invoked for user " + user);
         return userService.register(user);
     }
 
     @Operation(summary = "Login user")
     @PostMapping("/login")
-    public ResponseEntity<JWTTokenDto> fetchUrlByShort(@Valid @RequestBody LoginDto login) throws UserDoesntExistException {
+    public ResponseEntity<JWTTokenDto> fetchUrlByShort(@Valid @RequestBody final LoginDto login) throws UserDoesntExistException {
 
         log.info("Login controller invoked for user " + login.getEmail());
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 login.getEmail(),
                 login.getPassword()
         );
 
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        final String jwt = tokenProvider.createToken(authentication);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
+        final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
 
-        User user = userService.fetchUserFromEmail(login.getEmail());
+        final User user = userService.fetchUserFromEmail(login.getEmail());
         user.userLoggedIn();
         userService.persistUser(user);
 

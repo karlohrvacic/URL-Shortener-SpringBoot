@@ -2,18 +2,15 @@ package codes.karlo.api.exception;
 
 public class ApiKeyIsNotValid extends CommonException {
 
-    public ApiKeyIsNotValid() {
-    }
-
-    public ApiKeyIsNotValid(String message) {
+    public ApiKeyIsNotValid(final String message) {
         super(message);
     }
 
-    public ApiKeyIsNotValid(String message, Throwable cause) {
+    public ApiKeyIsNotValid(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ApiKeyIsNotValid(Throwable cause) {
+    public ApiKeyIsNotValid(final Throwable cause) {
         super(cause);
     }
 }

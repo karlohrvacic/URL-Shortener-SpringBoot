@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class LongUrlNotSpecifiedException extends CommonException {
 
-    public LongUrlNotSpecifiedException() {
-        super();
-    }
 
     public LongUrlNotSpecifiedException(String message) {
         super(message);

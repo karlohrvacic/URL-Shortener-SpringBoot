@@ -15,7 +15,7 @@ public class UrlValidatorImpl implements UrlValidator {
     private final UrlRepository urlRepository;
 
     @Override
-    public void longUrlInUrl(Url url) {
+    public void longUrlInUrl(final Url url) {
 
         if (url.getLongUrl() == null)
             throw new LongUrlNotSpecifiedException("URL for shortening is not specified");
@@ -23,7 +23,7 @@ public class UrlValidatorImpl implements UrlValidator {
     }
 
     @Override
-    public void checkIfShortUrlIsUnique(String shortUrl) {
+    public void checkIfShortUrlIsUnique(final String shortUrl) {
         if (urlRepository.existsUrlByShortUrl(shortUrl))
             throw new ShortUrlAlreadyExistsException("Short URL is already in use");
     }

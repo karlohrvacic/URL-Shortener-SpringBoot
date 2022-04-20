@@ -6,19 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class EmailExistsException extends CommonException {
 
-    public EmailExistsException() {
-        super();
-    }
-
-    public EmailExistsException(String message) {
+    public EmailExistsException(final String message) {
         super(message);
     }
 
-    public EmailExistsException(String message, Throwable cause) {
+    public EmailExistsException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public EmailExistsException(Throwable cause) {
+    public EmailExistsException(final Throwable cause) {
         super(cause);
     }
 

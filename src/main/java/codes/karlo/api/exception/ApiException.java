@@ -4,17 +4,16 @@ import codes.karlo.api.config.LowerCaseClassNameResolver;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
-import org.hibernate.validator.internal.engine.path.PathImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-
-import javax.validation.ConstraintViolation;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import javax.validation.ConstraintViolation;
+import org.hibernate.validator.internal.engine.path.PathImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
@@ -31,41 +30,41 @@ public class ApiException {
         timestamp = LocalDateTime.now();
     }
 
-    public ApiException(HttpStatus status) {
+    public ApiException(final HttpStatus status) {
         this();
         this.status = status;
     }
 
-    public ApiException(HttpStatus status, Throwable ex) {
+    public ApiException(final HttpStatus status, final Throwable ex) {
         this();
         this.status = status;
         this.message = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    public ApiException(HttpStatus status, String message, Throwable ex) {
+    public ApiException(final HttpStatus status, final String message, final Throwable ex) {
         this();
         this.status = status;
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    private void addSubError(ApiSubError subError) {
+    private void addSubError(final ApiSubError subError) {
         if (subErrors == null) {
             subErrors = new ArrayList<>();
         }
         subErrors.add(subError);
     }
 
-    private void addValidationError(String object, String field, Object rejectedValue, String message) {
+    private void addValidationError(final String object, final String field, final Object rejectedValue, final String message) {
         addSubError(new ApiValidationError(object, field, rejectedValue, message));
     }
 
-    private void addValidationError(String object, String message) {
+    private void addValidationError(final String object, final String message) {
         addSubError(new ApiValidationError(object, message));
     }
 
-    private void addValidationError(FieldError fieldError) {
+    private void addValidationError(final FieldError fieldError) {
         this.addValidationError(
                 fieldError.getObjectName(),
                 fieldError.getField(),
@@ -73,21 +72,21 @@ public class ApiException {
                 fieldError.getDefaultMessage());
     }
 
-    void addValidationErrors(List<FieldError> fieldErrors) {
+    void addValidationErrors(final List<FieldError> fieldErrors) {
         fieldErrors.forEach(this::addValidationError);
     }
 
-    private void addValidationError(ObjectError objectError) {
+    private void addValidationError(final ObjectError objectError) {
         this.addValidationError(
                 objectError.getObjectName(),
                 objectError.getDefaultMessage());
     }
 
-    void addValidationError(List<ObjectError> globalErrors) {
+    void addValidationError(final List<ObjectError> globalErrors) {
         globalErrors.forEach(this::addValidationError);
     }
 
-    private void addValidationError(ConstraintViolation<?> cv) {
+    private void addValidationError(final ConstraintViolation<?> cv) {
         this.addValidationError(
                 cv.getRootBeanClass().getSimpleName(),
                 ((PathImpl) cv.getPropertyPath()).getLeafNode().asString(),
@@ -95,7 +94,7 @@ public class ApiException {
                 cv.getMessage());
     }
 
-    void addValidationErrors(Set<ConstraintViolation<?>> constraintViolations) {
+    void addValidationErrors(final Set<ConstraintViolation<?>> constraintViolations) {
         constraintViolations.forEach(this::addValidationError);
     }
 
@@ -103,7 +102,7 @@ public class ApiException {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(final HttpStatus status) {
         this.status = status;
     }
 
@@ -111,7 +110,7 @@ public class ApiException {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(final LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -119,7 +118,7 @@ public class ApiException {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
@@ -127,7 +126,7 @@ public class ApiException {
         return debugMessage;
     }
 
-    public void setDebugMessage(String debugMessage) {
+    public void setDebugMessage(final String debugMessage) {
         this.debugMessage = debugMessage;
     }
 
@@ -135,7 +134,7 @@ public class ApiException {
         return subErrors;
     }
 
-    public void setSubErrors(List<ApiSubError> subErrors) {
+    public void setSubErrors(final List<ApiSubError> subErrors) {
         this.subErrors = subErrors;
     }
 
@@ -149,12 +148,12 @@ public class ApiException {
         private Object rejectedValue;
         private String message;
 
-        ApiValidationError(String object, String message) {
+        ApiValidationError(final String object, final String message) {
             this.object = object;
             this.message = message;
         }
 
-        public ApiValidationError(String object, String field, Object rejectedValue, String message) {
+        public ApiValidationError(final String object, final String field, final Object rejectedValue, final String message) {
             this.object = object;
             this.field = field;
             this.rejectedValue = rejectedValue;
@@ -165,7 +164,7 @@ public class ApiException {
             return object;
         }
 
-        public void setObject(String object) {
+        public void setObject(final String object) {
             this.object = object;
         }
 
@@ -173,7 +172,7 @@ public class ApiException {
             return field;
         }
 
-        public void setField(String field) {
+        public void setField(final String field) {
             this.field = field;
         }
 
@@ -181,7 +180,7 @@ public class ApiException {
             return rejectedValue;
         }
 
-        public void setRejectedValue(Object rejectedValue) {
+        public void setRejectedValue(final Object rejectedValue) {
             this.rejectedValue = rejectedValue;
         }
 
@@ -189,15 +188,15 @@ public class ApiException {
             return message;
         }
 
-        public void setMessage(String message) {
+        public void setMessage(final String message) {
             this.message = message;
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            ApiValidationError that = (ApiValidationError) o;
+            final ApiValidationError that = (ApiValidationError) o;
             return Objects.equals(object, that.object) &&
                     Objects.equals(field, that.field) &&
                     Objects.equals(rejectedValue, that.rejectedValue) &&

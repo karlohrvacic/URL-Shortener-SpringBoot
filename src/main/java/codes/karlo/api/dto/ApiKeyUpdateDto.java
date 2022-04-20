@@ -1,10 +1,9 @@
 package codes.karlo.api.dto;
 
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

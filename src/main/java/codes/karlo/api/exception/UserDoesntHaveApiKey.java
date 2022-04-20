@@ -6,19 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class UserDoesntHaveApiKey extends CommonException {
 
-    public UserDoesntHaveApiKey() {
-        super();
-    }
-
-    public UserDoesntHaveApiKey(String message) {
+    public UserDoesntHaveApiKey(final String message) {
         super(message);
     }
 
-    public UserDoesntHaveApiKey(String message, Throwable cause) {
+    public UserDoesntHaveApiKey(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public UserDoesntHaveApiKey(Throwable cause) {
+    public UserDoesntHaveApiKey(final Throwable cause) {
         super(cause);
     }
 }

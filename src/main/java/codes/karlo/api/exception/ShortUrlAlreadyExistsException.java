@@ -6,18 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ShortUrlAlreadyExistsException extends CommonException {
 
-    public ShortUrlAlreadyExistsException() {
-    }
-
-    public ShortUrlAlreadyExistsException(String message) {
+    public ShortUrlAlreadyExistsException(final String message) {
         super(message);
     }
 
-    public ShortUrlAlreadyExistsException(String message, Throwable cause) {
+    public ShortUrlAlreadyExistsException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ShortUrlAlreadyExistsException(Throwable cause) {
+    public ShortUrlAlreadyExistsException(final Throwable cause) {
         super(cause);
     }
 }

@@ -6,19 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UrlNotFoundException extends CommonException {
 
-    public UrlNotFoundException() {
-        super();
-    }
-
-    public UrlNotFoundException(String message) {
+    public UrlNotFoundException(final String message) {
         super(message);
     }
 
-    public UrlNotFoundException(String message, Throwable cause) {
+    public UrlNotFoundException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public UrlNotFoundException(Throwable cause) {
+    public UrlNotFoundException(final Throwable cause) {
         super(cause);
     }
 

@@ -5,22 +5,25 @@ import codes.karlo.api.entity.ApiKey;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.ApiKeyService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/key")
 @CrossOrigin("${frontend.url}")
+@RequiredArgsConstructor
 public class ApiKeyController {
 
     private final ApiKeyService apiKeyService;
-
-    public ApiKeyController(ApiKeyService apiKeyService) {
-        this.apiKeyService = apiKeyService;
-    }
 
     @GetMapping("/create")
     public ApiKey generateNewApiKey() throws UserDoesntExistException {
@@ -40,12 +43,12 @@ public class ApiKeyController {
 
     @PutMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<ApiKey> updateApiKey(@Valid @RequestBody ApiKeyUpdateDto apiKeyUpdateDto) {
+    public List<ApiKey> updateApiKey(@Valid @RequestBody final ApiKeyUpdateDto apiKeyUpdateDto) {
         return apiKeyService.updateKey(apiKeyUpdateDto);
     }
 
     @GetMapping("/revoke/{id}")
-    public ApiKey revokeApiKey(@PathVariable("id") Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
+    public ApiKey revokeApiKey(@PathVariable("id") final Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
         return apiKeyService.revokeApiKey(id);
     }
 

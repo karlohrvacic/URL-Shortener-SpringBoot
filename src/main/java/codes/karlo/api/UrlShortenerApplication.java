@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 public class UrlShortenerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UrlShortenerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UrlShortenerApplication.class, args);
+    }
 
 }

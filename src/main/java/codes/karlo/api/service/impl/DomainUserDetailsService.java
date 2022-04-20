@@ -2,6 +2,8 @@ package codes.karlo.api.service.impl;
 
 import codes.karlo.api.entity.User;
 import codes.karlo.api.repository.UserRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,16 +12,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
 
 
     private final UserRepository userRepository;
 
-    public DomainUserDetailsService(UserRepository userRepository) {
+    public DomainUserDetailsService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -33,8 +32,8 @@ public class DomainUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User " + email + " was not found in the database"));
     }
 
-    private org.springframework.security.core.userdetails.User createSpringSecurityUser(User user) {
-        List<GrantedAuthority> grantedAuthorities = user
+    private org.springframework.security.core.userdetails.User createSpringSecurityUser(final User user) {
+        final List<GrantedAuthority> grantedAuthorities = user
                 .getAuthorities()
                 .stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName()))

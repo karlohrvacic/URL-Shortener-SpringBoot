@@ -2,18 +2,15 @@ package codes.karlo.api.exception;
 
 public abstract class CommonException extends RuntimeException {
 
-    public CommonException() {
-    }
-
-    public CommonException(String message) {
+    protected CommonException(final String message) {
         super(message);
     }
 
-    public CommonException(String message, Throwable cause) {
+    protected CommonException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public CommonException(Throwable cause) {
+    protected CommonException(final Throwable cause) {
         super(cause);
     }
 }

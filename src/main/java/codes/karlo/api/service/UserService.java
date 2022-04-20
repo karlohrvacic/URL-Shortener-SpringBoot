@@ -1,9 +1,8 @@
 package codes.karlo.api.service;
 
 import codes.karlo.api.entity.User;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
 

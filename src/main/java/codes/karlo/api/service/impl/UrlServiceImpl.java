@@ -11,14 +11,13 @@ import codes.karlo.api.service.UrlService;
 import codes.karlo.api.service.UserService;
 import codes.karlo.api.validator.ApiKeyValidator;
 import codes.karlo.api.validator.UrlValidator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @CommonsLog
@@ -32,11 +31,11 @@ public class UrlServiceImpl implements UrlService {
     private final ApiKeyValidator apiKeyValidator;
 
     @Value("${url.short-length}")
-    private int SHORT_URL_LENGTH;
+    private final int SHORT_URL_LENGTH;
 
     @Transactional
     @Override
-    public Url saveUrlWithApiKey(Url url, String apiKey) {
+    public Url saveUrlWithApiKey(final Url url, final String apiKey) {
 
         urlValidator.longUrlInUrl(url);
         apiKeyValidator.apiKeyExistsByKeyAndIsValid(apiKey);
@@ -50,12 +49,12 @@ public class UrlServiceImpl implements UrlService {
 
     @Transactional
     @Override
-    public Url saveUrlRandomShortUrl(Url url) {
+    public Url saveUrlRandomShortUrl(final Url url) {
         urlValidator.longUrlInUrl(url);
 
         if (urlRepository.existsUrlByLongUrl(url.getLongUrl())) {
 
-            Url existingLongUrl = fetchUrlByLongUrl(url.getLongUrl());
+            final Url existingLongUrl = fetchUrlByLongUrl(url.getLongUrl());
             log.warn("Long url already exists in DB, will return URL from long URL" + existingLongUrl.getShortUrl());
             if (existingLongUrl.isActive()) return existingLongUrl;
         }
@@ -69,16 +68,16 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<Url> fetchUrls(String apiKey) {
+    public List<Url> fetchUrls(final String apiKey) {
 
-        User user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
+        final User user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
 
         return urlRepository.findAllByOwner(user)
                 .orElse(null);
     }
 
     @Override
-    public Url fetchUrlByShortUrl(String shortUrl) {
+    public Url fetchUrlByShortUrl(final String shortUrl) {
 
         return urlRepository.findByShortUrl(shortUrl)
                 .map(url -> urlRepository.save(url.onVisit()))
@@ -86,19 +85,19 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Url fetchUrlByLongUrl(String longUrl) {
+    public Url fetchUrlByLongUrl(final String longUrl) {
 
         return urlRepository.findByLongUrlAndActiveIsTrue(longUrl)
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 
     @Override
-    public String generateShortUrl(int length) {
+    public String generateShortUrl(final int length) {
 
         return RandomStringUtils.random(length, true, false);
     }
 
-    private void setShortUrlForLoggedInUser(Url url, String key) {
+    private void setShortUrlForLoggedInUser(final Url url, final String key) {
 
         log.info("Setting short URL");
 

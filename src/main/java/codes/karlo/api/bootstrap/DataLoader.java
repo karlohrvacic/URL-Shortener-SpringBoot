@@ -9,13 +9,12 @@ public class DataLoader implements CommandLineRunner {
 
     private final AuthoritiesRepository authoritiesRepository;
 
-    public DataLoader(AuthoritiesRepository authoritiesRepository){
+    public DataLoader(AuthoritiesRepository authoritiesRepository) {
         this.authoritiesRepository = authoritiesRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-
 
 
     }

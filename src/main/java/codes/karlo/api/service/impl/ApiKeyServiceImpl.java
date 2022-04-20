@@ -8,13 +8,12 @@ import codes.karlo.api.repository.ApiKeyRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.ApiKeyService;
 import codes.karlo.api.service.UserService;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,14 +24,14 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     private final UserService userService;
 
     @Value("${api.key-length}")
-    private int API_KEY_LENGTH;
+    private final int API_KEY_LENGTH;
 
     @Override
     public ApiKey generateNewApiKey() {
 
-        ApiKey apiKey = new ApiKey();
+        final ApiKey apiKey = new ApiKey();
 
-        User user = userService.getUserFromToken();
+        final User user = userService.getUserFromToken();
 
         apiKey.setKey(RandomStringUtils.random(API_KEY_LENGTH, true, true));
         apiKey.setOwner(user);
@@ -50,8 +49,8 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey revokeApiKey(Long id) {
-        ApiKey apiKey = userService.getUserFromToken()
+    public ApiKey revokeApiKey(final Long id) {
+        final ApiKey apiKey = userService.getUserFromToken()
                 .getApiKeys()
                 .stream()
                 .filter(a -> a.getId().equals(id))
@@ -63,7 +62,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey apiKeyUseAction(ApiKey apiKey) {
+    public ApiKey apiKeyUseAction(final ApiKey apiKey) {
 
         apiKey.setApiCallsUsed(apiKey.getApiCallsUsed() + 1);
 
@@ -71,7 +70,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public ApiKey fetchApiKeyByKey(String key) {
+    public ApiKey fetchApiKeyByKey(final String key) {
         return apiKeyRepository.findApiKeyByKey(key)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Sent API key doesn't exist"));
     }
@@ -82,7 +81,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public List<ApiKey> updateKey(ApiKeyUpdateDto apiKeyUpdateDto) {
+    public List<ApiKey> updateKey(final ApiKeyUpdateDto apiKeyUpdateDto) {
         return null;
     }
 
