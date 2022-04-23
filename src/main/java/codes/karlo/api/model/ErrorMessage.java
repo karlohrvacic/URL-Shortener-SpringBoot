@@ -1,4 +1,4 @@
-package codes.karlo.api.entity;
+package codes.karlo.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorMessage {
-
     private HttpStatus status;
     private String message;
-
 }

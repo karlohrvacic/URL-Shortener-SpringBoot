@@ -1,9 +1,9 @@
 package codes.karlo.api.service.impl;
 
 import codes.karlo.api.config.AppProperties;
-import codes.karlo.api.entity.ApiKey;
-import codes.karlo.api.entity.Url;
-import codes.karlo.api.entity.User;
+import codes.karlo.api.model.ApiKey;
+import codes.karlo.api.model.Url;
+import codes.karlo.api.model.User;
 import codes.karlo.api.exception.UrlNotFoundException;
 import codes.karlo.api.exception.UserDoesntHaveApiKey;
 import codes.karlo.api.repository.UrlRepository;
@@ -111,10 +111,8 @@ public class UrlServiceImpl implements UrlService {
         urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
         if (url.getShortUrl().length() < 1) {
-
             url.setShortUrl(generateShortUrl(appProperties.getUrlShortLength()));
             log.info("URL got generated short URL " + url.getShortUrl());
-
         }
 
         url.setApiKey(apiKey);
@@ -122,7 +120,6 @@ public class UrlServiceImpl implements UrlService {
         apiKeyService.apiKeyUseAction(apiKey);
 
         log.info("URL got api key attached and is keeping custom short url: " + url.getShortUrl());
-
     }
 
     private ApiKey getFirstApiKeyForLoggedInUser() throws UserDoesntHaveApiKey {

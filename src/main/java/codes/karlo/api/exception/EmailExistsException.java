@@ -18,5 +18,4 @@ public class EmailExistsException extends CommonException {
         super(cause);
     }
 
-
 }

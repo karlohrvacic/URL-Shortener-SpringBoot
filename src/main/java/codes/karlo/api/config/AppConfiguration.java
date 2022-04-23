@@ -8,7 +8,5 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AppProperties.class)
 public class AppConfiguration {
-
     private final AppProperties appProperties;
-
 }

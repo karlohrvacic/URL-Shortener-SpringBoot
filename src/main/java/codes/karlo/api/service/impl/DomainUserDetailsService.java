@@ -1,6 +1,6 @@
 package codes.karlo.api.service.impl;
 
-import codes.karlo.api.entity.User;
+import codes.karlo.api.model.User;
 import codes.karlo.api.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
-
 
     private final UserRepository userRepository;
 

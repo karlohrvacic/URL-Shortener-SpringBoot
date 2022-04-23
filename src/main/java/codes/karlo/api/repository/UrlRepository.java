@@ -1,7 +1,7 @@
 package codes.karlo.api.repository;
 
-import codes.karlo.api.entity.Url;
-import codes.karlo.api.entity.User;
+import codes.karlo.api.model.Url;
+import codes.karlo.api.model.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

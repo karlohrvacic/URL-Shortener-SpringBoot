@@ -16,6 +16,5 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(final String... args) throws Exception {
 
-
     }
 }

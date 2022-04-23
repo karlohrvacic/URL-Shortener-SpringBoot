@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="khrvacic" id="user-account-table">
+        <createTable tableName="USER_ACCOUNT">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATE_DATE" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_LOGIN" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IS_ACTIVE" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="USER_ACCOUNT"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="khrvacic" id="user-account-id-seq">
+        <createSequence sequenceName="USER_ACCOUNT_ID_SEQ" startValue="1" incrementBy="1"/>
+        <rollback>
+            <dropSequence sequenceName="USER_ACCOUNT_ID_SEQ"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

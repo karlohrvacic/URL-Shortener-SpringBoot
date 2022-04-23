@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="khrvacic" id="url-table">
+        <createTable tableName="URL">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="LONG_URL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHORT_URL" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="CREATE_DATE" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_ACCESSED" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="VISITS" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="VISIT_LIMIT" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IS_ACTIVE" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OWNER_ID" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="URL_OWNER_FK" referencedTableName="USER_ACCOUNT" referencedColumnNames="ID"/>
+            </column>
+            <column name="API_KEY_ID" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="API_KEY_FK" referencedTableName="API_KEY" referencedColumnNames="ID"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="URL"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="khrvacic" id="url-id-seq">
+        <createSequence sequenceName="URL_ID_SEQ" startValue="1" incrementBy="1"/>
+        <rollback>
+            <dropSequence sequenceName="URL_ID_SEQ"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

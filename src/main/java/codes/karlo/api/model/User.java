@@ -1,18 +1,19 @@
-package codes.karlo.api.entity;
+package codes.karlo.api.model;
 
+import codes.karlo.api.model.codebook.Authorities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -30,12 +31,13 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_user")
+@Table(name = "user_account")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "user_account_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "user_account_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotBlank(message = "You need to enter your name")
@@ -43,7 +45,6 @@ public class User {
 
     @NotBlank(message = "You need to enter email")
     @Email(message = "Email not valid")
-    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "You need to enter password")
@@ -63,9 +64,12 @@ public class User {
 
     private LocalDateTime lastLogin;
 
+    private Boolean isActive;
+
     @PrePersist
     public void onCreate() {
         this.createDate = LocalDateTime.now();
+        this.isActive = true;
     }
 
     public void userLoggedIn() {
@@ -91,9 +95,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", password length='" + password + '\'' +
-                ", apiKeys size=" + apiKeys.size() +
-                ", urls size=" + urls.size() +
+                ", password length='" + password.length() + '\'' +
                 ", authorities=" + authorities +
                 ", createDate=" + createDate +
                 ", lastLogin=" + lastLogin +

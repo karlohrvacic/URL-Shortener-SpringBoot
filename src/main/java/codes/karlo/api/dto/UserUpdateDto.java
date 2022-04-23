@@ -1,6 +1,5 @@
 package codes.karlo.api.dto;
 
-import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiKeyUpdateDto {
+public class UserUpdateDto {
 
-    @NotNull(message = "ID of API key can't be null!")
+    @NotNull(message = "User ID can't be null!")
     private Long id;
-    private Long apiCallsLimit;
-    private Long apiCallsUsed;
-    private LocalDateTime expirationDate;
+    private String name;
+    private String email;
 }

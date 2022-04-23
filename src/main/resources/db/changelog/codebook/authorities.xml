@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="khrvacic" id="codebook-authorities">
+        <createTable tableName="AUTHORITIES">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(200)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="AUTHORITIES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="khrvacic" id="codebook-authorities-data">
+        <insert tableName="AUTHORITIES">
+            <column name="ID" valueNumeric="1"/>
+            <column name="NAME" value="ROLE_USER"/>
+        </insert>
+        <insert tableName="AUTHORITIES">
+            <column name="ID" valueNumeric="2"/>
+            <column name="NAME" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

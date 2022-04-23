@@ -1,4 +1,4 @@
-package codes.karlo.api.entity;
+package codes.karlo.api.model.codebook;
 
 import java.util.Objects;
 import javax.persistence.Column;

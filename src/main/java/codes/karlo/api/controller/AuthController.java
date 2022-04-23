@@ -4,7 +4,7 @@ import codes.karlo.api.config.JwtFilter;
 import codes.karlo.api.config.TokenProvider;
 import codes.karlo.api.dto.JWTTokenDto;
 import codes.karlo.api.dto.LoginDto;
-import codes.karlo.api.entity.User;
+import codes.karlo.api.model.User;
 import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.UserService;
@@ -68,7 +68,6 @@ public class AuthController {
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-
         final User user = userService.fetchUserFromEmail(login.getEmail());
         user.userLoggedIn();
         userService.persistUser(user);
@@ -77,5 +76,4 @@ public class AuthController {
 
         return new ResponseEntity<>(new JWTTokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
-
 }

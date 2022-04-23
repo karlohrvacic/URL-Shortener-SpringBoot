@@ -1,6 +1,6 @@
 package codes.karlo.api.advice;
 
-import codes.karlo.api.entity.ErrorMessage;
+import codes.karlo.api.model.ErrorMessage;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.exception.LongUrlNotSpecifiedException;

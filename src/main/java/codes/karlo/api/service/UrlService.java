@@ -1,6 +1,6 @@
 package codes.karlo.api.service;
 
-import codes.karlo.api.entity.Url;
+import codes.karlo.api.model.Url;
 import java.util.List;
 
 public interface UrlService {

@@ -1,6 +1,6 @@
 package codes.karlo.api.controller;
 
-import codes.karlo.api.entity.Url;
+import codes.karlo.api.model.Url;
 import codes.karlo.api.service.UrlService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +63,6 @@ class UrlControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.longUrl").value(url.getLongUrl()));
-
 
     }
 }

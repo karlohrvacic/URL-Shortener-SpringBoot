@@ -1,17 +1,13 @@
 spring:
-  profiles:
-    active: dev
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL82Dialect
-    hibernate:
-      ddl-auto: update
-
+  liquibase:
+    change-log: classpath:/db/dbchangelog.xml
 management:
   endpoints:
     web:
       exposure:
         include: "health, info"
-
 server:
   error:
     include-message: always

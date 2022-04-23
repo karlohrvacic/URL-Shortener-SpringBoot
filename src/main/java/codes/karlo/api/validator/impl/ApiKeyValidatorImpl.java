@@ -1,6 +1,6 @@
 package codes.karlo.api.validator.impl;
 
-import codes.karlo.api.entity.ApiKey;
+import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.exception.ApiKeyIsNotValid;
 import codes.karlo.api.repository.ApiKeyRepository;
 import codes.karlo.api.validator.ApiKeyValidator;
@@ -31,5 +31,8 @@ public class ApiKeyValidatorImpl implements ApiKeyValidator {
             throw new ApiKeyIsNotValid("API key exceeded expiration date");
         }
 
+        if (!apiKey.isActive()) {
+            throw new ApiKeyIsNotValid("API key is invalid");
+        }
     }
 }

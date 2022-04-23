@@ -1,6 +1,6 @@
 package codes.karlo.api.validator.impl;
 
-import codes.karlo.api.entity.Url;
+import codes.karlo.api.model.Url;
 import codes.karlo.api.exception.LongUrlNotSpecifiedException;
 import codes.karlo.api.exception.ShortUrlAlreadyExistsException;
 import codes.karlo.api.repository.UrlRepository;

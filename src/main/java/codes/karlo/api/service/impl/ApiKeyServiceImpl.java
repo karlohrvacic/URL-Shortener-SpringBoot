@@ -1,16 +1,17 @@
 package codes.karlo.api.service.impl;
 
 import codes.karlo.api.config.AppProperties;
+import codes.karlo.api.converter.ApiKeyUpdateDtoToApiKeyConverter;
 import codes.karlo.api.dto.ApiKeyUpdateDto;
-import codes.karlo.api.entity.ApiKey;
-import codes.karlo.api.entity.User;
+import codes.karlo.api.model.ApiKey;
+import codes.karlo.api.model.User;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.repository.ApiKeyRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.ApiKeyService;
 import codes.karlo.api.service.UserService;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -22,19 +23,19 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     private final ApiKeyRepository apiKeyRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final AppProperties appProperties;
 
-   private final AppProperties appProperties;
+    private final ApiKeyUpdateDtoToApiKeyConverter apiKeyConverter;
 
     @Override
     public ApiKey generateNewApiKey() {
 
         final ApiKey apiKey = new ApiKey();
-
         final User user = userService.getUserFromToken();
 
         apiKey.setKey(RandomStringUtils.random(appProperties.getApiKeyLength(), true, true));
         apiKey.setOwner(user);
-
+        apiKey.setApiCallsLimit(appProperties.getApiKeyCallsLimit());
         user.getApiKeys().add(apiKey);
         userRepository.save(user);
 
@@ -43,7 +44,6 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public List<ApiKey> fetchMyApiKeys() {
-
         return userService.getUserFromToken().getApiKeys();
     }
 
@@ -56,16 +56,13 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 .findFirst()
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Api key doesn't exist"));
 
-        apiKey.setExpirationDate(LocalDateTime.now());
+        apiKey.setActive(false);
         return apiKeyRepository.save(apiKey);
     }
 
     @Override
     public ApiKey apiKeyUseAction(final ApiKey apiKey) {
-
-        apiKey.setApiCallsUsed(apiKey.getApiCallsUsed() + 1);
-
-        return apiKeyRepository.save(apiKey);
+        return apiKeyRepository.save(apiKey.apiKeyUsed());
     }
 
     @Override
@@ -80,9 +77,8 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public List<ApiKey> updateKey(final ApiKeyUpdateDto apiKeyUpdateDto) {
-        //todo
-        return null;
+    public ApiKey updateKey(final ApiKeyUpdateDto apiKeyUpdateDto) {
+        return apiKeyRepository.save(Objects.requireNonNull(apiKeyConverter.convert(apiKeyUpdateDto)));
     }
 
 }

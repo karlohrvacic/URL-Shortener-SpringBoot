@@ -1,7 +1,7 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.dto.ApiKeyUpdateDto;
-import codes.karlo.api.entity.ApiKey;
+import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.service.ApiKeyService;
@@ -43,7 +43,7 @@ public class ApiKeyController {
 
     @PutMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<ApiKey> updateApiKey(@Valid @RequestBody final ApiKeyUpdateDto apiKeyUpdateDto) {
+    public ApiKey updateApiKey(@Valid @RequestBody final ApiKeyUpdateDto apiKeyUpdateDto) {
         return apiKeyService.updateKey(apiKeyUpdateDto);
     }
 

@@ -1,4 +1,4 @@
-package codes.karlo.api.entity;
+package codes.karlo.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,8 @@ import org.hibernate.validator.constraints.URL;
 public class Url {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "url_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "url_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotBlank(message = "You need to add url for shortening")
@@ -70,7 +72,6 @@ public class Url {
         if (this.visits >= Optional.ofNullable(visitLimit).orElse(this.visits + 1)) {
             isActive = false;
         }
-        System.out.println(this);
         return this;
     }
 

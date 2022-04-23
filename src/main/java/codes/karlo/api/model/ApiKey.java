@@ -1,10 +1,10 @@
-package codes.karlo.api.entity;
+package codes.karlo.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,25 +13,25 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
-
 
 @Entity
 @Builder
 @Getter
 @Setter
-@RequiredArgsConstructor
 @AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@NoArgsConstructor
 public class ApiKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "api_key_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "api_key_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true)
@@ -51,36 +51,26 @@ public class ApiKey {
 
     private LocalDateTime expirationDate;
 
+    private boolean isActive;
+
     @PrePersist
     public void onCreate() {
         this.createDate = LocalDateTime.now();
         this.apiCallsUsed = 0L;
+        this.isActive = true;
+        verifyApiKeyValidity();
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        final ApiKey apiKey = (ApiKey) o;
-        return id != null && Objects.equals(id, apiKey.id);
+    public ApiKey apiKeyUsed() {
+        this.apiCallsUsed++;
+        verifyApiKeyValidity();
+        return this;
     }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "ApiKey{" +
-                "id=" + id +
-                ", key='" + key + '\'' +
-                ", owner=" + owner.getId() +
-                ", urls size=" + urls.size() +
-                ", apiCallsLimit=" + apiCallsLimit +
-                ", apiCallsUsed=" + apiCallsUsed +
-                ", createDate=" + createDate +
-                ", expirationDate=" + expirationDate +
-                '}';
+    private void verifyApiKeyValidity() {
+        if (this.apiCallsUsed >= Optional.ofNullable(this.apiCallsLimit).orElse(this.apiCallsUsed + 1) ||
+                this.expirationDate.isBefore(LocalDateTime.now())) {
+            this.isActive = false;
+        }
     }
 }

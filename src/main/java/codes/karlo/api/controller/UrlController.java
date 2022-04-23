@@ -1,6 +1,6 @@
 package codes.karlo.api.controller;
 
-import codes.karlo.api.entity.Url;
+import codes.karlo.api.model.Url;
 import codes.karlo.api.service.UrlService;
 import java.util.List;
 import javax.validation.Valid;

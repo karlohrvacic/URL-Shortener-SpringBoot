@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet author="khrvacic" id="user-account-authorities-table">
+        <createTable tableName="USER_ACCOUNT_AUTHORITIES">
+            <column name="USER_ID" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="USER_FK" referencedTableName="USER_ACCOUNT" referencedColumnNames="ID"/>
+            </column>
+            <column name="AUTHORITIES_ID" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="AUTHORITIES_FK" referencedTableName="AUTHORITIES" referencedColumnNames="ID"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="USER_ACCOUNT_AUTHORITIES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="khrvacic" id="user-account-authorities-unique-user-account-and-authority" >
+        <addUniqueConstraint tableName="USER_ACCOUNT_AUTHORITIES" columnNames="USER_ID, AUTHORITIES_ID"/>
+    </changeSet>
+
+</databaseChangeLog>
