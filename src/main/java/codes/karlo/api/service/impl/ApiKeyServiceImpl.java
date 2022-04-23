@@ -3,13 +3,14 @@ package codes.karlo.api.service.impl;
 import codes.karlo.api.config.AppProperties;
 import codes.karlo.api.converter.ApiKeyUpdateDtoToApiKeyConverter;
 import codes.karlo.api.dto.ApiKeyUpdateDto;
+import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.model.User;
-import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.repository.ApiKeyRepository;
-import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.ApiKeyService;
 import codes.karlo.api.service.UserService;
+import codes.karlo.api.validator.ApiKeyValidator;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ import org.springframework.stereotype.Service;
 public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final ApiKeyRepository apiKeyRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final AppProperties appProperties;
+    private final ApiKeyValidator apiKeyValidator;
 
     private final ApiKeyUpdateDtoToApiKeyConverter apiKeyConverter;
 
@@ -33,13 +34,12 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         final ApiKey apiKey = new ApiKey();
         final User user = userService.getUserFromToken();
 
-        apiKey.setKey(RandomStringUtils.random(appProperties.getApiKeyLength(), true, true));
+        apiKey.setKey(RandomStringUtils.random(Math.toIntExact(appProperties.getApiKeyLength()), true, true));
         apiKey.setOwner(user);
         apiKey.setApiCallsLimit(appProperties.getApiKeyCallsLimit());
-        user.getApiKeys().add(apiKey);
-        userRepository.save(user);
+        apiKey.setExpirationDate(LocalDateTime.now().plusMonths(appProperties.getApiKeyExpirationInMonths()));
 
-        return apiKey;
+        return apiKeyRepository.save(apiKey);
     }
 
     @Override
@@ -49,13 +49,10 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public ApiKey revokeApiKey(final Long id) {
-        final ApiKey apiKey = userService.getUserFromToken()
-                .getApiKeys()
-                .stream()
-                .filter(a -> a.getId().equals(id))
-                .findFirst()
+        final ApiKey apiKey = apiKeyRepository.findById(id)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Api key doesn't exist"));
 
+        apiKeyValidator.verifyUserAdminOrOwner(apiKey);
         apiKey.setActive(false);
         return apiKeyRepository.save(apiKey);
     }

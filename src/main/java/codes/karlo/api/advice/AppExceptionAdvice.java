@@ -1,5 +1,6 @@
 package codes.karlo.api.advice;
 
+import codes.karlo.api.exception.ApiKeyIsNotValid;
 import codes.karlo.api.model.ErrorMessage;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
 import codes.karlo.api.exception.EmailExistsException;
@@ -29,7 +30,8 @@ public class AppExceptionAdvice {
             LongUrlNotSpecifiedException.class,
             UserDoesntExistException.class,
             UserDoesntHaveApiKey.class,
-            ShortUrlAlreadyExistsException.class})
+            ShortUrlAlreadyExistsException.class,
+            ApiKeyIsNotValid.class})
     public ResponseEntity<ErrorMessage> badRequestAdvice(final Exception exception) {
 
         final ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());

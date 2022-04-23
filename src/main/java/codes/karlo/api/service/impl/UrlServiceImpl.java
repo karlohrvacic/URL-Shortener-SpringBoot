@@ -58,7 +58,7 @@ public class UrlServiceImpl implements UrlService {
             if (existingLongUrl.isActive()) return existingLongUrl;
         }
 
-        url.setShortUrl(generateShortUrl(appProperties.getUrlShortLength()));
+        url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
 
         urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
@@ -91,9 +91,9 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public String generateShortUrl(final int length) {
+    public String generateShortUrl(final Long length) {
 
-        return RandomStringUtils.random(length, true, false);
+        return RandomStringUtils.random(Math.toIntExact(length), true, false);
     }
 
     private void setShortUrlForLoggedInUser(final Url url, final String key) {
@@ -111,7 +111,7 @@ public class UrlServiceImpl implements UrlService {
         urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
         if (url.getShortUrl().length() < 1) {
-            url.setShortUrl(generateShortUrl(appProperties.getUrlShortLength()));
+            url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
             log.info("URL got generated short URL " + url.getShortUrl());
         }
 

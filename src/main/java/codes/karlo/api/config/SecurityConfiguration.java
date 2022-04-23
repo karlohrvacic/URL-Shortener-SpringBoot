@@ -1,6 +1,6 @@
 package codes.karlo.api.config;
 
-import codes.karlo.api.service.impl.DomainUserDetailsService;
+import codes.karlo.api.service.DomainUserDetailsService;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;

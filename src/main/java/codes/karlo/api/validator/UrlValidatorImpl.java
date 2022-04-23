@@ -1,4 +1,4 @@
-package codes.karlo.api.validator.impl;
+package codes.karlo.api.validator;
 
 import codes.karlo.api.model.Url;
 import codes.karlo.api.exception.LongUrlNotSpecifiedException;
@@ -16,10 +16,8 @@ public class UrlValidatorImpl implements UrlValidator {
 
     @Override
     public void longUrlInUrl(final Url url) {
-
         if (url.getLongUrl() == null)
             throw new LongUrlNotSpecifiedException("URL for shortening is not specified");
-
     }
 
     @Override

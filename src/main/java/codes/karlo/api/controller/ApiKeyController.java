@@ -30,7 +30,7 @@ public class ApiKeyController {
         return apiKeyService.generateNewApiKey();
     }
 
-    @GetMapping("/get-my-api-keys")
+    @GetMapping("/my")
     public List<ApiKey> fetchMyApiKeys() throws UserDoesntExistException {
         return apiKeyService.fetchMyApiKeys();
     }

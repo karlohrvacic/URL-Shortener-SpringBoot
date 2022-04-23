@@ -26,7 +26,6 @@ public class UrlController {
 
     @PostMapping("/new")
     public Url saveUrlRandomShortUrl(@Valid @RequestBody final Url url) {
-
         return urlService.saveUrlRandomShortUrl(url);
     }
 
@@ -34,20 +33,17 @@ public class UrlController {
     @PostMapping("/new/{apiKey}")
     public Url saveUrlWithApiKey(@Valid @RequestBody final Url url,
                                  @PathVariable(required = false, value = "apiKey") final String apiKey) {
-
         return urlService.saveUrlWithApiKey(url, apiKey);
 
     }
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
-
         return urlService.fetchUrlByShortUrl(shortUrl);
     }
 
     @GetMapping("/my-urls/{apiKey}")
     public List<Url> fetchUrls(@PathVariable("apiKey") final String apiKey) {
-
         return urlService.fetchUrls(apiKey);
     }
 

@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserFromToken() {
-
         final Authentication loggedInUser = SecurityContextHolder
                 .getContext()
                 .getAuthentication();
@@ -60,16 +59,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User fetchCurrentUser() {
         final User user = getUserFromToken();
-
         user.setPassword("hidden");
-
         return user;
     }
 
     @Override
     public User fetchUserFromEmail(final String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserDoesntExistException("User not found in the database"));
+        final User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserDoesntExistException("User doesn't exist"));
+
+        if (!user.getIsActive()) throw new UserDoesntExistException("User is inactive, contact administrator");
+
+        return user;
     }
 
     @Override

@@ -69,7 +69,7 @@ public class ApiKey {
 
     private void verifyApiKeyValidity() {
         if (this.apiCallsUsed >= Optional.ofNullable(this.apiCallsLimit).orElse(this.apiCallsUsed + 1) ||
-                this.expirationDate.isBefore(LocalDateTime.now())) {
+                Optional.ofNullable(this.expirationDate).orElse(LocalDateTime.now().plusDays(1)).isBefore(LocalDateTime.now())) {
             this.isActive = false;
         }
     }

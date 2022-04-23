@@ -9,9 +9,10 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("app")
 public class AppProperties {
     private String frontendUrl;
-    private int apiKeyLength;
-    private int urlShortLength;
-    private int jwtTokenValiditySeconds;
     private String jwtBase64Secret;
+    private Long apiKeyLength;
+    private Long shortUrlLength;
+    private Long jwtTokenValiditySeconds;
     private Long apiKeyCallsLimit;
+    private Long apiKeyExpirationInMonths;
 }

@@ -1,4 +1,4 @@
-package codes.karlo.api.validator.impl;
+package codes.karlo.api.validator;
 
 import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.repository.UserRepository;

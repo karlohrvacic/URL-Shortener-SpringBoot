@@ -11,7 +11,7 @@ public interface UrlService {
 
     Url fetchUrlByLongUrl(String longUrl);
 
-    String generateShortUrl(int length);
+    String generateShortUrl(Long length);
 
     Url saveUrlRandomShortUrl(Url url);
 
