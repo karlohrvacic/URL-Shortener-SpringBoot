@@ -29,13 +29,11 @@ public class UrlServiceImpl implements UrlService {
     private final UserService userService;
     private final UrlValidator urlValidator;
     private final ApiKeyValidator apiKeyValidator;
-
     private final AppProperties appProperties;
 
     @Transactional
     @Override
     public Url saveUrlWithApiKey(final Url url, final String apiKey) {
-
         urlValidator.longUrlInUrl(url);
         apiKeyValidator.apiKeyExistsByKeyAndIsValid(apiKey);
 
@@ -43,7 +41,6 @@ public class UrlServiceImpl implements UrlService {
 
         log.info("Saving URL");
         return urlRepository.save(url);
-
     }
 
     @Transactional
@@ -68,7 +65,6 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public List<Url> fetchUrls(final String apiKey) {
-
         final User user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
 
         return urlRepository.findAllByOwner(user)
@@ -77,7 +73,6 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public Url fetchUrlByShortUrl(final String shortUrl) {
-
         return urlRepository.findByShortUrl(shortUrl)
                 .map(url -> urlRepository.save(url.onVisit()))
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
@@ -85,19 +80,16 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public Url fetchUrlByLongUrl(final String longUrl) {
-
         return urlRepository.findByLongUrlAndActiveIsTrue(longUrl)
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 
     @Override
     public String generateShortUrl(final Long length) {
-
         return RandomStringUtils.random(Math.toIntExact(length), true, false);
     }
 
     private void setShortUrlForLoggedInUser(final Url url, final String key) {
-
         log.info("Setting short URL");
 
         ApiKey apiKey = (key != null) ? apiKeyService.fetchApiKeyByKey(key) : null;
