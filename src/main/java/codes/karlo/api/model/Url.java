@@ -87,18 +87,4 @@ public class Url {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-    @Override
-    public String toString() {
-        return "Url{" +
-                "id=" + id +
-                ", longUrl='" + longUrl + '\'' +
-                ", shortUrl='" + shortUrl + '\'' +
-                ", owner id=" + owner.getId() +
-                ", apiKey id=" + apiKey.getId() +
-                ", createDate=" + createDate +
-                ", lastAccessed=" + lastAccessed +
-                ", visits=" + visits +
-                '}';
-    }
 }

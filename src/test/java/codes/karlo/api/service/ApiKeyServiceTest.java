@@ -103,7 +103,6 @@ class ApiKeyServiceTest {
         final ApiKey apiKeyResult = ApiKey.builder().apiCallsUsed(2L).build();
 
         when(apiKeyRepository.save(any(ApiKey.class))).thenReturn(apiKey);
-
         assertThat(apiKeyService.apiKeyUseAction(apiKey)).usingRecursiveComparison().isEqualTo(apiKeyResult);
     }
 

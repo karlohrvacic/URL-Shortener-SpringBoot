@@ -7,7 +7,6 @@ import codes.karlo.api.repository.UrlRepository;
 import codes.karlo.api.service.impl.UrlServiceImpl;
 import codes.karlo.api.validator.ApiKeyValidator;
 import codes.karlo.api.validator.UrlValidator;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,8 +57,7 @@ class UrlServiceTest {
         final Url url = Url.builder().longUrl("long").build();
         final Url existingLongUrl = Url.builder().isActive(false).build();
 
-        when(urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(true);
-        when(urlRepository.findByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(Optional.ofNullable(existingLongUrl));
+        when(urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(false);
         when(appProperties.getShortUrlLength()).thenReturn(1L);
         when(urlRepository.save(url)).thenReturn(url);
 
@@ -71,7 +69,7 @@ class UrlServiceTest {
 
     @Test
     void shouldSaveUrlWithApiKey() {
-        final Url url = Url.builder().build();
+        final Url url = Url.builder().shortUrl("").build();
         final String api = "apikey";
         final ApiKey apiKey = ApiKey.builder().build();
 
