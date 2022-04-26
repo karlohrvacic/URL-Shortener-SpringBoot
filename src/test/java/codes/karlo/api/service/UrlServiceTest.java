@@ -1,6 +1,7 @@
 package codes.karlo.api.service;
 
 import codes.karlo.api.config.AppProperties;
+import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.model.Url;
 import codes.karlo.api.repository.UrlRepository;
 import codes.karlo.api.service.impl.UrlServiceImpl;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,8 +58,8 @@ class UrlServiceTest {
         final Url url = Url.builder().longUrl("long").build();
         final Url existingLongUrl = Url.builder().isActive(false).build();
 
-        when(urlRepository.existsUrlByLongUrl(url.getLongUrl())).thenReturn(true);
-        when(urlRepository.findByLongUrlAndActiveIsTrue(url.getLongUrl())).thenReturn(Optional.ofNullable(existingLongUrl));
+        when(urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(true);
+        when(urlRepository.findByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(Optional.ofNullable(existingLongUrl));
         when(appProperties.getShortUrlLength()).thenReturn(1L);
         when(urlRepository.save(url)).thenReturn(url);
 
@@ -65,6 +67,21 @@ class UrlServiceTest {
 
         verify(urlValidator).checkIfShortUrlIsUnique(url.getShortUrl());
         verify(urlValidator).longUrlInUrl(url);
+    }
+
+    @Test
+    void shouldSaveUrlWithApiKey() {
+        final Url url = Url.builder().build();
+        final String api = "apikey";
+        final ApiKey apiKey = ApiKey.builder().build();
+
+        when(urlRepository.save(url)).thenReturn(url);
+        when(apiKeyService.fetchApiKeyByKey(api)).thenReturn(apiKey);
+        assertThat(urlService.saveUrlWithApiKey(url, api)).isEqualTo(url);
+
+        verify(urlValidator).longUrlInUrl(url);
+        verify(apiKeyValidator).apiKeyExistsByKeyAndIsValid(api);
+        verify(apiKeyService).apiKeyUseAction(any(ApiKey.class));
     }
 
 }
