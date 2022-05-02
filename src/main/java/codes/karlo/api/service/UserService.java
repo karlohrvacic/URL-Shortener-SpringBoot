@@ -3,7 +3,6 @@ package codes.karlo.api.service;
 import codes.karlo.api.dto.UserUpdateDto;
 import codes.karlo.api.model.User;
 import java.util.List;
-import org.springframework.data.domain.Page;
 
 public interface UserService {
 
@@ -19,7 +18,7 @@ public interface UserService {
 
     void persistUser(User user);
 
-    Page<User> fetchAllUsers(int page, int size);
+    List<User> fetchAllUsers();
 
     void deleteUserById(Long id);
 

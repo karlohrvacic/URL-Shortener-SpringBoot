@@ -7,7 +7,6 @@ import codes.karlo.api.service.UserService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,11 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v2/user")
+@RequestMapping("api/v1/user")
 @CrossOrigin("${app.frontend-url}")
 @RequiredArgsConstructor
 public class UserController {
@@ -38,11 +36,10 @@ public class UserController {
         return userService.fetchCurrentUser();
     }
 
-    @GetMapping("/all-users")
+    @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Page<User> fetchAllUsers(@RequestParam(name = "page") final int page,
-                                    @RequestParam(name = "size") final int size) {
-        return userService.fetchAllUsers(page, size);
+    public List<User> fetchAllUsers() {
+        return userService.fetchAllUsers();
     }
 
     @DeleteMapping({"/{id}"})

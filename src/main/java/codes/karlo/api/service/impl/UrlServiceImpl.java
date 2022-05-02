@@ -112,7 +112,7 @@ public class UrlServiceImpl implements UrlService {
         log.info("URL got api key attached and is keeping custom short url: " + url.getShortUrl());
     }
 
-    private ApiKey getFirstApiKeyForLoggedInUser() throws UserDoesntHaveApiKey {
+    private ApiKey getFirstApiKeyForLoggedInUser() {
         log.info("User is authenticated but didn't pass API key");
 
         return userService.getUserFromToken()

@@ -88,17 +88,4 @@ public class User {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password length='" + password.length() + '\'' +
-                ", authorities=" + authorities +
-                ", createDate=" + createDate +
-                ", lastLogin=" + lastLogin +
-                '}';
-    }
 }
