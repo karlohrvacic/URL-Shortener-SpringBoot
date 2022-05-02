@@ -27,11 +27,9 @@ import org.springframework.stereotype.Component;
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
-    private Key key;
-
-    private long tokenValidityInMilliseconds;
-
     private final AppProperties appProperties;
+    private Key key;
+    private long tokenValidityInMilliseconds;
 
     @PostConstruct
     public void init() {

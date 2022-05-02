@@ -2,8 +2,8 @@ package codes.karlo.api.service.impl;
 
 import codes.karlo.api.converter.UserUpdateDtoToUserConverter;
 import codes.karlo.api.dto.UserUpdateDto;
-import codes.karlo.api.model.User;
 import codes.karlo.api.exception.UserDoesntExistException;
+import codes.karlo.api.model.User;
 import codes.karlo.api.repository.AuthoritiesRepository;
 import codes.karlo.api.repository.UserRepository;
 import codes.karlo.api.service.UserService;

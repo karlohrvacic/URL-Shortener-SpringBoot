@@ -1,8 +1,8 @@
 package codes.karlo.api.controller;
 
 import codes.karlo.api.dto.UserUpdateDto;
-import codes.karlo.api.model.User;
 import codes.karlo.api.exception.UserDoesntExistException;
+import codes.karlo.api.model.User;
 import codes.karlo.api.service.UserService;
 import java.util.List;
 import javax.validation.Valid;

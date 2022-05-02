@@ -1,14 +1,14 @@
 package codes.karlo.api.advice;
 
-import codes.karlo.api.exception.ApiKeyIsNotValid;
-import codes.karlo.api.model.ErrorMessage;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
+import codes.karlo.api.exception.ApiKeyIsNotValid;
 import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.exception.LongUrlNotSpecifiedException;
 import codes.karlo.api.exception.ShortUrlAlreadyExistsException;
 import codes.karlo.api.exception.UrlNotFoundException;
 import codes.karlo.api.exception.UserDoesntExistException;
 import codes.karlo.api.exception.UserDoesntHaveApiKey;
+import codes.karlo.api.model.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -2,7 +2,6 @@ package codes.karlo.api.validator;
 
 import codes.karlo.api.exception.EmailExistsException;
 import codes.karlo.api.repository.UserRepository;
-import codes.karlo.api.validator.AuthValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

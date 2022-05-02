@@ -1,12 +1,12 @@
 package codes.karlo.api.converter;
 
 import codes.karlo.api.dto.ApiKeyUpdateDto;
-import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.exception.ApiKeyDoesntExistException;
+import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.repository.ApiKeyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

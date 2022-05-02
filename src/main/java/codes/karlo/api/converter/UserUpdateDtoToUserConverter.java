@@ -1,8 +1,8 @@
 package codes.karlo.api.converter;
 
 import codes.karlo.api.dto.UserUpdateDto;
-import codes.karlo.api.model.User;
 import codes.karlo.api.exception.UserDoesntExistException;
+import codes.karlo.api.model.User;
 import codes.karlo.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;

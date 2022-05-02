@@ -1,8 +1,8 @@
 package codes.karlo.api.validator;
 
-import codes.karlo.api.model.Url;
 import codes.karlo.api.exception.LongUrlNotSpecifiedException;
 import codes.karlo.api.exception.ShortUrlAlreadyExistsException;
+import codes.karlo.api.model.Url;
 import codes.karlo.api.repository.UrlRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
