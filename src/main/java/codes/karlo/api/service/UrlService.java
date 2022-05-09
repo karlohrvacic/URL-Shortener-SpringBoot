@@ -2,6 +2,7 @@ package codes.karlo.api.service;
 
 import codes.karlo.api.model.Url;
 import java.util.List;
+import org.springframework.web.servlet.view.RedirectView;
 
 public interface UrlService {
 
@@ -16,4 +17,6 @@ public interface UrlService {
     Url saveUrlRandomShortUrl(Url url);
 
     Url saveUrlWithApiKey(Url url, String apiKey);
+
+    RedirectView redirectResultUrl(String shortUrl);
 }

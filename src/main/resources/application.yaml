@@ -11,3 +11,5 @@ management:
 server:
   error:
     include-message: always
+app:
+  frontend-url: https://app.oncut.me

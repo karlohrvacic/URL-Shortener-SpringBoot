@@ -18,6 +18,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Service
 @CommonsLog
@@ -48,6 +49,21 @@ public class UrlServiceImpl implements UrlService {
 
         log.info("Saving URL");
         return urlRepository.save(url);
+    }
+
+    @Override
+    public RedirectView redirectResultUrl(final String shortUrl) {
+        final RedirectView redirectView = new RedirectView();
+        if (shortUrl != null) {
+            try {
+                redirectView.setUrl(fetchUrlByShortUrl(shortUrl).getLongUrl());
+            } catch (final UrlNotFoundException ignored) {
+                redirectView.setUrl(appProperties.getFrontendUrl());
+            }
+        } else {
+            redirectView.setUrl(appProperties.getFrontendUrl());
+        }
+        return redirectView;
     }
 
     @Transactional
