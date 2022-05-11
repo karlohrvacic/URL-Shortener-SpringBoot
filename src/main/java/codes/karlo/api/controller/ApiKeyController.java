@@ -25,7 +25,7 @@ public class ApiKeyController {
 
     private final ApiKeyService apiKeyService;
 
-    @GetMapping("/create")
+    @GetMapping("/new")
     public ApiKey generateNewApiKey() throws UserDoesntExistException {
         return apiKeyService.generateNewApiKey();
     }

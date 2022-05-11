@@ -56,7 +56,7 @@ public class UrlServiceImpl implements UrlService {
         final RedirectView redirectView = new RedirectView();
         if (shortUrl != null) {
             try {
-                redirectView.setUrl(fetchUrlByShortUrl(shortUrl).getLongUrl());
+                redirectView.setUrl(getUrlByShortUrl(shortUrl).getLongUrl());
             } catch (final UrlNotFoundException ignored) {
                 redirectView.setUrl(appProperties.getFrontendUrl());
             }
@@ -72,8 +72,8 @@ public class UrlServiceImpl implements UrlService {
         urlValidator.longUrlInUrl(url);
 
         if (urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())) {
-            final Url existingLongUrl = fetchUrlByLongUrl(url.getLongUrl());
-            log.warn("Long url already exists in DB, will return URL from long URL" + existingLongUrl.getShortUrl());
+            final Url existingLongUrl = getUrlByLongUrl(url.getLongUrl());
+            log.warn("Long url already exists in DB, will return URL from long URL " + existingLongUrl.getShortUrl());
             return existingLongUrl;
         }
 
@@ -86,7 +86,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<Url> fetchUrls(final String apiKey) {
+    public List<Url> getMyAllUrls(final String apiKey) {
         final User user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
 
         return urlRepository.findAllByOwner(user)
@@ -94,14 +94,14 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Url fetchUrlByShortUrl(final String shortUrl) {
+    public Url getUrlByShortUrl(final String shortUrl) {
         return urlRepository.findByShortUrl(shortUrl)
                 .map(url -> urlRepository.save(url.onVisit()))
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 
     @Override
-    public Url fetchUrlByLongUrl(final String longUrl) {
+    public Url getUrlByLongUrl(final String longUrl) {
         return urlRepository.findByLongUrlAndIsActiveTrue(longUrl)
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }

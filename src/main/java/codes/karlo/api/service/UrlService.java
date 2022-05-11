@@ -6,11 +6,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 public interface UrlService {
 
-    List<Url> fetchUrls(String apiKey);
+    List<Url> getMyAllUrls(String apiKey);
 
-    Url fetchUrlByShortUrl(String shortUrl);
+    Url getUrlByShortUrl(String shortUrl);
 
-    Url fetchUrlByLongUrl(String longUrl);
+    Url getUrlByLongUrl(String longUrl);
 
     String generateShortUrl(Long length);
 

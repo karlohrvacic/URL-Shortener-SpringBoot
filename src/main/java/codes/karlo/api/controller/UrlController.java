@@ -37,12 +37,12 @@ public class UrlController {
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
-        return urlService.fetchUrlByShortUrl(shortUrl);
+        return urlService.getUrlByShortUrl(shortUrl);
     }
 
     @GetMapping("/my-urls/{apiKey}")
     public List<Url> fetchUrls(@PathVariable("apiKey") final String apiKey) {
-        return urlService.fetchUrls(apiKey);
+        return urlService.getMyAllUrls(apiKey);
     }
 
 }
