@@ -54,6 +54,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ApiKey> apiKeys;
 
+    private Long apiKeySlots;
+
     @OneToMany(mappedBy = "owner")
     private List<Url> urls;
 

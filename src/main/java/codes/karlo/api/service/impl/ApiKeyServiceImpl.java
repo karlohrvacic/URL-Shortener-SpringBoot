@@ -16,6 +16,7 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     private final ApiKeyUpdateDtoToApiKeyConverter apiKeyConverter;
 
     @Override
+    @Transactional
     public ApiKey generateNewApiKey() {
 
         final ApiKey apiKey = new ApiKey();
@@ -48,6 +50,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
+    @Transactional
     public ApiKey revokeApiKey(final Long id) {
         final ApiKey apiKey = apiKeyRepository.findById(id)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Api key doesn't exist"));
@@ -58,6 +61,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
+    @Transactional
     public ApiKey apiKeyUseAction(final ApiKey apiKey) {
         return apiKeyRepository.save(apiKey.apiKeyUsed());
     }
@@ -74,6 +78,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
+    @Transactional
     public ApiKey updateKey(final ApiKeyUpdateDto apiKeyUpdateDto) {
         return apiKeyRepository.save(Objects.requireNonNull(apiKeyConverter.convert(apiKeyUpdateDto)));
     }

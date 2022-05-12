@@ -58,7 +58,6 @@ public class ApiKey {
         this.createDate = LocalDateTime.now();
         this.apiCallsUsed = 0L;
         this.isActive = true;
-        verifyApiKeyValidity();
     }
 
     public ApiKey apiKeyUsed() {

@@ -33,7 +33,7 @@ public class UrlServiceImpl implements UrlService {
 
     @Transactional
     @Override
-    public Url saveUrlWithApiKey(final Url url, final String key) {
+    public Url saveUrlWithApiKey(final Url url, String key) {
         urlValidator.longUrlInUrl(url);
         final ApiKey apiKey;
 
@@ -41,6 +41,7 @@ public class UrlServiceImpl implements UrlService {
             apiKey = apiKeyService.fetchApiKeyByKey(key);
         } else {
             apiKey = getFirstApiKeyForLoggedInUser();
+            key = apiKey.getKey();
         }
 
         apiKeyValidator.apiKeyExistsByKeyAndIsValid(key);
