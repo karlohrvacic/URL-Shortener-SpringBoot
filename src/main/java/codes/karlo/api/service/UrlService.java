@@ -14,7 +14,7 @@ public interface UrlService {
 
     String generateShortUrl(Long length);
 
-    Url saveUrlRandomShortUrl(Url url);
+    Url saveUrlRouting(Url url);
 
     Url saveUrlWithApiKey(Url url, String apiKey);
 

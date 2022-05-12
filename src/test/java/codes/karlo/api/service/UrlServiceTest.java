@@ -64,7 +64,7 @@ class UrlServiceTest {
         when(appProperties.getShortUrlLength()).thenReturn(1L);
         when(urlRepository.save(url)).thenReturn(url);
 
-        assertThat(urlService.saveUrlRandomShortUrl(url)).isEqualTo(url);
+        assertThat(urlService.saveUrlRouting(url)).isEqualTo(url);
 
         verify(urlValidator).checkIfShortUrlIsUnique(url.getShortUrl());
         verify(urlValidator).longUrlInUrl(url);
@@ -78,7 +78,7 @@ class UrlServiceTest {
         when(urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(true);
         when(urlRepository.findByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(Optional.ofNullable(existingLongUrl));
 
-        assertThat(urlService.saveUrlRandomShortUrl(url)).isEqualTo(existingLongUrl);
+        assertThat(urlService.saveUrlRouting(url)).isEqualTo(existingLongUrl);
     }
 
     @Test

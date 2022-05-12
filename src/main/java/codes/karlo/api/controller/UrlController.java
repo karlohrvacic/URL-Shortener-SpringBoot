@@ -24,8 +24,8 @@ public class UrlController {
     private final UrlService urlService;
 
     @PostMapping("/new")
-    public Url saveUrlRandomShortUrl(@Valid @RequestBody final Url url) {
-        return urlService.saveUrlRandomShortUrl(url);
+    public Url saveUrl(@Valid @RequestBody final Url url) {
+        return urlService.saveUrlRouting(url);
     }
 
     @PostMapping("/new/{apiKey}")

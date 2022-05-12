@@ -2,7 +2,6 @@ package codes.karlo.api.service.impl;
 
 import codes.karlo.api.config.AppProperties;
 import codes.karlo.api.exception.UrlNotFoundException;
-import codes.karlo.api.exception.UserDoesntHaveApiKey;
 import codes.karlo.api.model.ApiKey;
 import codes.karlo.api.model.Url;
 import codes.karlo.api.model.User;
@@ -68,7 +67,15 @@ public class UrlServiceImpl implements UrlService {
 
     @Transactional
     @Override
-    public Url saveUrlRandomShortUrl(final Url url) {
+    public Url saveUrlRouting(final Url url) {
+        if (userService.getUserFromToken() != null) {
+            return saveUrlWithApiKey(url, null);
+        } else {
+            return createUrlForAnonimousUser(url);
+        }
+    }
+
+    private Url createUrlForAnonimousUser(Url url) {
         urlValidator.longUrlInUrl(url);
 
         if (urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())) {
@@ -136,6 +143,6 @@ public class UrlServiceImpl implements UrlService {
                 .stream()
                 .filter(ApiKey::isActive)
                 .findFirst()
-                .orElseThrow(() -> new UserDoesntHaveApiKey("You need to create API key first"));
+                .orElse(apiKeyService.generateNewApiKey());
     }
 }
