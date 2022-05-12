@@ -72,7 +72,7 @@ public class AuthController {
         user.userLoggedIn();
         userService.persistUser(user);
 
-        log.info("Issuing a token for " + user);
+        log.info("Issuing a token for " + user.getId());
 
         return new ResponseEntity<>(new JWTTokenDto(jwt), httpHeaders, HttpStatus.OK);
     }

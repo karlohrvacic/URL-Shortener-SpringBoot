@@ -13,7 +13,6 @@ public class RequestMappingMethodInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(final MethodInvocation methodInvocation) throws Throwable {
-
         final StringBuilder builder = new StringBuilder();
 
         builder.append("Method invoked = ").append(methodInvocation.getThis().getClass().getName())
@@ -34,4 +33,5 @@ public class RequestMappingMethodInterceptor implements MethodInterceptor {
         }
         return methodInvocation.proceed();
     }
+
 }

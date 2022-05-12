@@ -41,4 +41,5 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         messageConverter.write(mapper.writeValueAsString(apiError), MediaType.APPLICATION_JSON, outputMessage);
         outputMessage.close();
     }
+
 }

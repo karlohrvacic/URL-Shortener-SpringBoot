@@ -17,12 +17,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AppExceptionAdvice {
 
-    @ExceptionHandler({UrlNotFoundException.class,
-            ApiKeyDoesntExistException.class})
+    @ExceptionHandler({UrlNotFoundException.class, ApiKeyDoesntExistException.class})
     public ResponseEntity<ErrorMessage> notFoundAdvice(final Exception exception) {
-
         final ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
-
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
@@ -33,9 +30,7 @@ public class AppExceptionAdvice {
             ShortUrlAlreadyExistsException.class,
             ApiKeyIsNotValid.class})
     public ResponseEntity<ErrorMessage> badRequestAdvice(final Exception exception) {
-
         final ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
