@@ -37,11 +37,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> fetchUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public User getUserFromToken() {
         final Authentication loggedInUser = SecurityContextHolder
                 .getContext()

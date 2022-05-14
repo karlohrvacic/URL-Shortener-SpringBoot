@@ -10,6 +10,15 @@ spring:
     show-sql: false
   application:
     name: URL Shortener DevMode
+  mail:
+    host: test.com
+    port: 0
+    username: test
+    password: test
+    properties:
+      mail:
+        smtp:
+          auth: true
 app:
   short-url-length: 5
   api-key-length: 12
@@ -17,5 +26,6 @@ app:
   jwt-token-validity-seconds: 3600
   api-key-expiration-in-months: 1
   jwt-base64-secret: MzMzYjg3YTRmYmU0YmM4YzJkZWE4NTJlZGEzMDgzZjkzOWNjM2MwMWQ4NzI2MjgwZWU0MzM5ZTY0MGEzMjg1YzIwMjU1MWM5ZTNkMzg5YWNiMjExNGJlMTE4NjZlMWMxODIxNjYwMTBkZTRiZWRlNzU3MDc5ZThhMDcxMjlkMGE
+  email-sender-address: oncut@oncut.me
 server:
   port: 8080

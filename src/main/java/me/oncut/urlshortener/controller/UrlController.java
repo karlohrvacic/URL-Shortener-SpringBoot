@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,9 +41,15 @@ public class UrlController {
         return urlService.getUrlByShortUrl(shortUrl);
     }
 
-    @GetMapping("/my-urls/{apiKey}")
-    public List<Url> fetchUrls(@PathVariable("apiKey") final String apiKey) {
-        return urlService.getMyAllUrls(apiKey);
+    @GetMapping({"/my/{apiKey}", "/my"})
+    public List<Url> getAllMyUrls(@PathVariable(required = false, name = "apiKey") final String apiKey) {
+        return urlService.getAllMyUrls(apiKey);
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Url> getAllUrls() {
+        return urlService.getAllUrls();
     }
 
 }

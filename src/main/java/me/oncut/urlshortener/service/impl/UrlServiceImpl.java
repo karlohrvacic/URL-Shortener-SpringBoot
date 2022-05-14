@@ -96,11 +96,21 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<Url> getMyAllUrls(final String apiKey) {
-        final User user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
+    public List<Url> getAllMyUrls(final String apiKey) {
+        final User user;
+        if (apiKey != null) {
+            apiKeyValidator.apiKeyExistsByKeyAndIsValid(apiKey);
+            user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
+        } else {
+            user = userService.getUserFromToken();
+        }
 
-        return urlRepository.findAllByOwner(user)
-                .orElse(null);
+        return urlRepository.findAllByOwner(user).orElse(null);
+    }
+
+    @Override
+    public List<Url> getAllUrls() {
+        return urlRepository.findAll();
     }
 
     @Override

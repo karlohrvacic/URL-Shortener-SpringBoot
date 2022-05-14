@@ -25,12 +25,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<User> fetchUsers() {
-        return userService.fetchUsers();
-    }
-
     @GetMapping("/whoAmI")
     public User currentUser() throws UserDoesntExistException {
         return userService.fetchCurrentUser();

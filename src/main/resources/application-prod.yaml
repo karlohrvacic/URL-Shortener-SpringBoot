@@ -1,7 +1,3 @@
 spring:
   application:
     name: URL Shortener
-app:
-  api-key-length: 64
-  url-short-length: 8
-  api-key-calls-limit: 256

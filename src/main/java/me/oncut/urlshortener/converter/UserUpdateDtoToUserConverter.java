@@ -21,6 +21,8 @@ public class UserUpdateDtoToUserConverter implements Converter<UserUpdateDto, Us
                         userUpdateDto.getId())));
         existingUser.setName(userUpdateDto.getName());
         existingUser.setEmail(userUpdateDto.getEmail());
+        existingUser.setApiKeySlots(userUpdateDto.getApiKeySlots());
+        existingUser.setActive(userUpdateDto.getActive());
         return existingUser;
     }
 

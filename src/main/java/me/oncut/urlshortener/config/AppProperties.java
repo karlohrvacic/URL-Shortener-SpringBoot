@@ -37,4 +37,7 @@ public class AppProperties {
     @NotNull
     @Positive
     private Long apiKeyExpirationInMonths;
+
+    @NotBlank
+    private String emailSenderAddress;
 }

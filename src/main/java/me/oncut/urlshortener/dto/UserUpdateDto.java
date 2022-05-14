@@ -16,4 +16,6 @@ public class UserUpdateDto {
     private Long id;
     private String name;
     private String email;
+    private Long apiKeySlots;
+    private Boolean active;
 }

@@ -106,7 +106,7 @@ class UrlServiceTest {
         when(apiKeyService.fetchApiKeyByKey(apiKey)).thenReturn(key);
         when(urlRepository.findAllByOwner(user)).thenReturn(Optional.of(urls));
 
-        assertThat(urlService.getMyAllUrls(apiKey)).isEqualTo(urls);
+        assertThat(urlService.getAllMyUrls(apiKey)).isEqualTo(urls);
     }
 
     @Test

@@ -8,8 +8,6 @@ public interface UserService {
 
     User register(User user);
 
-    List<User> fetchUsers();
-
     User getUserFromToken();
 
     User fetchCurrentUser();

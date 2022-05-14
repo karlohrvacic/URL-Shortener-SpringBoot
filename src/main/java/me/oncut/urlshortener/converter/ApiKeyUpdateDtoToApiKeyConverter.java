@@ -22,6 +22,7 @@ public class ApiKeyUpdateDtoToApiKeyConverter implements Converter<ApiKeyUpdateD
         existingApiKey.setApiCallsLimit(apiKeyUpdateDto.getApiCallsLimit());
         existingApiKey.setApiCallsUsed(apiKeyUpdateDto.getApiCallsUsed());
         existingApiKey.setExpirationDate(apiKeyUpdateDto.getExpirationDate());
+        existingApiKey.setActive(apiKeyUpdateDto.getActive());
         return existingApiKey;
     }
 

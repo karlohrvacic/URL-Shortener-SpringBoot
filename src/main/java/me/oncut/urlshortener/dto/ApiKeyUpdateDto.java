@@ -18,4 +18,5 @@ public class ApiKeyUpdateDto {
     private Long apiCallsLimit;
     private Long apiCallsUsed;
     private LocalDateTime expirationDate;
+    private Boolean active;
 }
