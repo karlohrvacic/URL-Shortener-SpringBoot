@@ -19,15 +19,12 @@
             <column name="NAME" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATE_DATE" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LAST_LOGIN" type="DATETIME">
+            <column name="API_KEY_SLOTS" type="BIGINT"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="CREATE_DATE" type="TIMESTAMP"/>
+            <column name="LAST_LOGIN" type="TIMESTAMP">
                 <constraints nullable="true"/>
             </column>
-            <column name="IS_ACTIVE" type="BOOLEAN">
-                <constraints nullable="false"/>
-            </column>
+            <column defaultValueBoolean="true" name="IS_ACTIVE" type="BOOLEAN" />
         </createTable>
         <rollback>
             <dropTable tableName="USER_ACCOUNT"/>

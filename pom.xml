@@ -8,10 +8,10 @@
         <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>codes.karlo.api</groupId>
+    <groupId>me.oncut</groupId>
     <artifactId>urlShortener</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>urlShortener</name>
+    <name>Url Shortener</name>
     <description>Url shortener project</description>
 
     <properties>

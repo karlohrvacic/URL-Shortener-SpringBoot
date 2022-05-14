@@ -14,30 +14,28 @@
                 <constraints nullable="false"/>
             </column>
             <column name="SHORT_URL" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
-            <column name="CREATE_DATE" type="DATETIME">
+            <column name="CREATE_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_ACCESSED" type="DATETIME">
                 <constraints nullable="true"/>
             </column>
-            <column name="VISITS" type="BIGINT">
+            <column name="VISITS" type="BIGINT" defaultValue="0">
                 <constraints nullable="true"/>
             </column>
             <column name="VISIT_LIMIT" type="BIGINT">
                 <constraints nullable="true"/>
             </column>
-            <column name="IS_ACTIVE" type="BOOLEAN">
-                <constraints nullable="false"/>
-            </column>
             <column name="OWNER_ID" type="BIGINT">
-                <constraints nullable="true" foreignKeyName="URL_OWNER_FK" referencedTableName="USER_ACCOUNT"
-                             referencedColumnNames="ID"/>
+                <constraints nullable="true" foreignKeyName="URL_OWNER_FK" referencedTableName="USER_ACCOUNT" referencedColumnNames="ID"/>
             </column>
             <column name="API_KEY_ID" type="BIGINT">
-                <constraints nullable="true" foreignKeyName="API_KEY_FK" referencedTableName="API_KEY"
-                             referencedColumnNames="ID"/>
+                <constraints nullable="true" foreignKeyName="API_KEY_FK" referencedTableName="API_KEY" referencedColumnNames="ID"/>
+            </column>
+            <column name="IS_ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <rollback>

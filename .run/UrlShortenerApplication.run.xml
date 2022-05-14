@@ -3,7 +3,7 @@
                    factoryName="Spring Boot">
         <option name="ACTIVE_PROFILES" value="dev"/>
         <module name="urlShortener"/>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="codes.karlo.api.UrlShortenerApplication"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="me.oncut.urlshortener.UrlShortenerApplication"/>
         <method v="2">
             <option name="Make" enabled="true"/>
         </method>

@@ -13,25 +13,20 @@
             <column name="KEY" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="CREATE_DATE" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
+            <column name="CREATE_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP"/>
             <column name="EXPIRATION_DATE" type="DATE">
                 <constraints nullable="true"/>
             </column>
             <column name="API_CALLS_LIMIT" type="BIGINT">
                 <constraints nullable="true"/>
             </column>
-            <column name="API_CALLS_USED" type="BIGINT">
+            <column name="API_CALLS_USED" type="BIGINT" defaultValue="0">
                 <constraints nullable="true"/>
             </column>
-            <column name="IS_ACTIVE" type="BOOLEAN">
-                <constraints nullable="false"/>
-            </column>
             <column name="OWNER_ID" type="BIGINT">
-                <constraints nullable="true" foreignKeyName="API_KEY_OWNER_FK" referencedTableName="USER_ACCOUNT"
-                             referencedColumnNames="ID"/>
+                <constraints nullable="true" foreignKeyName="API_KEY_OWNER_FK" referencedTableName="USER_ACCOUNT" referencedColumnNames="ID"/>
             </column>
+            <column name="IS_ACTIVE" type="BOOLEAN" defaultValueBoolean="true"/>
         </createTable>
         <rollback>
             <dropTable tableName="API_KEY"/>
