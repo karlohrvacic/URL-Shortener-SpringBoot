@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -54,14 +55,14 @@ public class Url {
 
     private Long visitLimit;
 
-    private boolean isActive;
+    private boolean active;
 
-//    @PrePersist
-//    public void onCreate() {
-//        this.visits = 0L;
-//        this.createDate = LocalDateTime.now();
-//        this.isActive = true;
-//    }
+    @PrePersist
+    public void onCreate() {
+        this.visits = 0L;
+        this.createDate = LocalDateTime.now();
+        this.active = true;
+    }
 
     public Url onVisit() {
         this.visits++;
@@ -72,7 +73,7 @@ public class Url {
 
     private void verifyUrlValidity() {
         if (this.visits >= Optional.ofNullable(visitLimit).orElse(this.visits + 1)) {
-            isActive = false;
+            active = false;
         }
     }
 

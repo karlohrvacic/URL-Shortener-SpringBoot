@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User fetchUserFromEmail(final String email) {
         final User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserDoesntExistException("User doesn't exist"));
+                .orElseThrow(() -> new UserDoesntExistException("User not found"));
 
-        if (!user.getIsActive()) throw new UserDoesntExistException("User is inactive, contact administrator");
+        if (Boolean.FALSE.equals(user.getActive())) throw new UserDoesntExistException("User is inactive, contact administrator");
 
         return user;
     }

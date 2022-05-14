@@ -16,10 +16,10 @@
             <column name="SHORT_URL" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATE_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="CREATE_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="LAST_ACCESSED" type="DATETIME">
+            <column name="LAST_ACCESSED" type="TIMESTAMP">
                 <constraints nullable="true"/>
             </column>
             <column name="VISITS" type="BIGINT" defaultValue="0">
@@ -34,7 +34,7 @@
             <column name="API_KEY_ID" type="BIGINT">
                 <constraints nullable="true" foreignKeyName="API_KEY_FK" referencedTableName="API_KEY" referencedColumnNames="ID"/>
             </column>
-            <column name="IS_ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
+            <column name="ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>
         </createTable>

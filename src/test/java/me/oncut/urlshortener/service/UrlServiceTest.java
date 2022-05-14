@@ -60,7 +60,7 @@ class UrlServiceTest {
     void shouldSaveUrlRandomShortUrl() {
         final Url url = Url.builder().longUrl("long").build();
 
-        when(urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(false);
+        when(urlRepository.existsUrlByLongUrlAndActiveTrue(url.getLongUrl())).thenReturn(false);
         when(appProperties.getShortUrlLength()).thenReturn(1L);
         when(urlRepository.save(url)).thenReturn(url);
 
@@ -73,10 +73,10 @@ class UrlServiceTest {
     @Test
     void shouldReturnSavedUrlRandomShortUrl() {
         final Url url = Url.builder().longUrl("long").build();
-        final Url existingLongUrl = Url.builder().longUrl("long").isActive(true).build();
+        final Url existingLongUrl = Url.builder().longUrl("long").active(true).build();
 
-        when(urlRepository.existsUrlByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(true);
-        when(urlRepository.findByLongUrlAndIsActiveTrue(url.getLongUrl())).thenReturn(Optional.ofNullable(existingLongUrl));
+        when(urlRepository.existsUrlByLongUrlAndActiveTrue(url.getLongUrl())).thenReturn(true);
+        when(urlRepository.findByLongUrlAndActiveTrue(url.getLongUrl())).thenReturn(Optional.ofNullable(existingLongUrl));
 
         assertThat(urlService.saveUrlRouting(url)).isEqualTo(existingLongUrl);
     }
@@ -114,7 +114,7 @@ class UrlServiceTest {
         final String shortUrl = "short";
         final Url url = Url.builder().shortUrl(shortUrl).visits(0L).build();
 
-        when(urlRepository.findByShortUrlAndIsActiveTrue(shortUrl)).thenReturn(Optional.ofNullable(url));
+        when(urlRepository.findByShortUrlAndActiveTrue(shortUrl)).thenReturn(Optional.ofNullable(url));
         when(urlRepository.save(url)).thenReturn(url);
 
         assertThat(urlService.getUrlByShortUrl(shortUrl)).isEqualTo(url);
@@ -124,7 +124,7 @@ class UrlServiceTest {
     void shouldsaveUrlWithApiKeyWithFirstApiKeyForLoggedInUser() {
         final Url url = Url.builder().shortUrl("").build();
         final String api = null;
-        final ApiKey apiKey = ApiKey.builder().id(1L).key("key").apiCallsUsed(0L).apiCallsLimit(10L).isActive(true).build();
+        final ApiKey apiKey = ApiKey.builder().id(1L).key("key").apiCallsUsed(0L).apiCallsLimit(10L).active(true).build();
         final User user = User.builder().id(1L).apiKeys(Collections.singletonList(apiKey)).build();
 
         when(userService.getUserFromToken()).thenReturn(user);

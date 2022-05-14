@@ -1,6 +1,5 @@
 package me.oncut.urlshortener.model;
 
-import me.oncut.urlshortener.model.codebook.Authorities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.time.LocalDateTime;
@@ -11,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import me.oncut.urlshortener.model.codebook.Authorities;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -63,13 +64,13 @@ public class User {
 
     private LocalDateTime lastLogin;
 
-    private Boolean isActive;
+    private Boolean active;
 
-//    @PrePersist
-//    public void onCreate() {
-//        this.createDate = LocalDateTime.now();
-//        this.isActive = true;
-//    }
+    @PrePersist
+    public void onCreate() {
+        this.createDate = LocalDateTime.now();
+        this.active = true;
+    }
 
     public void userLoggedIn() {
         this.lastLogin = LocalDateTime.now();

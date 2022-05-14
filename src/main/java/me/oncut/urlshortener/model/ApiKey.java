@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,14 +51,14 @@ public class ApiKey {
 
     private LocalDateTime expirationDate;
 
-    private boolean isActive;
+    private boolean active;
 
-//    @PrePersist
-//    public void onCreate() {
-//        this.createDate = LocalDateTime.now();
-//        this.apiCallsUsed = 0L;
-//        this.isActive = true;
-//    }
+    @PrePersist
+    public void onCreate() {
+        this.createDate = LocalDateTime.now();
+        this.apiCallsUsed = 0L;
+        this.active = true;
+    }
 
     public ApiKey apiKeyUsed() {
         this.apiCallsUsed++;
@@ -68,7 +69,7 @@ public class ApiKey {
     private void verifyApiKeyValidity() {
         if (this.apiCallsUsed >= Optional.ofNullable(this.apiCallsLimit).orElse(this.apiCallsUsed + 1) ||
                 Optional.ofNullable(this.expirationDate).orElse(LocalDateTime.now().plusDays(1)).isBefore(LocalDateTime.now())) {
-            this.isActive = false;
+            this.active = false;
         }
     }
 }

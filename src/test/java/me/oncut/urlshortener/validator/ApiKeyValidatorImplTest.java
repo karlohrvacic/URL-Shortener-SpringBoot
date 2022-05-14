@@ -45,7 +45,7 @@ class ApiKeyValidatorImplTest {
                 .apiCallsUsed(0L)
                 .createDate(LocalDateTime.now())
                 .expirationDate(LocalDateTime.now().plusDays(1L))
-                .isActive(true)
+                .active(true)
                 .build();
     }
 

@@ -20,11 +20,15 @@
                 <constraints nullable="false"/>
             </column>
             <column name="API_KEY_SLOTS" type="BIGINT"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="CREATE_DATE" type="TIMESTAMP"/>
+            <column name="CREATE_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
             <column name="LAST_LOGIN" type="TIMESTAMP">
                 <constraints nullable="true"/>
             </column>
-            <column defaultValueBoolean="true" name="IS_ACTIVE" type="BOOLEAN" />
+            <column name="ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="USER_ACCOUNT"/>

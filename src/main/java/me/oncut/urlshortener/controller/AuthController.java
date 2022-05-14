@@ -45,7 +45,7 @@ public class AuthController {
     @Operation(summary = "Register user")
     @PostMapping("/register")
     public User register(@Valid @RequestBody final User user) throws EmailExistsException {
-        log.info("Register controller invoked for user " + user);
+        log.info("Register controller invoked for user " + user.getEmail());
         return userService.register(user);
     }
 

@@ -13,6 +13,9 @@
             <column name="NAME" type="VARCHAR(200)">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="AUTHORITIES"/>
@@ -23,10 +26,12 @@
         <insert tableName="AUTHORITIES">
             <column name="ID" valueNumeric="1"/>
             <column name="NAME" value="ROLE_USER"/>
+            <column name="ACTIVE" valueBoolean="TRUE"/>
         </insert>
         <insert tableName="AUTHORITIES">
             <column name="ID" valueNumeric="2"/>
             <column name="NAME" value="ROLE_ADMIN"/>
+            <column name="ACTIVE" valueBoolean="TRUE"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

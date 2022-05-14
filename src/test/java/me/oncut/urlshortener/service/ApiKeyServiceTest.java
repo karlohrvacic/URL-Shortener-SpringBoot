@@ -89,7 +89,7 @@ class ApiKeyServiceTest {
     @Test
     void shouldRevokeApiKey() {
         final Long id = 1L;
-        final ApiKey apiKey = ApiKey.builder().isActive(false).build();
+        final ApiKey apiKey = ApiKey.builder().active(false).build();
 
         when(apiKeyRepository.findById(id)).thenReturn(Optional.ofNullable(apiKey));
         when(apiKeyRepository.save(any(ApiKey.class))).thenReturn(apiKey);

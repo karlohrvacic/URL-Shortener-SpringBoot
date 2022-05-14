@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Long> {
 
-    Optional<Url> findByLongUrlAndIsActiveTrue(String longUrl);
+    Optional<Url> findByLongUrlAndActiveTrue(String longUrl);
 
-    Optional<Url> findByShortUrlAndIsActiveTrue(String shortUrl);
+    Optional<Url> findByShortUrlAndActiveTrue(String shortUrl);
 
     Optional<List<Url>> findAllByOwner(User owner);
 
-    boolean existsUrlByLongUrlAndIsActiveTrue(String longUrl);
+    boolean existsUrlByLongUrlAndActiveTrue(String longUrl);
 
     boolean existsUrlByShortUrl(String shortUrl);
 
