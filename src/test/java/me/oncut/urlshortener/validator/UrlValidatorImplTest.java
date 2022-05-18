@@ -4,6 +4,7 @@ import me.oncut.urlshortener.exception.LongUrlNotSpecifiedException;
 import me.oncut.urlshortener.exception.ShortUrlAlreadyExistsException;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.repository.UrlRepository;
+import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.impl.UrlValidatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +24,12 @@ class UrlValidatorImplTest {
     @Mock
     private UrlRepository urlRepository;
 
+    @Mock
+    private UserService userService;
+
     @BeforeEach
     void setUp() {
-        this.urlValidator = new UrlValidatorImpl(urlRepository);
+        this.urlValidator = new UrlValidatorImpl(urlRepository, userService);
     }
 
     @Test
