@@ -6,4 +6,6 @@ public interface ApiKeyValidator {
     void apiKeyExistsByKeyAndIsValid(String key);
 
     void verifyUserAdminOrOwner(ApiKey apiKey);
+
+    void apiKeySlotsAvailable();
 }

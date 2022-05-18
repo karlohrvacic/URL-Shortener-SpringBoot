@@ -1,7 +1,6 @@
 package me.oncut.urlshortener.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @NoArgsConstructor
 public class ApiKey {
 
@@ -40,6 +38,7 @@ public class ApiKey {
     @ManyToOne
     private User owner;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "apiKey")
     private List<Url> urls;
 

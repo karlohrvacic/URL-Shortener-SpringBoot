@@ -2,6 +2,7 @@ package me.oncut.urlshortener.validator;
 
 import me.oncut.urlshortener.exception.EmailExistsException;
 import me.oncut.urlshortener.repository.UserRepository;
+import me.oncut.urlshortener.validator.impl.AuthValidatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

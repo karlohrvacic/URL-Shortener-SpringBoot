@@ -1,7 +1,5 @@
 package me.oncut.urlshortener.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import javax.persistence.Column;
@@ -26,7 +24,6 @@ import org.hibernate.validator.constraints.URL;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Url {
 
     @Id

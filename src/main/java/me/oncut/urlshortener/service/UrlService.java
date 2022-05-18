@@ -1,7 +1,7 @@
 package me.oncut.urlshortener.service;
 
-import me.oncut.urlshortener.model.Url;
 import java.util.List;
+import me.oncut.urlshortener.model.Url;
 import org.springframework.web.servlet.view.RedirectView;
 
 public interface UrlService {
@@ -21,4 +21,6 @@ public interface UrlService {
     RedirectView redirectResultUrl(String shortUrl);
 
     List<Url> getAllUrls();
+
+    Url revokeUrl(Long id);
 }

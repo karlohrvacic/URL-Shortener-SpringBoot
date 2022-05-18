@@ -1,6 +1,7 @@
 package me.oncut.urlshortener.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,11 +50,13 @@ public class User {
     @Length(min = 8, message = "Password needs to be at least 8 characters long")
     private String password;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ApiKey> apiKeys;
 
     private Long apiKeySlots;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Url> urls;
 

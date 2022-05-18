@@ -1,5 +1,8 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.exception.UrlNotFoundException;
 import me.oncut.urlshortener.model.ApiKey;
@@ -11,9 +14,6 @@ import me.oncut.urlshortener.service.UrlService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
 import me.oncut.urlshortener.validator.UrlValidator;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,6 +111,16 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public List<Url> getAllUrls() {
         return urlRepository.findAll();
+    }
+
+    @Override
+    public Url revokeUrl(final Long id) {
+        final Url url = urlRepository.findById(id)
+                .orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
+
+        urlValidator.verifyUserAdminOrOwner(url);
+        url.setActive(false);
+        return urlRepository.save(url);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package me.oncut.urlshortener.config;
 
-import me.oncut.urlshortener.service.DomainUserDetailsService;
+import me.oncut.urlshortener.service.impl.DomainUserDetailsServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final DomainUserDetailsService userDetailsService;
+    private final DomainUserDetailsServiceImpl userDetailsService;
 
     private final JwtFilter jwtFilter;
 

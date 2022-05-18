@@ -1,8 +1,9 @@
-package me.oncut.urlshortener.validator;
+package me.oncut.urlshortener.validator.impl;
 
 import me.oncut.urlshortener.exception.EmailExistsException;
 import me.oncut.urlshortener.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.validator.AuthValidator;
 import org.springframework.stereotype.Component;
 
 @Component

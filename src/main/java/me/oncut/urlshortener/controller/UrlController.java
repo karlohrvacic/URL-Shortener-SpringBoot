@@ -1,11 +1,13 @@
 package me.oncut.urlshortener.controller;
 
-import me.oncut.urlshortener.model.Url;
-import me.oncut.urlshortener.service.UrlService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
+import me.oncut.urlshortener.exception.UserDoesntExistException;
+import me.oncut.urlshortener.model.Url;
+import me.oncut.urlshortener.service.UrlService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,15 +43,26 @@ public class UrlController {
         return urlService.getUrlByShortUrl(shortUrl);
     }
 
-    @GetMapping({"/my/{apiKey}", "/my"})
-    public List<Url> getAllMyUrls(@PathVariable(required = false, name = "apiKey") final String apiKey) {
+    @GetMapping("/my/{apiKey}")
+    public List<Url> getAllMyUrlsWithApiKey(@PathVariable("apiKey") final String apiKey) {
         return urlService.getAllMyUrls(apiKey);
+    }
+
+    @GetMapping("/my")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<Url> getAllMyUrls() {
+        return urlService.getAllMyUrls(null);
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Url> getAllUrls() {
         return urlService.getAllUrls();
+    }
+
+    @GetMapping("/revoke/{id}")
+    public Url revokeApiKey(@PathVariable("id") final Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
+        return urlService.revokeUrl(id);
     }
 
 }

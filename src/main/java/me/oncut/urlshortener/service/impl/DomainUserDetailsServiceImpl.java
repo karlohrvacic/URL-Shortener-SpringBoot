@@ -1,4 +1,4 @@
-package me.oncut.urlshortener.service;
+package me.oncut.urlshortener.service.impl;
 
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component("userDetailsService")
-public class DomainUserDetailsService implements UserDetailsService {
+public class DomainUserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public DomainUserDetailsService(final UserRepository userRepository) {
+    public DomainUserDetailsServiceImpl(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

@@ -10,6 +10,7 @@ import me.oncut.urlshortener.service.UserService;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
+import me.oncut.urlshortener.validator.impl.ApiKeyValidatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

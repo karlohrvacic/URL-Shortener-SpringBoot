@@ -32,9 +32,10 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Override
     @Transactional
     public ApiKey generateNewApiKey() {
-
         final ApiKey apiKey = new ApiKey();
         final User user = userService.getUserFromToken();
+
+        apiKeyValidator.apiKeySlotsAvailable();
 
         apiKey.setKey(RandomStringUtils.random(Math.toIntExact(appProperties.getApiKeyLength()), true, true));
         apiKey.setOwner(user);

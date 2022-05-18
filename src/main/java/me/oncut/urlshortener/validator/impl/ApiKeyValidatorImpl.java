@@ -1,14 +1,17 @@
-package me.oncut.urlshortener.validator;
+package me.oncut.urlshortener.validator.impl;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.exception.ApiKeyIsNotValid;
+import me.oncut.urlshortener.exception.ApiKeySlotException;
+import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
 import me.oncut.urlshortener.service.UserService;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.validator.ApiKeyValidator;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,7 +47,16 @@ public class ApiKeyValidatorImpl implements ApiKeyValidator {
         final boolean isCurrentUserAdmin = currentUser.getAuthorities().stream()
                 .anyMatch(authorities -> authorities.getName().equals("ROLE_ADMIN"));
         if (!apiKey.getOwner().equals(currentUser) && !isCurrentUserAdmin) {
-            throw new ApiKeyDoesntExistException("API key doesn't exist");
+            throw new NoAuthorizationException("You don't have authorization for this action");
+        }
+    }
+
+    @Override
+    public void apiKeySlotsAvailable() {
+        final User currentUser = userService.getUserFromToken();
+
+        if (currentUser.getApiKeySlots() <= currentUser.getApiKeys().size()) {
+            throw new ApiKeySlotException("Can't create new API key as it will exceed API key slot limit\nContact admin for bigger slot.");
         }
     }
 }

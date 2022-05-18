@@ -6,4 +6,6 @@ public interface UrlValidator {
     void longUrlInUrl(Url url);
 
     void checkIfShortUrlIsUnique(String shortUrl);
+
+    void verifyUserAdminOrOwner(Url url);
 }
