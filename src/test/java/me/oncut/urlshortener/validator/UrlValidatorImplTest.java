@@ -50,7 +50,7 @@ class UrlValidatorImplTest {
     @Test
     void shouldValidateShortUrlIsUnique() {
         final String shortUrl = "test";
-        when(urlRepository.existsUrlByShortUrl(shortUrl)).thenReturn(false);
+        when(urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)).thenReturn(false);
         assertThatCode(() -> urlValidator.checkIfShortUrlIsUnique(shortUrl))
                 .doesNotThrowAnyException();
     }
@@ -58,7 +58,7 @@ class UrlValidatorImplTest {
     @Test
     void shouldFailValidateShortUrlIsUnique() {
         final String shortUrl = "test";
-        when(urlRepository.existsUrlByShortUrl(shortUrl)).thenReturn(true);
+        when(urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)).thenReturn(true);
         assertThatThrownBy(() -> urlValidator.checkIfShortUrlIsUnique(shortUrl))
                 .isInstanceOf(ShortUrlAlreadyExistsException.class)
                 .hasMessage("Short URL is already in use");

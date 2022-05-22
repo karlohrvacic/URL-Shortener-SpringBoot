@@ -1,6 +1,7 @@
 package me.oncut.urlshortener.service.impl;
 
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
+import me.oncut.urlshortener.dto.UpdatePasswordDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.User;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -80,8 +82,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(final UserUpdateDto userUpdateDto) {
         return userRepository.save(Objects.requireNonNull(userUpdateDtoToUserConverter.convert(userUpdateDto)));
+    }
+
+    @Override
+    @Transactional
+    public User updatePassword(final UpdatePasswordDto updatePasswordDto) {
+        final User user = getUserFromToken();
+
+        authValidator.passwordMatchesCurrentPassword(user, updatePasswordDto.getOldPassword());
+
+        user.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+        return userRepository.save(user);
     }
 
 }

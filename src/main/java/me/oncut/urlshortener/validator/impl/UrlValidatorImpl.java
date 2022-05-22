@@ -27,7 +27,7 @@ public class UrlValidatorImpl implements UrlValidator {
 
     @Override
     public void checkIfShortUrlIsUnique(final String shortUrl) {
-        if (urlRepository.existsUrlByShortUrl(shortUrl))
+        if (urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl))
             throw new ShortUrlAlreadyExistsException("Short URL is already in use");
     }
 

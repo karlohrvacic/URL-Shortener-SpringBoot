@@ -166,6 +166,6 @@ public class UrlServiceImpl implements UrlService {
                 .stream()
                 .filter(ApiKey::isActive)
                 .findFirst()
-                .orElse(apiKeyService.generateNewApiKey());
+                .orElseGet(apiKeyService::generateNewApiKey);
     }
 }

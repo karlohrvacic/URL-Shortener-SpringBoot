@@ -23,7 +23,7 @@ app:
   short-url-length: 5
   api-key-length: 12
   api-key-calls-limit: 8
-  jwt-token-validity-seconds: 3600
+  jwt-token-validity-seconds: 36000
   api-key-expiration-in-months: 1
   jwt-base64-secret: MzMzYjg3YTRmYmU0YmM4YzJkZWE4NTJlZGEzMDgzZjkzOWNjM2MwMWQ4NzI2MjgwZWU0MzM5ZTY0MGEzMjg1YzIwMjU1MWM5ZTNkMzg5YWNiMjExNGJlMTE4NjZlMWMxODIxNjYwMTBkZTRiZWRlNzU3MDc5ZThhMDcxMjlkMGE
   email-sender-address: oncut@oncut.me

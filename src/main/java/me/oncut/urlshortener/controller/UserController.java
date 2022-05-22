@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.controller;
 
+import me.oncut.urlshortener.dto.UpdatePasswordDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.User;
@@ -46,5 +47,11 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User updateUser(@Valid @RequestBody final UserUpdateDto userUpdateDto) {
         return userService.updateUser(userUpdateDto);
+    }
+
+    @PutMapping("/update-password")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public User setPassword(@Valid @RequestBody final UpdatePasswordDto updatePasswordDto) {
+        return userService.updatePassword(updatePasswordDto);
     }
 }

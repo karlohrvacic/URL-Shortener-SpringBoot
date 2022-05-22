@@ -18,6 +18,6 @@ public interface UrlRepository extends JpaRepository<Url, Long> {
 
     boolean existsUrlByLongUrlAndActiveTrue(String longUrl);
 
-    boolean existsUrlByShortUrl(String shortUrl);
+    boolean existsUrlByShortUrlAndActiveTrue(String shortUrl);
 
 }
