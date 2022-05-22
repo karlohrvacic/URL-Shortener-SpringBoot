@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -21,11 +22,14 @@ class AuthValidatorImplTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     private String email;
 
     @BeforeEach
     void setUp() {
-        this.authValidator = new AuthValidatorImpl(userRepository);
+        this.authValidator = new AuthValidatorImpl(userRepository, passwordEncoder);
 
         this.email = "email";
     }
