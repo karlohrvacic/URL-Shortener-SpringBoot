@@ -11,10 +11,10 @@ spring:
   application:
     name: URL Shortener DevMode
   mail:
-    host: smtp.mailgun.org
-    port: 587
-    username:  postmaster@sandbox5a4e29f472fe4aca8089b50a397499d7.mailgun.org
-    password: 834fd6e73b80cf6ac6c824ab32a22bcf
+    host: hh.test
+    port: 0000
+    username:  688
+    password: 6886
     properties:
       mail:
         smtp:
