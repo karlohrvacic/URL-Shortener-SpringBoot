@@ -1,16 +1,14 @@
 package me.oncut.urlshortener.controller;
 
+import javax.validation.Valid;
+import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.JwtFilter;
 import me.oncut.urlshortener.config.TokenProvider;
 import me.oncut.urlshortener.dto.JWTTokenDto;
 import me.oncut.urlshortener.dto.LoginDto;
-import me.oncut.urlshortener.exception.EmailExistsException;
-import me.oncut.urlshortener.exception.UserDoesntExistException;
+import me.oncut.urlshortener.dto.PasswordResetDto;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import javax.validation.Valid;
-import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,16 +40,26 @@ public class AuthController {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
-    @Operation(summary = "Register user")
     @PostMapping("/register")
-    public String register(@Valid @RequestBody final User user) throws EmailExistsException {
+    public String register(@Valid @RequestBody final User user) {
         log.info("Register controller invoked for user " + user.getEmail());
         return userService.register(user).getEmail();
     }
 
-    @Operation(summary = "Login user")
+    @PostMapping("/reset-password")
+    public void resetPassword(@Valid @RequestBody final String email) {
+        log.info("Forgot password controller invoked for " + email);
+        userService.sendPasswordResetLinkToUser(email);
+    }
+
+    @PostMapping("/reset-password/set-password")
+    public User resetPassword(@Valid @RequestBody final PasswordResetDto passwordResetDto) {
+        log.info("Forgot password controller invoked for " + passwordResetDto.getLoginDto().getEmail());
+        return userService.resetPassword(passwordResetDto);
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<JWTTokenDto> fetchUrlByShort(@Valid @RequestBody final LoginDto login) throws UserDoesntExistException {
+    public ResponseEntity<JWTTokenDto> fetchUrlByShort(@Valid @RequestBody final LoginDto login) {
 
         log.info("Login controller invoked for user " + login.getEmail());
 

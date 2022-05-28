@@ -1,17 +1,24 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
+import me.oncut.urlshortener.dto.PasswordResetDto;
 import me.oncut.urlshortener.dto.UpdatePasswordDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
+import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
+import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.AuthoritiesRepository;
+import me.oncut.urlshortener.repository.ResetTokenRepository;
 import me.oncut.urlshortener.repository.UserRepository;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.AuthValidator;
-import java.util.List;
-import java.util.Objects;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +34,10 @@ public class UserServiceImpl implements UserService {
     private final AuthoritiesRepository authoritiesRepository;
     private final AuthValidator authValidator;
     private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
+    private final AppProperties appProperties;
+    private final ResetTokenRepository resetTokenRepository;
+
+    private final SendingEmailServiceImpl sendingEmailService;
 
     @Override
     public User register(final User user) {
@@ -96,6 +107,38 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void sendPasswordResetLinkToUser(final String email) {
+        final Optional<User> user = userRepository.findByEmail(email);
+
+        if (user.isPresent()) {
+            final ResetToken resetToken = ResetToken.builder()
+                    .user(user.get())
+                    .expirationDate(LocalDateTime.now().plusHours(appProperties.getResetTokenExpirationInHours()))
+                    .build();
+            final ResetToken savedResetToken = resetTokenRepository.save(resetToken);
+
+            sendingEmailService.sendEmailForgotPassword(user.get().getEmail(), savedResetToken.getToken());
+        }
+    }
+
+    @Override
+    @Transactional
+    public User resetPassword(final PasswordResetDto passwordResetDto) {
+        final User user = userRepository.findByEmail(passwordResetDto.getLoginDto().getEmail())
+                .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
+        final ResetToken token = resetTokenRepository.findResetTokenByUserAndTokenAndActiveTrue(user, passwordResetDto.getToken())
+                .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
+        token.verifyResetTokenValidity();
+
+        if (token.isActive()) {
+           user.setPassword(passwordEncoder.encode(passwordResetDto.getLoginDto().getPassword()));
+           return userRepository.save(user);
+       }
+       throw new NoAuthorizationException("Token expired");
     }
 
 }

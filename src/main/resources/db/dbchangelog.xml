@@ -10,5 +10,6 @@
     <include file="/db/changelog/table/api_key.xml"/>
     <include file="/db/changelog/table/url.xml"/>
     <include file="db/changelog/table/user_authorities.xml"/>
+    <include file="db/changelog/table/reset_token.xml"/>
 
 </databaseChangeLog>

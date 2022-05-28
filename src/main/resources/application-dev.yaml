@@ -11,10 +11,10 @@ spring:
   application:
     name: URL Shortener DevMode
   mail:
-    host: test.com
-    port: 0
-    username: test
-    password: test
+    host: smtp.mailgun.org
+    port: 587
+    username:  postmaster@sandbox5a4e29f472fe4aca8089b50a397499d7.mailgun.org
+    password: 834fd6e73b80cf6ac6c824ab32a22bcf
     properties:
       mail:
         smtp:
@@ -27,5 +27,6 @@ app:
   api-key-expiration-in-months: 1
   jwt-base64-secret: MzMzYjg3YTRmYmU0YmM4YzJkZWE4NTJlZGEzMDgzZjkzOWNjM2MwMWQ4NzI2MjgwZWU0MzM5ZTY0MGEzMjg1YzIwMjU1MWM5ZTNkMzg5YWNiMjExNGJlMTE4NjZlMWMxODIxNjYwMTBkZTRiZWRlNzU3MDc5ZThhMDcxMjlkMGE
   email-sender-address: oncut@oncut.me
+  reset-token-expiration-in-hours: 1
 server:
   port: 8080

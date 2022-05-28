@@ -38,6 +38,10 @@ public class AppProperties {
     @Positive
     private Long apiKeyExpirationInMonths;
 
+    @NotNull
+    @Positive
+    private Long resetTokenExpirationInHours;
+
     @NotBlank
     private String emailSenderAddress;
 }
