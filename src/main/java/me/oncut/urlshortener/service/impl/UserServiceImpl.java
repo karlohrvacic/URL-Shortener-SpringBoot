@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void sendPasswordResetLinkToUser(final String email) {
         final Optional<User> user = userRepository.findByEmail(email);
 

@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.controller;
 
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.JwtFilter;
@@ -47,9 +48,9 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public void resetPassword(@Valid @RequestBody final String email) {
-        log.info("Forgot password controller invoked for " + email);
-        userService.sendPasswordResetLinkToUser(email);
+    public void resetPassword(@RequestBody final Map<String, String> json) {
+        log.info("Forgot password controller invoked for " + json.get("email"));
+        userService.sendPasswordResetLinkToUser(json.get("email"));
     }
 
     @PostMapping("/reset-password/set-password")
