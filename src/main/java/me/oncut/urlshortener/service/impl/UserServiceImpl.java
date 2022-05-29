@@ -128,14 +128,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User resetPassword(final PasswordResetDto passwordResetDto) {
-        final User user = userRepository.findByEmail(passwordResetDto.getLoginDto().getEmail())
+        final User user = userRepository.findByEmail(passwordResetDto.getEmail())
                 .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
         final ResetToken token = resetTokenRepository.findResetTokenByUserAndTokenAndActiveTrue(user, passwordResetDto.getToken())
                 .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
         token.verifyResetTokenValidity();
 
         if (token.isActive()) {
-           user.setPassword(passwordEncoder.encode(passwordResetDto.getLoginDto().getPassword()));
+           user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword()));
+           token.setActive(false);
+           resetTokenRepository.save(token);
            return userRepository.save(user);
        }
        throw new NoAuthorizationException("Token expired");

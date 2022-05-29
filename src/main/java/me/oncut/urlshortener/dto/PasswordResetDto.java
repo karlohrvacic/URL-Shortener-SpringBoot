@@ -16,5 +16,8 @@ public class PasswordResetDto {
     private String token;
 
     @NotNull
-    private LoginDto loginDto;
+    private String email;
+
+    @NotNull
+    private String password;
 }

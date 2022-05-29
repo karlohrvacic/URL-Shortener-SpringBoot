@@ -55,7 +55,7 @@ public class AuthController {
 
     @PostMapping("/reset-password/set-password")
     public User resetPassword(@Valid @RequestBody final PasswordResetDto passwordResetDto) {
-        log.info("Forgot password controller invoked for " + passwordResetDto.getLoginDto().getEmail());
+        log.info("Forgot password controller invoked for " + passwordResetDto.getEmail());
         return userService.resetPassword(passwordResetDto);
     }
 
