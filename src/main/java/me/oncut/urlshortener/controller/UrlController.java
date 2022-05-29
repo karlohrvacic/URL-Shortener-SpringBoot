@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.Url;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,12 +37,16 @@ public class UrlController {
     public Url saveUrlWithApiKey(@Valid @RequestBody final Url url,
                                  @PathVariable(required = false, value = "apiKey") final String apiKey) {
         return urlService.saveUrlWithApiKey(url, apiKey);
-
     }
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
         return urlService.getUrlByShortUrl(shortUrl);
+    }
+
+    @PutMapping()
+    public Url updateUrl(@Valid @RequestBody final UrlUpdateDto urlUpdateDto) {
+        return urlService.updateUrl(urlUpdateDto);
     }
 
     @GetMapping("/my/{apiKey}")

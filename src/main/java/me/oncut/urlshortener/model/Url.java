@@ -68,7 +68,7 @@ public class Url {
         return this;
     }
 
-    private void verifyUrlValidity() {
+    public void verifyUrlValidity() {
         if (this.visits >= Optional.ofNullable(visitLimit).orElse(this.visits + 1)) {
             active = false;
         }

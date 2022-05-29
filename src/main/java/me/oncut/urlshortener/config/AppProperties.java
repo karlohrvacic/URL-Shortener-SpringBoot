@@ -42,6 +42,10 @@ public class AppProperties {
     @Positive
     private Long resetTokenExpirationInHours;
 
+    @NotNull
+    @Positive
+    private Long userApiKeySlots;
+
     @NotBlank
     private String emailSenderAddress;
 }

@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthorities(List.of(Objects.requireNonNull(authoritiesRepository.findByName("ROLE_USER")
                 .orElse(null))));
+        user.setApiKeySlots(appProperties.getUserApiKeySlots());
 
         return userRepository.save(user);
     }

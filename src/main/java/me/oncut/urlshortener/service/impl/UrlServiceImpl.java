@@ -4,6 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
+import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.exception.UrlNotFoundException;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.model.Url;
@@ -30,6 +32,7 @@ public class UrlServiceImpl implements UrlService {
     private final UrlValidator urlValidator;
     private final ApiKeyValidator apiKeyValidator;
     private final AppProperties appProperties;
+    private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
 
     @Transactional
     @Override
@@ -120,6 +123,14 @@ public class UrlServiceImpl implements UrlService {
 
         urlValidator.verifyUserAdminOrOwner(url);
         url.setActive(false);
+        return urlRepository.save(url);
+    }
+
+    @Override
+    @Transactional
+    public Url updateUrl(final UrlUpdateDto updateDto) {
+        final Url url = urlUpdateDtoToUrlConverter.convert(updateDto);
+        url.verifyUrlValidity();
         return urlRepository.save(url);
     }
 
