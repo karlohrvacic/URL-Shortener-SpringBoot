@@ -8,6 +8,7 @@ import me.oncut.urlshortener.config.TokenProvider;
 import me.oncut.urlshortener.dto.JWTTokenDto;
 import me.oncut.urlshortener.dto.LoginDto;
 import me.oncut.urlshortener.dto.PasswordResetDto;
+import me.oncut.urlshortener.dto.UserRegisterDto;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody final User user) {
+    public String register(@Valid @RequestBody final UserRegisterDto user) {
         log.info("Register controller invoked for user " + user.getEmail());
         return userService.register(user).getEmail();
     }

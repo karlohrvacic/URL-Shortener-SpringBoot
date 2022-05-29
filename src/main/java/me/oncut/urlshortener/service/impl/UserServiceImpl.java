@@ -6,9 +6,11 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.converter.UserRegisterDtoToUserConverter;
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
 import me.oncut.urlshortener.dto.PasswordResetDto;
 import me.oncut.urlshortener.dto.UpdatePasswordDto;
+import me.oncut.urlshortener.dto.UserRegisterDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
@@ -36,11 +38,13 @@ public class UserServiceImpl implements UserService {
     private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
     private final AppProperties appProperties;
     private final ResetTokenRepository resetTokenRepository;
-
     private final SendingEmailServiceImpl sendingEmailService;
+    private final UserRegisterDtoToUserConverter userRegisterDtoToUserConverter;
 
     @Override
-    public User register(final User user) {
+    public User register(final UserRegisterDto userRegisterDto) {
+        final User user = userRegisterDtoToUserConverter.convert(userRegisterDto);
+
         authValidator.emailUniqueness(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthorities(List.of(Objects.requireNonNull(authoritiesRepository.findByName("ROLE_USER")
