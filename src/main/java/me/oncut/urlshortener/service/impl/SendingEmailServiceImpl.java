@@ -1,8 +1,10 @@
 package me.oncut.urlshortener.service.impl;
 
+import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.model.Email;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.SendingEmailService;
@@ -26,9 +28,21 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
     @Override
     public void sendEmailForgotPassword(final User user, final ResetToken resetToken) {
-        emailService.sendEmail(user.getEmail(), "Password reset token", String.format(PASSWORD_RESET_CONTENT,
+        final String emailText = String.format(PASSWORD_RESET_CONTENT,
                 user.getName(), resetToken.getCreateDate().toLocalTime().toString(), appProperties.getFrontendUrl(),
                 resetToken.getToken(), appProperties.getFrontendUrl(), appProperties.getFrontendUrl(), resetToken.getToken(),
-                appProperties.getResetTokenExpirationInHours()));
+                appProperties.getResetTokenExpirationInHours());
+
+        final Email email = Email.builder()
+                .sender(appProperties.getEmailSenderAddress())
+                .receivers(new String[] {user.getEmail()})
+                .subject("Password reset token")
+                .text(emailText)
+                .build();
+        try {
+            emailService.sendEmail(email, null);
+        } catch (final MessagingException e) {
+            log.error("Error while trying to set probation expiration email.", e);
+        }
     }
 }
