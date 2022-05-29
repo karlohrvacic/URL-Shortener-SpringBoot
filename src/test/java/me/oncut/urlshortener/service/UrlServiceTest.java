@@ -1,6 +1,7 @@
 package me.oncut.urlshortener.service;
 
 import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.model.User;
@@ -45,6 +46,9 @@ class UrlServiceTest {
     @Mock
     private AppProperties appProperties;
 
+    @Mock
+    private UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
+
     @BeforeEach
     void setUp() {
         this.urlService = new UrlServiceImpl(urlRepository,
@@ -52,7 +56,8 @@ class UrlServiceTest {
                 userService,
                 urlValidator,
                 apiKeyValidator,
-                appProperties
+                appProperties,
+                urlUpdateDtoToUrlConverter
         );
     }
 
