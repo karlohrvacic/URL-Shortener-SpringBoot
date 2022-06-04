@@ -19,7 +19,7 @@ public class UrlRedirectController {
 
     @GetMapping({"/{short}"})
     public RedirectView fetchUrlByShortUrlOrRedirectToFrontend(@PathVariable("short") final String shortUrl) {
-        return urlService.redirectResultUrl(shortUrl, request.getRemoteAddr());
+        return urlService.redirectResultUrl(shortUrl, request.getLocalAddr());
     }
 
     @GetMapping({"/"})
