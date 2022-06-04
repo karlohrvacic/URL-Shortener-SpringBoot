@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.service.UrlService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @CommonsLog
 @RestController
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UrlRedirectController {
 
