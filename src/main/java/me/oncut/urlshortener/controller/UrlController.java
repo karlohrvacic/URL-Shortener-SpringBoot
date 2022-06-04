@@ -6,8 +6,6 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
-import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
-import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.service.UrlService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,8 +73,13 @@ public class UrlController {
     }
 
     @GetMapping("/revoke/{id}")
-    public Url revokeApiKey(@PathVariable("id") final Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
+    public Url revokeUrl(@PathVariable("id") final Long id) {
         return urlService.revokeUrl(id);
+    }
+
+    @GetMapping("/delete/{id}")
+    public void deleteUrl(@PathVariable("id") final Long id) {
+        urlService.deleteUrl(id);
     }
 
 }

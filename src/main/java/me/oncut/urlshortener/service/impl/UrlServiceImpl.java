@@ -128,6 +128,15 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
+    public void deleteUrl(final Long id) {
+        final Url url = urlRepository.findById(id)
+                .orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
+
+        urlValidator.verifyUserAdminOrOwner(url);
+        urlRepository.delete(url);
+    }
+
+    @Override
     @Transactional
     public Url updateUrl(final UrlUpdateDto updateDto) {
         final Url url = urlUpdateDtoToUrlConverter.convert(updateDto);

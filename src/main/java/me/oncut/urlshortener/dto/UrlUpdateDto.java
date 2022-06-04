@@ -15,6 +15,5 @@ public class UrlUpdateDto {
     @NotNull
     private Long id;
 
-    @NotNull
     private Long visitLimit;
 }

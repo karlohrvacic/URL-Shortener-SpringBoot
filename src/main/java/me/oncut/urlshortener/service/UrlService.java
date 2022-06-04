@@ -23,6 +23,8 @@ public interface UrlService {
 
     Url revokeUrl(Long id);
 
+    void deleteUrl(Long id);
+
     Url updateUrl(UrlUpdateDto url);
 
     Url checkIPUniquenessAndReturnUrl(String shortUrl, String clientIP);
