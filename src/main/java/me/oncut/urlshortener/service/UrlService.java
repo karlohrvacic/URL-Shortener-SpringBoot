@@ -9,8 +9,6 @@ public interface UrlService {
 
     List<Url> getAllMyUrls(String apiKey);
 
-    Url getUrlByShortUrl(String shortUrl);
-
     Url getUrlByLongUrl(String longUrl);
 
     String generateShortUrl(Long length);
@@ -19,11 +17,13 @@ public interface UrlService {
 
     Url saveUrlWithApiKey(Url url, String apiKey);
 
-    RedirectView redirectResultUrl(String shortUrl);
+    RedirectView redirectResultUrl(String shortUrl, String clientIP);
 
     List<Url> getAllUrls();
 
     Url revokeUrl(Long id);
 
     Url updateUrl(UrlUpdateDto url);
+
+    Url checkIPUniquenessAndReturnUrl(String shortUrl, String clientIP);
 }

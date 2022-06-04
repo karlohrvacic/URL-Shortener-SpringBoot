@@ -48,4 +48,12 @@ public class AppProperties {
 
     @NotBlank
     private String emailSenderAddress;
+
+    @NotNull
+    @Positive
+    private Long inactiveVisitIncrementPerIpInHours;
+
+    @NotNull
+    @Positive
+    private Long ipRetentionDurationInHours;
 }

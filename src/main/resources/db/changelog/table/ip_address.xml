@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="ip-address-table" author="khrvacic">
+        <createTable tableName="IP_ADDRESS">
+            <column name="ID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="HASHED_IP_ADDRESS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="URL_ID" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="URL_FK" referencedTableName="URL" referencedColumnNames="ID"/>
+            </column>
+            <column name="VISITS" type="BIGINT" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CREATE_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="ip_address"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="khrvacic" id="ip_address-id-seq">
+        <createSequence sequenceName="IP_ADDRESS_ID_SEQ" startValue="1" incrementBy="1"/>
+        <rollback>
+            <dropSequence sequenceName="IP_ADDRESS_ID_SEQ"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

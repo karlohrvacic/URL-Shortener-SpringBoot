@@ -19,12 +19,11 @@ public class UrlRedirectController {
 
     @GetMapping({"/{short}"})
     public RedirectView fetchUrlByShortUrlOrRedirectToFrontend(@PathVariable("short") final String shortUrl) {
-        log.error(request.getRemoteHost());
-        return urlService.redirectResultUrl(shortUrl);
+        return urlService.redirectResultUrl(shortUrl, request.getRemoteAddr());
     }
 
     @GetMapping({"/"})
     public RedirectView rootRedirectToFrontend() {
-        return urlService.redirectResultUrl(null);
+        return urlService.redirectResultUrl(null, null);
     }
 }

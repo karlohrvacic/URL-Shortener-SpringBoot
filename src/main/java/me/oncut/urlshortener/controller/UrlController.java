@@ -1,6 +1,7 @@
 package me.oncut.urlshortener.controller;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
@@ -10,7 +11,6 @@ import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.service.UrlService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CommonsLog
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("api/v1/url")
 @RequiredArgsConstructor
 public class UrlController {
 
     private final UrlService urlService;
+
+    private final HttpServletRequest request;
 
     @PostMapping("/new")
     public Url saveUrl(@Valid @RequestBody final Url url) {
@@ -41,7 +42,7 @@ public class UrlController {
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
-        return urlService.getUrlByShortUrl(shortUrl);
+        return urlService.checkIPUniquenessAndReturnUrl(shortUrl, request.getRemoteAddr());
     }
 
     @PutMapping()

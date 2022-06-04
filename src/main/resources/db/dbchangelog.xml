@@ -11,5 +11,6 @@
     <include file="/db/changelog/table/url.xml"/>
     <include file="db/changelog/table/user_authorities.xml"/>
     <include file="db/changelog/table/reset_token.xml"/>
+    <include file="db/changelog/table/ip_address.xml"/>
 
 </databaseChangeLog>

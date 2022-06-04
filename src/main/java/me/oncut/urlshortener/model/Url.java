@@ -74,7 +74,7 @@ public class Url {
         }
     }
 
-    public void clearForAnonimousUser() {
+    public void clearForAnonymousUser() {
         this.owner = null;
         this.apiKey = null;
         this.visitLimit = null;

@@ -12,11 +12,13 @@ import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UrlRepository;
 import me.oncut.urlshortener.service.ApiKeyService;
+import me.oncut.urlshortener.service.IPAddressService;
 import me.oncut.urlshortener.service.UrlService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
 import me.oncut.urlshortener.validator.UrlValidator;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.RedirectView;
@@ -32,7 +34,10 @@ public class UrlServiceImpl implements UrlService {
     private final UrlValidator urlValidator;
     private final ApiKeyValidator apiKeyValidator;
     private final AppProperties appProperties;
+    private final IPAddressService ipAddressService;
     private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
+    private final TaskExecutor taskExecutor;
+
 
     @Transactional
     @Override
@@ -55,14 +60,10 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public RedirectView redirectResultUrl(final String shortUrl) {
+    public RedirectView redirectResultUrl(final String shortUrl, final String clientIP) {
         final RedirectView redirectView = new RedirectView();
-        if (shortUrl != null) {
-            try {
-                redirectView.setUrl(getUrlByShortUrl(shortUrl).getLongUrl());
-            } catch (final UrlNotFoundException ignored) {
-                redirectView.setUrl(appProperties.getFrontendUrl());
-            }
+        if (shortUrl != null && urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)) {
+            redirectView.setUrl(checkIPUniquenessAndReturnUrl(shortUrl, clientIP).getLongUrl());
         } else {
             redirectView.setUrl(appProperties.getFrontendUrl());
         }
@@ -80,7 +81,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     private Url createUrlForAnonymousUser(final Url url) {
-        url.clearForAnonimousUser();
+        url.clearForAnonymousUser();
 
         urlValidator.longUrlInUrl(url);
 
@@ -135,10 +136,23 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Url getUrlByShortUrl(final String shortUrl) {
-        return urlRepository.findByShortUrlAndActiveTrue(shortUrl)
-                .map(url -> urlRepository.save(url.onVisit()))
+    public Url checkIPUniquenessAndReturnUrl(final String shortUrl, final String clientIP) {
+        final Url url = urlRepository.findByShortUrlAndActiveTrue(shortUrl)
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
+        checkIfVisitUnique(clientIP, url);
+        return url;
+    }
+
+    private void checkIfVisitUnique(final String clientIP, final Url url) {
+        taskExecutor.execute(() -> {
+            if (!ipAddressService.urlAlreadyVisitedByIP(url, clientIP)) {
+                incrementVisitForUrl(url);
+            }
+        });
+    }
+
+    private void incrementVisitForUrl(final Url url) {
+        urlRepository.save(url.onVisit());
     }
 
     @Override
