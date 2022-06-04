@@ -37,8 +37,7 @@ public class IPAddressServiceImpl implements IPAddressService {
     @Override
     public void saveUrlVisitByIP(final Url url, final String clientIP) {
         final IPAddress ipAddress = IPAddress.builder()
-                //.hashedIPAddress(encoder.encode(clientIP))
-                .hashedIPAddress(clientIP)
+                .hashedIPAddress(encoder.encode(clientIP))
                 .url(url)
                 .build();
 
