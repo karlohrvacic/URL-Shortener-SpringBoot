@@ -1,8 +1,9 @@
 package me.oncut.urlshortener.controller;
 
-import me.oncut.urlshortener.service.UrlService;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import me.oncut.urlshortener.service.UrlService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +16,12 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class UrlRedirectController {
 
+    private final HttpServletRequest request;
     private final UrlService urlService;
 
     @GetMapping({"/{short}"})
     public RedirectView fetchUrlByShortUrlOrRedirectToFrontend(@PathVariable("short") final String shortUrl) {
+        System.out.println(request.getRemoteHost());
         return urlService.redirectResultUrl(shortUrl);
     }
 
