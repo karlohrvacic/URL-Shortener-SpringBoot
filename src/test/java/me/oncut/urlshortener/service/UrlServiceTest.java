@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.task.TaskExecutor;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,17 +48,27 @@ class UrlServiceTest {
     private AppProperties appProperties;
 
     @Mock
+    private IPAddressService ipAddressService;
+
+    @Mock
     private UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
+
+    @Mock
+    private TaskExecutor taskExecutor;
+
 
     @BeforeEach
     void setUp() {
-        this.urlService = new UrlServiceImpl(urlRepository,
+        this.urlService = new UrlServiceImpl(
+                urlRepository,
                 apiKeyService,
                 userService,
                 urlValidator,
                 apiKeyValidator,
                 appProperties,
-                urlUpdateDtoToUrlConverter
+                ipAddressService,
+                urlUpdateDtoToUrlConverter,
+                taskExecutor
         );
     }
 
@@ -112,17 +123,6 @@ class UrlServiceTest {
         when(urlRepository.findAllByOwner(user)).thenReturn(Optional.of(urls));
 
         assertThat(urlService.getAllMyUrls(apiKey)).isEqualTo(urls);
-    }
-
-    @Test
-    void shouldFetchUrlByShortUrl() {
-        final String shortUrl = "short";
-        final Url url = Url.builder().shortUrl(shortUrl).visits(0L).build();
-
-        when(urlRepository.findByShortUrlAndActiveTrue(shortUrl)).thenReturn(Optional.ofNullable(url));
-        when(urlRepository.save(url)).thenReturn(url);
-
-        assertThat(urlService.getUrlByShortUrl(shortUrl)).isEqualTo(url);
     }
 
     @Test
