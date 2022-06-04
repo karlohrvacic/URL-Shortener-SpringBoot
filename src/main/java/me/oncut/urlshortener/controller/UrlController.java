@@ -42,7 +42,14 @@ public class UrlController {
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
-        return urlService.checkIPUniquenessAndReturnUrl(shortUrl, request.getRemoteAddr());
+        String remoteAddr = "";
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+        return urlService.checkIPUniquenessAndReturnUrl(shortUrl, remoteAddr);
     }
 
     @PutMapping()
