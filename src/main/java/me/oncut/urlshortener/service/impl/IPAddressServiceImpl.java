@@ -70,6 +70,7 @@ public class IPAddressServiceImpl implements IPAddressService {
     }
 
     private void addVisitToUrl(final IPAddress ipAddress) {
-        ipAddressRepository.save(ipAddress.addVisit());
+        final IPAddress savedIpAddress = ipAddressRepository.save(ipAddress.addVisit());
+        log.info(String.format("IP address with id %d saved", savedIpAddress.getId()));
     }
 }
