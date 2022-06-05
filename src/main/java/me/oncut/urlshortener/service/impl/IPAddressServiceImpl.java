@@ -52,6 +52,7 @@ public class IPAddressServiceImpl implements IPAddressService {
             if (LocalDateTime.now().isAfter(ipAddress.getCreateDate().plusHours(appProperties.getInactiveVisitIncrementPerIpInHours()))) {
                 ipAddress.setActive(false);
                 ipAddressRepository.save(ipAddress);
+                log.info(String.format("IP address with id %d deactivated", ipAddress.getId()));
             }
         }
     }
@@ -63,6 +64,7 @@ public class IPAddressServiceImpl implements IPAddressService {
         for (final IPAddress ipAddress : ipAddresses) {
             if (LocalDateTime.now().isAfter(ipAddress.getCreateDate().plusHours(appProperties.getIpRetentionDurationInHours()))) {
                 ipAddressRepository.delete(ipAddress);
+                log.info(String.format("IP address with id %d deleted", ipAddress.getId()));
             }
         }
     }

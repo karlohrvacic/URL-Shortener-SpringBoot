@@ -19,14 +19,12 @@ public class ScheduledIPServiceImpl implements ScheduledIPService {
     @Override
     @Scheduled(cron = "0 */1 * * * *")
     public void deactivateDeprecatedIps() {
-        log.info("Cron triggered for deactivation of deprecated IPs");
         ipAddressService.deactivateDeprecatedIps();
     }
 
     @Override
     @Scheduled(cron = "5 */1 * * * *")
     public void deleteDeactivatedIps() {
-        log.info("Cron triggered for deletion of deactivated IPs");
         ipAddressService.deleteDeactivatedIps();
     }
 }
