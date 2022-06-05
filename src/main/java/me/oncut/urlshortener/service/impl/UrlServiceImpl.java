@@ -149,7 +149,6 @@ public class UrlServiceImpl implements UrlService {
         final Url url = urlRepository.findByShortUrlAndActiveTrue(shortUrl)
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
         checkIfVisitUnique(clientIP, url);
-        log.info("return url");
         return url;
     }
 
@@ -158,7 +157,6 @@ public class UrlServiceImpl implements UrlService {
             if (!ipAddressService.urlAlreadyVisitedByIP(url, clientIP)) {
                 incrementVisitForUrl(url);
             }
-            log.info("Visit increment resolved in thread");
         });
     }
 
