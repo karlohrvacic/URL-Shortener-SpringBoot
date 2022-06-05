@@ -85,7 +85,7 @@ public class UrlServiceImpl implements UrlService {
 
         urlValidator.longUrlInUrl(url);
 
-        if (urlRepository.existsUrlByLongUrlAndActiveTrue(url.getLongUrl())) {
+        if (urlRepository.existsUrlByLongUrlAndActiveTrueAndOwnerIsNull(url.getLongUrl())) {
             final Url existingLongUrl = getUrlByLongUrl(url.getLongUrl());
             log.warn("Long url already exists in DB, will return URL from long URL " + existingLongUrl.getShortUrl());
             return existingLongUrl;
