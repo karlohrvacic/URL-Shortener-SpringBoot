@@ -25,22 +25,11 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
     @Override
     public void sendEmailForgotPassword(final User user, final ResetToken resetToken) {
-//        final String PASSWORD_RESET_CONTENT = """
-//                <h3>Hello %s</h3>
-//                <p>You requested password reset at %s</p>
-//                <p>You can reset your password by clicking <a href="%s/#/reset-password?token=%s">here</a></p>
-//                <p>If link doesn't work visit <a href="%s/#/reset-password">%s/#/reset-password</a> your token is %s </p>
-//                <p>Token will work for %d hours, if you didn't request change please ignore this email!</p>""";
-//
-//        final String emailText = String.format(PASSWORD_RESET_CONTENT,
-//                user.getName(), resetToken.getCreateDate().toLocalTime().toString(), appProperties.getFrontendUrl(),
-//                resetToken.getToken(), appProperties.getFrontendUrl(), appProperties.getFrontendUrl(), resetToken.getToken(),
-//                appProperties.getResetTokenExpirationInHours());
-
         final Context ctx = new Context();
         ctx.setVariable("name", user.getName());
         ctx.setVariable("request_date", resetToken.getCreateDate().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
-        ctx.setVariable("password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password/" + resetToken.getToken());
+        ctx.setVariable("password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password/");
+        ctx.setVariable("full_password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password/" + resetToken.getToken());
         ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
         ctx.setVariable("token", resetToken.getToken());
 
