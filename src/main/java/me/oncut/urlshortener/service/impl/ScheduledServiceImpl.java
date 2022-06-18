@@ -40,4 +40,10 @@ public class ScheduledServiceImpl implements ScheduledService {
         userService.deleteExpiredPasswordResetTokens();
     }
 
+    @Override
+    @Scheduled(cron = "0 10 * * 1-5 *")
+    public void deactivateUnusedUserAccounts() {
+        userService.deactivateUnusedUserAccounts();
+    }
+
 }

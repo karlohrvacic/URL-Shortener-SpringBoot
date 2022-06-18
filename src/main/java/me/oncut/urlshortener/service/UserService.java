@@ -34,4 +34,6 @@ public interface UserService {
     void deactivateExpiredPasswordResetTokens();
 
     void deleteExpiredPasswordResetTokens();
+
+    void deactivateUnusedUserAccounts();
 }

@@ -56,4 +56,8 @@ public class AppProperties {
     @NotNull
     @Positive
     private Long ipRetentionDurationInHours;
+
+    @NotNull
+    @Positive
+    private Long deactivateUserAccountAfterDays;
 }
