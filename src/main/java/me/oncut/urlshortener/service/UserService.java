@@ -30,4 +30,8 @@ public interface UserService {
     void sendPasswordResetLinkToUser(String email);
 
     User resetPassword(PasswordResetDto passwordResetDto);
+
+    void deactivateExpiredPasswordResetTokens();
+
+    void deleteExpiredPasswordResetTokens();
 }

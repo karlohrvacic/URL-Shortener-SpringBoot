@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.converter.UserRegisterDtoToUserConverter;
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@CommonsLog
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -146,6 +148,31 @@ public class UserServiceImpl implements UserService {
            return userRepository.save(user);
        }
        throw new NoAuthorizationException("Token expired");
+    }
+
+    @Override
+    public void deactivateExpiredPasswordResetTokens() {
+        final List<ResetToken> resetTokens = resetTokenRepository.findByActiveTrue();
+
+        for (final ResetToken resetToken : resetTokens) {
+            if (resetToken.getExpirationDate().isBefore(LocalDateTime.now())) {
+                resetToken.setActive(false);
+                resetTokenRepository.save(resetToken);
+                log.info(String.format("Reset token with id %d deactivated", resetToken.getId()));
+            }
+        }
+    }
+
+    @Override
+    public void deleteExpiredPasswordResetTokens() {
+        final List<ResetToken> resetTokens = resetTokenRepository.findByActiveFalse();
+
+        for (final ResetToken resetToken : resetTokens) {
+            if (LocalDateTime.now().isAfter(resetToken.getExpirationDate().plusHours(appProperties.getIpRetentionDurationInHours()))) {
+                resetTokenRepository.delete(resetToken);
+                log.info(String.format("Reset token with id %d deleted", resetToken.getId()));
+            }
+        }
     }
 
 }

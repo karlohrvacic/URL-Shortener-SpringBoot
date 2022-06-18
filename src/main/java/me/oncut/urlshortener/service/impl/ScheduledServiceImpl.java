@@ -1,20 +1,20 @@
 package me.oncut.urlshortener.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.service.IPAddressService;
-import me.oncut.urlshortener.service.ScheduledIPService;
+import me.oncut.urlshortener.service.ScheduledService;
+import me.oncut.urlshortener.service.UserService;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-@CommonsLog
 @EnableScheduling
 @RequiredArgsConstructor
-public class ScheduledIPServiceImpl implements ScheduledIPService {
+public class ScheduledServiceImpl implements ScheduledService {
 
     private final IPAddressService ipAddressService;
+    private final UserService userService;
 
     @Override
     @Scheduled(cron = "0 */1 * * * *")
@@ -27,4 +27,17 @@ public class ScheduledIPServiceImpl implements ScheduledIPService {
     public void deleteDeactivatedIps() {
         ipAddressService.deleteDeactivatedIps();
     }
+
+    @Override
+    @Scheduled(cron = "0 */1 * * * *")
+    public void deactivateExpiredPasswordResetTokens() {
+        userService.deactivateExpiredPasswordResetTokens();
+    }
+
+    @Override
+    @Scheduled(cron = "5 */1 * * * *")
+    public void deleteExpiredPasswordResetTokens() {
+        userService.deleteExpiredPasswordResetTokens();
+    }
+
 }
