@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.converter;
 
+import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

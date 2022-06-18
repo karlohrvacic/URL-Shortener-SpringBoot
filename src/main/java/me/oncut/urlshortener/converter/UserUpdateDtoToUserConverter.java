@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.converter;
 
+import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

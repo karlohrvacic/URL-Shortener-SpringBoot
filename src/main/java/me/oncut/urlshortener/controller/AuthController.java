@@ -19,7 +19,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CommonsLog
 @RestController
 @RequestMapping("api/v1/auth")
-@CrossOrigin("${app.frontend-url}")
 public class AuthController {
 
     private final UserService userService;

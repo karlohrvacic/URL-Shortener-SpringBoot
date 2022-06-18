@@ -39,7 +39,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
         final Email email = Email.builder()
                 .sender(appProperties.getEmailSenderAddress())
-                .receivers(new String[] {user.getEmail()})
+                .receivers(new String[]{user.getEmail()})
                 .subject("Password reset token")
                 .text(htmlContent)
                 .build();
@@ -58,7 +58,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
         final Email email = Email.builder()
                 .sender(appProperties.getEmailSenderAddress())
-                .receivers(new String[] {user.getEmail()})
+                .receivers(new String[]{user.getEmail()})
                 .subject("Account deactivated")
                 .text(htmlContent)
                 .build();
@@ -81,7 +81,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
         final Email email = Email.builder()
                 .sender(appProperties.getEmailSenderAddress())
-                .receivers(new String[] {user.getEmail()})
+                .receivers(new String[]{user.getEmail()})
                 .subject("Welcome")
                 .text(htmlContent)
                 .build();

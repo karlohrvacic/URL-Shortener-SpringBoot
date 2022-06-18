@@ -1,15 +1,14 @@
 package me.oncut.urlshortener.controller;
 
+import java.util.List;
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.service.ApiKeyService;
-import java.util.List;
-import javax.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/key")
-@CrossOrigin("${app.frontend-url}")
 @RequiredArgsConstructor
+@RequestMapping("api/v1/key")
 public class ApiKeyController {
 
     private final ApiKeyService apiKeyService;

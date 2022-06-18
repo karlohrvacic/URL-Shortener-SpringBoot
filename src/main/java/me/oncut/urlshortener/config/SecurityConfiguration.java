@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.config;
 
-import me.oncut.urlshortener.service.impl.DomainUserDetailsServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.service.impl.DomainUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

@@ -13,7 +13,7 @@ spring:
   mail:
     host: hh.test
     port: 0000
-    username:  688
+    username: 688
     password: 6886
     properties:
       mail:

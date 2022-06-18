@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.converter;
 
+import java.util.Optional;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

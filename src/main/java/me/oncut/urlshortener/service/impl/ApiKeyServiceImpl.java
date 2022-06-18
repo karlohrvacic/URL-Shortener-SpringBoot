@@ -1,5 +1,9 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.converter.ApiKeyUpdateDtoToApiKeyConverter;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
@@ -10,10 +14,6 @@ import me.oncut.urlshortener.repository.ApiKeyRepository;
 import me.oncut.urlshortener.service.ApiKeyService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -49,7 +49,7 @@ public class IPAddressServiceImpl implements IPAddressService {
         final List<IPAddress> ipAddresses = ipAddressRepository.findByActiveTrue();
 
         for (final IPAddress ipAddress : ipAddresses) {
-            if (LocalDateTime.now().isAfter(ipAddress.getCreateDate().plusHours(appProperties.getInactiveVisitIncrementPerIpInHours()))) {
+            if (ipAddress.getCreateDate().plusHours(appProperties.getInactiveVisitIncrementPerIpInHours()).isBefore(LocalDateTime.now())) {
                 ipAddress.setActive(false);
                 ipAddressRepository.save(ipAddress);
                 log.info(String.format("IP address with id %d deactivated", ipAddress.getId()));
@@ -62,7 +62,7 @@ public class IPAddressServiceImpl implements IPAddressService {
         final List<IPAddress> ipAddresses = ipAddressRepository.findByActiveFalse();
 
         for (final IPAddress ipAddress : ipAddresses) {
-            if (LocalDateTime.now().isAfter(ipAddress.getCreateDate().plusHours(appProperties.getIpRetentionDurationInHours()))) {
+            if (ipAddress.getCreateDate().plusHours(appProperties.getIpRetentionDurationInHours()).isBefore(LocalDateTime.now())) {
                 ipAddressRepository.delete(ipAddress);
                 log.info(String.format("IP address with id %d deleted", ipAddress.getId()));
             }

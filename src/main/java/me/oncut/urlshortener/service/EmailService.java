@@ -6,6 +6,6 @@ import me.oncut.urlshortener.model.Email;
 
 public interface EmailService {
 
-  public void sendEmail(final Email email, final File attachment) throws MessagingException;
+    void sendEmail(final Email email, final File attachment) throws MessagingException;
 
 }

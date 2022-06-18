@@ -1,5 +1,8 @@
 package me.oncut.urlshortener.validator;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Optional;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.exception.ApiKeyIsNotValid;
 import me.oncut.urlshortener.model.ApiKey;
@@ -7,9 +10,6 @@ import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.model.codebook.Authorities;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
 import me.oncut.urlshortener.service.UserService;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Optional;
 import me.oncut.urlshortener.validator.impl.ApiKeyValidatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

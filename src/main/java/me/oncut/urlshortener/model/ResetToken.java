@@ -47,7 +47,7 @@ public class ResetToken {
     }
 
     public void verifyResetTokenValidity() {
-        if (LocalDateTime.now().isAfter(expirationDate)) {
+        if (expirationDate.isBefore(LocalDateTime.now())) {
             this.active = false;
         }
     }

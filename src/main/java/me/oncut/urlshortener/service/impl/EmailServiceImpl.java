@@ -7,7 +7,6 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.model.Email;
 import me.oncut.urlshortener.service.EmailService;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
-
-    private final AppProperties appProperties;
 
     @Override
     public void sendEmail(final Email email, final File attachment) throws MessagingException {

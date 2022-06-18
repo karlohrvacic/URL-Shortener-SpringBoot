@@ -1,9 +1,9 @@
 package me.oncut.urlshortener.service.impl;
 
-import me.oncut.urlshortener.model.User;
-import me.oncut.urlshortener.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import me.oncut.urlshortener.model.User;
+import me.oncut.urlshortener.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

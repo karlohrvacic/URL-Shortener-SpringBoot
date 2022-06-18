@@ -26,7 +26,8 @@
                 <constraints nullable="true"/>
             </column>
             <column name="OWNER_ID" type="BIGINT">
-                <constraints nullable="true" foreignKeyName="API_KEY_OWNER_FK" referencedTableName="USER_ACCOUNT" referencedColumnNames="ID"/>
+                <constraints nullable="true" foreignKeyName="API_KEY_OWNER_FK" referencedTableName="USER_ACCOUNT"
+                             referencedColumnNames="ID"/>
             </column>
             <column name="ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
                 <constraints nullable="false"/>

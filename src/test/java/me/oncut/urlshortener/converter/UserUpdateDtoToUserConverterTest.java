@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.converter;
 
+import java.util.Optional;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

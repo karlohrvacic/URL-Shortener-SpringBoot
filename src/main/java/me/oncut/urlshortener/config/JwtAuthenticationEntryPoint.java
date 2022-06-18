@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.config;
 
-import me.oncut.urlshortener.exception.ApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import me.oncut.urlshortener.exception.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;

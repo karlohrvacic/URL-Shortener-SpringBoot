@@ -178,7 +178,7 @@ public class UrlServiceImpl implements UrlService {
     private void setShortUrlForLoggedInUser(final Url url, final ApiKey apiKey) {
         log.info("Setting short URL");
 
-        if(url.getShortUrl() == null) {
+        if (url.getShortUrl() == null) {
             url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
         }
 

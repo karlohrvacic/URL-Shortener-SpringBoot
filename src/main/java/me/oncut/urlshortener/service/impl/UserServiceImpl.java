@@ -82,7 +82,8 @@ public class UserServiceImpl implements UserService {
         final User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDoesntExistException("User not found"));
 
-        if (Boolean.FALSE.equals(user.getActive())) throw new UserDoesntExistException("User is inactive, contact administrator");
+        if (Boolean.FALSE.equals(user.getActive()))
+            throw new UserDoesntExistException("User is inactive, contact administrator");
 
         return user;
     }
@@ -145,12 +146,12 @@ public class UserServiceImpl implements UserService {
         token.verifyResetTokenValidity();
 
         if (token.isActive()) {
-           user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword()));
-           token.setActive(false);
-           resetTokenRepository.save(token);
-           return userRepository.save(user);
-       }
-       throw new NoAuthorizationException("Token expired");
+            user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword()));
+            token.setActive(false);
+            resetTokenRepository.save(token);
+            return userRepository.save(user);
+        }
+        throw new NoAuthorizationException("Token expired");
     }
 
     @Override
@@ -171,7 +172,7 @@ public class UserServiceImpl implements UserService {
         final List<ResetToken> resetTokens = resetTokenRepository.findByActiveFalse();
 
         for (final ResetToken resetToken : resetTokens) {
-            if (LocalDateTime.now().isAfter(resetToken.getExpirationDate().plusHours(appProperties.getIpRetentionDurationInHours()))) {
+            if (resetToken.getExpirationDate().plusHours(appProperties.getIpRetentionDurationInHours()).isBefore(LocalDateTime.now())) {
                 resetTokenRepository.delete(resetToken);
                 log.info(String.format("Reset token with id %d deleted", resetToken.getId()));
             }
@@ -183,7 +184,7 @@ public class UserServiceImpl implements UserService {
         final List<User> users = userRepository.findAll();
 
         for (final User user : users) {
-            if (LocalDateTime.now().isAfter(user.getLastLogin().plusDays(appProperties.getDeactivateUserAccountAfterDays()))) {
+            if (user.getLastLogin().plusDays(appProperties.getDeactivateUserAccountAfterDays()).isBefore(LocalDateTime.now())) {
                 sendingEmailService.sendEmailAccountDeactivated(user);
                 user.setActive(false);
                 userRepository.save(user);

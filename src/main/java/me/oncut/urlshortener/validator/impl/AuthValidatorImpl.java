@@ -1,10 +1,10 @@
 package me.oncut.urlshortener.validator.impl;
 
+import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.exception.EmailExistsException;
 import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.validator.AuthValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

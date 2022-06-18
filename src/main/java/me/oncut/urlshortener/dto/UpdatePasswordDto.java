@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdatePasswordDto {
 
-  @NotNull
-  private String oldPassword;
+    @NotNull
+    private String oldPassword;
 
-  @NotNull
-  private String newPassword;
+    @NotNull
+    private String newPassword;
 
 }

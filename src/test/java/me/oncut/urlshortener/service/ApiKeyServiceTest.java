@@ -1,5 +1,8 @@
 package me.oncut.urlshortener.service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.converter.ApiKeyUpdateDtoToApiKeyConverter;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
@@ -9,9 +12,6 @@ import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
 import me.oncut.urlshortener.service.impl.ApiKeyServiceImpl;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

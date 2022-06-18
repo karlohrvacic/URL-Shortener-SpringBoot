@@ -29,10 +29,12 @@
                 <constraints nullable="true"/>
             </column>
             <column name="OWNER_ID" type="BIGINT">
-                <constraints nullable="true" foreignKeyName="URL_OWNER_FK" referencedTableName="USER_ACCOUNT" referencedColumnNames="ID"/>
+                <constraints nullable="true" foreignKeyName="URL_OWNER_FK" referencedTableName="USER_ACCOUNT"
+                             referencedColumnNames="ID"/>
             </column>
             <column name="API_KEY_ID" type="BIGINT">
-                <constraints nullable="true" foreignKeyName="API_KEY_FK" referencedTableName="API_KEY" referencedColumnNames="ID"/>
+                <constraints nullable="true" foreignKeyName="API_KEY_FK" referencedTableName="API_KEY"
+                             referencedColumnNames="ID"/>
             </column>
             <column name="ACTIVE" type="BOOLEAN" defaultValueBoolean="true">
                 <constraints nullable="false"/>

@@ -1,8 +1,8 @@
 package me.oncut.urlshortener.service;
 
+import java.util.List;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
 import me.oncut.urlshortener.model.ApiKey;
-import java.util.List;
 
 public interface ApiKeyService {
 
