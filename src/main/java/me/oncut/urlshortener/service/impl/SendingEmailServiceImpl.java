@@ -64,6 +64,29 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         tryToSendEmail(email);
     }
 
+    @Override
+    public void sendWelcomeEmail(final User user) {
+        final Context ctx = new Context();
+        ctx.setVariable("name", user.getName());
+        ctx.setVariable("app_name", appProperties.getAppName());
+        ctx.setVariable("number_of_api_keys", user.getApiKeySlots().toString());
+        ctx.setVariable("contact_email", appProperties.getContactEmail());
+        ctx.setVariable("login_page", appProperties.getFrontendUrl() + "/#/login/");
+        ctx.setVariable("api_documentation",  appProperties.getServerUrl() + "/swagger-ui/index.html");
+
+
+        final String htmlContent = templateEngine.process("welcome", ctx);
+
+        final Email email = Email.builder()
+                .sender(appProperties.getEmailSenderAddress())
+                .receivers(new String[] {user.getEmail()})
+                .subject("Welcome")
+                .text(htmlContent)
+                .build();
+
+        tryToSendEmail(email);
+    }
+
     private void tryToSendEmail(final Email email) {
         try {
             emailService.sendEmail(email, null);

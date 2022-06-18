@@ -31,8 +31,8 @@ class ApiKeyUpdateDtoToApiKeyConverterTest {
 
     @Test
     void shouldConvert() {
-        final ApiKeyUpdateDto apiKeyUpdateDto = ApiKeyUpdateDto.builder().id(1L).build();
-        final ApiKey apiKey = ApiKey.builder().id(1L).build();
+        final ApiKeyUpdateDto apiKeyUpdateDto = ApiKeyUpdateDto.builder().id(1L).active(true).build();
+        final ApiKey apiKey = ApiKey.builder().id(1L).active(true).build();
 
         when(apiKeyRepository.findById(anyLong())).thenReturn(Optional.ofNullable(apiKey));
 

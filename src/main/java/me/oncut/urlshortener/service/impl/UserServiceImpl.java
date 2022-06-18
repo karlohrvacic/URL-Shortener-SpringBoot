@@ -53,7 +53,10 @@ public class UserServiceImpl implements UserService {
                 .orElse(null))));
         user.setApiKeySlots(appProperties.getUserApiKeySlots());
 
-        return userRepository.save(user);
+        final User savedUser = userRepository.save(user);
+        sendingEmailService.sendWelcomeEmail(savedUser);
+
+        return savedUser;
     }
 
     @Override

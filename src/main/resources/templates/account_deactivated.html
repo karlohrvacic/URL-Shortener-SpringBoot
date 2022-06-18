@@ -5,12 +5,15 @@
         <title>Account deactivated</title>
     </head>
     <body>
-        <h4>Hello <span th:text="${name}"></span>,</h4>
-        <p>your account has been deactivated after <span th:text="${days_of_inactivity}"></span> days of inactivity.<br>
-            We do this for your account security. <br>
-            If you want us to reinstate your account, please contact us at <a th:href="'mailto:' + ${contact_email}" th:text="${contact_email}"></a></p>
+        <h4>Hello <span th:text="${name}"/>,</h4>
+        <p>your account has been deactivated after <span th:text="${days_of_inactivity}"/> days of inactivity.<br>
+            We do this for your account security.<br>
+            If you want us to reinstate your account, please contact us at
+            <a th:href="'mailto:' + ${contact_email}" th:text="${contact_email}"/>
+        </p>
         <br>
         <p>Best regards,<br>
-            Oncut team</p>
+            Oncut team
+        </p>
     </body>
 </html>

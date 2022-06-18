@@ -63,4 +63,11 @@ public class AppProperties {
 
     @NotBlank
     private String contactEmail;
+
+    @NotBlank
+    private String appName;
+
+    @NotBlank
+    private String serverUrl;
+
 }

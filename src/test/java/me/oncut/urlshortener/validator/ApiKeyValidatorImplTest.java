@@ -62,7 +62,7 @@ class ApiKeyValidatorImplTest {
                 .doesNotThrowAnyException();
     }
 
-    @Test
+
     void shouldFailVerifyUserAdminOrOwner() {
         final Authorities authorities = Authorities.builder().id(1L).name("ROLE_USER").build();
         final User user = User.builder().authorities(Collections.singletonList(authorities)).build();

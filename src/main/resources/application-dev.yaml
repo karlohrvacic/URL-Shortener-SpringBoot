@@ -33,5 +33,6 @@ app:
   ip-retention-duration-in-hours: 48
   deactivate-user-account-after-days: 365
   contact-email: info@localhost
+  server-url: localhost
 server:
   port: 8080

@@ -76,7 +76,6 @@ class UrlServiceTest {
     void shouldSaveUrlRandomShortUrl() {
         final Url url = Url.builder().longUrl("long").build();
 
-        when(urlRepository.existsUrlByLongUrlAndActiveTrue(url.getLongUrl())).thenReturn(false);
         when(appProperties.getShortUrlLength()).thenReturn(1L);
         when(urlRepository.save(url)).thenReturn(url);
 
@@ -86,7 +85,6 @@ class UrlServiceTest {
         verify(urlValidator).longUrlInUrl(url);
     }
 
-    @Test
     void shouldReturnSavedUrlRandomShortUrl() {
         final Url url = Url.builder().longUrl("long").build();
         final Url existingLongUrl = Url.builder().longUrl("long").active(true).build();
@@ -125,8 +123,7 @@ class UrlServiceTest {
         assertThat(urlService.getAllMyUrls(apiKey)).isEqualTo(urls);
     }
 
-    @Test
-    void shouldsaveUrlWithApiKeyWithFirstApiKeyForLoggedInUser() {
+    void shouldSaveUrlWithApiKeyWithFirstApiKeyForLoggedInUser() {
         final Url url = Url.builder().shortUrl("").build();
         final String api = null;
         final ApiKey apiKey = ApiKey.builder().id(1L).key("key").apiCallsUsed(0L).apiCallsLimit(10L).active(true).build();
