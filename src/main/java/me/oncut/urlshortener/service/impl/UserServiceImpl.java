@@ -122,13 +122,12 @@ public class UserServiceImpl implements UserService {
         final Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent()) {
+            deactivateActiveResetTokenIfExists(user.get());
             final ResetToken resetToken = ResetToken.builder()
                     .user(user.get())
                     .expirationDate(LocalDateTime.now().plusHours(appProperties.getResetTokenExpirationInHours()))
                     .build();
             final ResetToken savedResetToken = resetTokenRepository.save(resetToken);
-            deactivateActiveResetTokenIfExists(user.get());
-
             sendingEmailService.sendEmailForgotPassword(user.get(), savedResetToken);
         }
     }
