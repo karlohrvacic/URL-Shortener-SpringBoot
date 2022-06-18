@@ -12,6 +12,8 @@ public interface ResetTokenRepository extends JpaRepository<ResetToken, Long> {
 
     List<ResetToken> findByActiveTrue();
 
+    List<ResetToken> findByUserAndActiveTrue(User user);
+
     List<ResetToken> findByActiveFalse();
 
 }

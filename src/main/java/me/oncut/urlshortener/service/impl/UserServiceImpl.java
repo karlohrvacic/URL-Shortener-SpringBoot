@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void sendPasswordResetLinkToUser(final String email) {
         final Optional<User> user = userRepository.findByEmail(email);
 
@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserService {
                     .expirationDate(LocalDateTime.now().plusHours(appProperties.getResetTokenExpirationInHours()))
                     .build();
             final ResetToken savedResetToken = resetTokenRepository.save(resetToken);
+            deactivateActiveResetTokenIfExists(user.get());
 
             sendingEmailService.sendEmailForgotPassword(user.get(), savedResetToken);
         }
@@ -187,6 +188,17 @@ public class UserServiceImpl implements UserService {
                 log.info(String.format("User with id %d deactivated", user.getId()));
             }
         }
+    }
+
+    private void deactivateActiveResetTokenIfExists(final User user) {
+        final List<ResetToken> resetTokens = resetTokenRepository.findByUserAndActiveTrue(user).stream()
+                .map(resetToken -> {
+                    resetToken.setActive(false);
+                    return resetToken;
+                })
+                .toList();
+
+        resetTokenRepository.saveAll(resetTokens);
     }
 
 }

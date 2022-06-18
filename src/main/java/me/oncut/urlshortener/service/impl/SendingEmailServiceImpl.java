@@ -1,5 +1,7 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
@@ -37,9 +39,9 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
         final Context ctx = new Context();
         ctx.setVariable("name", user.getName());
-        ctx.setVariable("request_date", resetToken.getCreateDate().toLocalTime().toString());
-        ctx.setVariable("password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password" + resetToken.getToken());
-        ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours());
+        ctx.setVariable("request_date", resetToken.getCreateDate().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
+        ctx.setVariable("password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password/" + resetToken.getToken());
+        ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
         ctx.setVariable("token", resetToken.getToken());
 
         final String htmlContent = templateEngine.process("reset_password", ctx);
