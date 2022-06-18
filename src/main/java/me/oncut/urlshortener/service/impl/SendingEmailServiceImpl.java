@@ -41,15 +41,34 @@ public class SendingEmailServiceImpl implements SendingEmailService {
                 .subject("Password reset token")
                 .text(htmlContent)
                 .build();
+
+        tryToSendEmail(email);
+    }
+
+    @Override
+    public void sendEmailAccountDeactivated(final User user) {
+        final Context ctx = new Context();
+        ctx.setVariable("name", user.getName());
+        ctx.setVariable("days_of_inactivity", appProperties.getDeactivateUserAccountAfterDays().toString());
+        ctx.setVariable("contact_email", appProperties.getContactEmail());
+
+        final String htmlContent = templateEngine.process("account_deactivated", ctx);
+
+        final Email email = Email.builder()
+                .sender(appProperties.getEmailSenderAddress())
+                .receivers(new String[] {user.getEmail()})
+                .subject("Account deactivated")
+                .text(htmlContent)
+                .build();
+
+        tryToSendEmail(email);
+    }
+
+    private void tryToSendEmail(final Email email) {
         try {
             emailService.sendEmail(email, null);
         } catch (final MessagingException e) {
             log.error("Error while trying to set probation expiration email.", e);
         }
-    }
-
-    @Override
-    public void sendEmailAccountDeactivated(final User user, final Long deactivateUserAccountAfterDays) {
-
     }
 }

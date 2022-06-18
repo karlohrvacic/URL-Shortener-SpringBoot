@@ -32,5 +32,6 @@ app:
   inactive-visit-increment-per-ip-in-hours: 24
   ip-retention-duration-in-hours: 48
   deactivate-user-account-after-days: 365
+  contact-email: info@localhost
 server:
   port: 8080

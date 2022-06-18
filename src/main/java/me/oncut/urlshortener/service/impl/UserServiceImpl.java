@@ -181,7 +181,7 @@ public class UserServiceImpl implements UserService {
 
         for (final User user : users) {
             if (LocalDateTime.now().isAfter(user.getLastLogin().plusDays(appProperties.getDeactivateUserAccountAfterDays()))) {
-                sendingEmailService.sendEmailAccountDeactivated(user, appProperties.getDeactivateUserAccountAfterDays());
+                sendingEmailService.sendEmailAccountDeactivated(user);
                 user.setActive(false);
                 userRepository.save(user);
                 log.info(String.format("User with id %d deactivated", user.getId()));

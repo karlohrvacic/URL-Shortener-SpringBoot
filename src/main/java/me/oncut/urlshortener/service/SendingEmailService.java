@@ -6,5 +6,5 @@ import me.oncut.urlshortener.model.User;
 public interface SendingEmailService {
     public void sendEmailForgotPassword(final User user, final ResetToken resetToken);
 
-    void sendEmailAccountDeactivated(User user, Long deactivateUserAccountAfterDays);
+    void sendEmailAccountDeactivated(User user);
 }

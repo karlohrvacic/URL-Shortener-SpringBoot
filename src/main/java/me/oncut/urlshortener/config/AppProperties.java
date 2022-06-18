@@ -60,4 +60,7 @@ public class AppProperties {
     @NotNull
     @Positive
     private Long deactivateUserAccountAfterDays;
+
+    @NotBlank
+    private String contactEmail;
 }
