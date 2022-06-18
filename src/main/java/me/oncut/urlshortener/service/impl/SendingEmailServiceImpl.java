@@ -1,7 +1,9 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
@@ -28,8 +30,8 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         final Context ctx = new Context();
         ctx.setVariable("name", user.getName());
         ctx.setVariable("request_date", resetToken.getCreateDate().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
-        ctx.setVariable("password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password/");
-        ctx.setVariable("full_password_reset_link", appProperties.getFrontendUrl() + "/#/reset-password/" + resetToken.getToken());
+        ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password/", appProperties.getFrontendUrl()));
+        ctx.setVariable("full_password_reset_link", MessageFormat.format("{0}/#/reset-password/{1}", appProperties.getFrontendUrl(), resetToken.getToken()));
         ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
         ctx.setVariable("token", resetToken.getToken());
 
@@ -71,8 +73,8 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         ctx.setVariable("app_name", appProperties.getAppName());
         ctx.setVariable("number_of_api_keys", user.getApiKeySlots().toString());
         ctx.setVariable("contact_email", appProperties.getContactEmail());
-        ctx.setVariable("login_page", appProperties.getFrontendUrl() + "/#/login/");
-        ctx.setVariable("api_documentation",  appProperties.getServerUrl() + "/swagger-ui/index.html");
+        ctx.setVariable("login_page", MessageFormat.format("{0}/#/login/", appProperties.getFrontendUrl()));
+        ctx.setVariable("api_documentation", MessageFormat.format("{0}/swagger-ui/index.html", appProperties.getServerUrl()));
 
 
         final String htmlContent = templateEngine.process("welcome", ctx);
@@ -88,6 +90,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
     }
 
     private void tryToSendEmail(final Email email) {
+        log.info(MessageFormat.format("Sending {0} email to {1}", email.getSubject(), Arrays.toString(email.getReceivers())));
         try {
             emailService.sendEmail(email, null);
         } catch (final MessagingException e) {
