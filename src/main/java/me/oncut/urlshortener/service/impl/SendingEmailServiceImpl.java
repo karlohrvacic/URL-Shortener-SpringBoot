@@ -27,13 +27,10 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
     @Override
     public void sendEmailForgotPassword(final User user, final ResetToken resetToken) {
-        final Context ctx = new Context();
-        ctx.setVariable("name", user.getName());
+        final Context ctx = getContext(user);
         ctx.setVariable("request_date", resetToken.getCreateDate().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
-        ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password/", appProperties.getFrontendUrl()));
-        ctx.setVariable("full_password_reset_link", MessageFormat.format("{0}/#/reset-password/{1}", appProperties.getFrontendUrl(), resetToken.getToken()));
-        ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
         ctx.setVariable("token", resetToken.getToken());
+        ctx.setVariable("full_password_reset_link", MessageFormat.format("{0}/#/reset-password/{1}", appProperties.getFrontendUrl(), resetToken.getToken()));
 
         final String htmlContent = templateEngine.process("reset_password", ctx);
 
@@ -49,10 +46,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
     @Override
     public void sendEmailAccountDeactivated(final User user) {
-        final Context ctx = new Context();
-        ctx.setVariable("name", user.getName());
-        ctx.setVariable("days_of_inactivity", appProperties.getDeactivateUserAccountAfterDays().toString());
-        ctx.setVariable("contact_email", appProperties.getContactEmail());
+        final Context ctx = getContext(user);
 
         final String htmlContent = templateEngine.process("account_deactivated", ctx);
 
@@ -68,14 +62,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
 
     @Override
     public void sendWelcomeEmail(final User user) {
-        final Context ctx = new Context();
-        ctx.setVariable("name", user.getName());
-        ctx.setVariable("app_name", appProperties.getAppName());
-        ctx.setVariable("number_of_api_keys", user.getApiKeySlots().toString());
-        ctx.setVariable("contact_email", appProperties.getContactEmail());
-        ctx.setVariable("login_page", MessageFormat.format("{0}/#/login/", appProperties.getFrontendUrl()));
-        ctx.setVariable("api_documentation", MessageFormat.format("{0}/swagger-ui/index.html", appProperties.getServerUrl()));
-
+        final Context ctx = getContext(user);
 
         final String htmlContent = templateEngine.process("welcome", ctx);
 
@@ -96,5 +83,21 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         } catch (final MessagingException e) {
             log.error("Error while trying to set probation expiration email.", e);
         }
+    }
+
+    private Context getContext(final User user) {
+        final Context ctx = new Context();
+        ctx.setVariable("name", user.getName());
+        ctx.setVariable("number_of_api_keys", user.getApiKeySlots().toString());
+        ctx.setVariable("app_name", appProperties.getAppName());
+        ctx.setVariable("contact_email", appProperties.getContactEmail());
+        ctx.setVariable("login_page", MessageFormat.format("{0}/#/login/", appProperties.getFrontendUrl()));
+        ctx.setVariable("api_documentation", MessageFormat.format("{0}/swagger-ui/index.html", appProperties.getServerUrl()));
+        ctx.setVariable("days_of_inactivity", appProperties.getDeactivateUserAccountAfterDays().toString());
+        ctx.setVariable("contact_email", appProperties.getContactEmail());
+        ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password/", appProperties.getFrontendUrl()));
+        ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
+
+        return ctx;
     }
 }
