@@ -97,8 +97,8 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         ctx.setVariable("contact_email", appProperties.getContactEmail());
         ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password/", appProperties.getFrontendUrl()));
         ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
-        ctx.setVariable("github_image", "github.png");
-        ctx.setVariable("password_reset_image", "password_reset.png");
+        ctx.setVariable("github_image", "github");
+        ctx.setVariable("password_reset_image", "password_reset");
 
 
         return ctx;
