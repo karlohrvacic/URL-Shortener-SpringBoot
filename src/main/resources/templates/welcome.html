@@ -196,7 +196,7 @@ table, td { color: #000000; } a { color: #161a39; text-decoration: underline; }
       <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:'Lato',sans-serif;" align="left">
         
   <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">< style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello <span th:text="${name}"/> and welcome to <span th:text="${app_name}"!/></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello <span th:text="${name}"/> and welcome to <span th:text="${app_name}"/>!</span></p>
 <p style="font-size: 14px; line-height: 140%;">&nbsp;</p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">We provide short links for everyone!</span></p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">You can log into your account <a rel="noopener" th:href="@{${login_page}}" target="_blank">here</a>. </span></p>
@@ -216,7 +216,7 @@ table, td { color: #000000; } a { color: #161a39; text-decoration: underline; }
       <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:'Lato',sans-serif;" align="left">
         
   <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">If you didn't register to X please contact us at <br /></span></em></span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">If you didn't register to <span th:text="${app_name}"/> please contact us at <a th:href="'mailto:' + ${contact_email}" th:text="${contact_email}"/><br /></span></em></span></p>
   </div>
 
       </td>
