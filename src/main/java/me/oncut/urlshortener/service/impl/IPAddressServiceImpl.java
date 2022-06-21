@@ -56,7 +56,7 @@ public class IPAddressServiceImpl implements IPAddressService {
                 .toList();
 
         ipAddressRepository.saveAll(ipAddresses);
-        log.info(String.format("Deactivated %d IP adresses", ipAddresses.size()));
+        if (!ipAddresses.isEmpty()) log.info(String.format("Deactivated %d IP addresses", ipAddresses.size()));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class IPAddressServiceImpl implements IPAddressService {
                 .toList();
 
         ipAddressRepository.deleteAll(ipAddresses);
-        log.info(String.format("Deleted %d IP adresses", ipAddresses.size()));
+        if (!ipAddresses.isEmpty()) log.info(String.format("Deleted %d IP addresses", ipAddresses.size()));
     }
 
     private void addVisitToUrl(final IPAddress ipAddress) {

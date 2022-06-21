@@ -96,7 +96,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 .toList();
 
         apiKeyRepository.saveAll(apiKeys);
-        log.info(String.format("Deactivated %d api keys", apiKeys.size()));
+        if (!apiKeys.isEmpty()) log.info(String.format("Deactivated %d api keys", apiKeys.size()));
     }
 
 }

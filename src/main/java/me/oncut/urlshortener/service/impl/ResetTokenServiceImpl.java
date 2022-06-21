@@ -38,8 +38,7 @@ public class ResetTokenServiceImpl implements ResetTokenService {
                 LocalDateTime.now().minusHours(appProperties.getIpRetentionDurationInHours()));
 
         resetTokenRepository.deleteAll(resetTokens);
-        log.info(String.format("Deleted %d reset tokens", resetTokens.size()));
-
+        if (!resetTokens.isEmpty()) log.info(String.format("Deleted %d reset tokens", resetTokens.size()));
     }
 
     @Override
@@ -72,7 +71,7 @@ public class ResetTokenServiceImpl implements ResetTokenService {
                 .toList();
 
         resetTokenRepository.saveAll(resetTokens);
-        log.info(String.format("Deactivated %d reset tokens", resetTokens.size()));
+        if (!resetTokens.isEmpty()) log.info(String.format("Deactivated %d reset tokens", resetTokens.size()));
     }
 
 }
