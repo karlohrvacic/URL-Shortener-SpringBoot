@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
-import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.model.IPAddress;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.repository.IPAddressRepository;

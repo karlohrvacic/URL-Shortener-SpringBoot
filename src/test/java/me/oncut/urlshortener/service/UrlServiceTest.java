@@ -3,7 +3,7 @@ package me.oncut.urlshortener.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.model.Url;
@@ -55,7 +55,6 @@ class UrlServiceTest {
 
     @Mock
     private TaskExecutor taskExecutor;
-
 
     @BeforeEach
     void setUp() {

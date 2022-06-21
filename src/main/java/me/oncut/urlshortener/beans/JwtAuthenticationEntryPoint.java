@@ -1,4 +1,4 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.beans;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;

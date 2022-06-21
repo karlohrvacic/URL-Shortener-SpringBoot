@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
-import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.UserRegisterDtoToUserConverter;
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
 import me.oncut.urlshortener.dto.PasswordResetDto;
@@ -72,9 +72,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User fetchCurrentUser() {
-        final User user = getUserFromToken();
-        user.setPassword("hidden");
-        return user;
+        return Optional.ofNullable(getUserFromToken()).map(u -> {
+            u.setPassword("hidden");
+            return u;
+        }).orElseThrow(() -> new NoAuthorizationException("Invalid user"));
     }
 
     @Override

@@ -1,6 +1,7 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.configuration;
 
 import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,5 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AppProperties.class)
 public class AppConfiguration {
-    private final AppProperties appProperties;
+
 }

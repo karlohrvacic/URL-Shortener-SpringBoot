@@ -12,15 +12,17 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import me.oncut.urlshortener.config.LowerCaseClassNameResolver;
+import me.oncut.urlshortener.beans.LowerCaseClassNameResolver;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 public class ApiException extends CommonException {

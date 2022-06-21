@@ -1,9 +1,10 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.beans;
 
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.service.impl.DomainUserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +25,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final DomainUserDetailsServiceImpl userDetailsService;
@@ -44,8 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http
-                .csrf()
+        http.csrf()
                 .disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(

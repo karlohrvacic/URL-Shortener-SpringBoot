@@ -1,4 +1,4 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.configuration.properties;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

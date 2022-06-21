@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
-import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.ApiKeyUpdateDtoToApiKeyConverter;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
 import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;

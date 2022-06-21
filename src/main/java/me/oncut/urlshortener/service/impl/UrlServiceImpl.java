@@ -3,7 +3,7 @@ package me.oncut.urlshortener.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
-import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.exception.UrlNotFoundException;
@@ -37,7 +37,6 @@ public class UrlServiceImpl implements UrlService {
     private final IPAddressService ipAddressService;
     private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
     private final TaskExecutor taskExecutor;
-
 
     @Transactional
     @Override

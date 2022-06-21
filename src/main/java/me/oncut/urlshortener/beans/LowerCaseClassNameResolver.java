@@ -1,4 +1,4 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.beans;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;

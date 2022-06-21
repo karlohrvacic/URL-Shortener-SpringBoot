@@ -1,4 +1,4 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.beans;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

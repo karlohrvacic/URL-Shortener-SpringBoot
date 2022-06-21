@@ -7,7 +7,7 @@ import java.util.Arrays;
 import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
-import me.oncut.urlshortener.config.AppProperties;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.model.Email;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
@@ -99,7 +99,6 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
         ctx.setVariable("github_image", "github");
         ctx.setVariable("password_reset_image", "password_reset");
-
 
         return ctx;
     }

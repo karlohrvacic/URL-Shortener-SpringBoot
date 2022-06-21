@@ -1,4 +1,4 @@
-package me.oncut.urlshortener.config;
+package me.oncut.urlshortener.beans;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;
