@@ -18,8 +18,8 @@ import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.AuthoritiesRepository;
-import me.oncut.urlshortener.repository.ResetTokenRepository;
 import me.oncut.urlshortener.repository.UserRepository;
+import me.oncut.urlshortener.service.ResetTokenService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.AuthValidator;
 import org.springframework.security.core.Authentication;
@@ -39,9 +39,9 @@ public class UserServiceImpl implements UserService {
     private final AuthValidator authValidator;
     private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
     private final AppProperties appProperties;
-    private final ResetTokenRepository resetTokenRepository;
     private final SendingEmailServiceImpl sendingEmailService;
     private final UserRegisterDtoToUserConverter userRegisterDtoToUserConverter;
+    private final ResetTokenService resetTokenService;
 
     @Override
     public User register(final UserRegisterDto userRegisterDto) {
@@ -126,13 +126,9 @@ public class UserServiceImpl implements UserService {
         final Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent()) {
-            deactivateActiveResetTokenIfExists(user.get());
-            final ResetToken resetToken = ResetToken.builder()
-                    .user(user.get())
-                    .expirationDate(LocalDateTime.now().plusHours(appProperties.getResetTokenExpirationInHours()))
-                    .build();
-            final ResetToken savedResetToken = resetTokenRepository.save(resetToken);
-            sendingEmailService.sendEmailForgotPassword(user.get(), savedResetToken);
+            resetTokenService.deactivateActiveResetTokenIfExists(user.get());
+
+            sendingEmailService.sendEmailForgotPassword(user.get(), resetTokenService.createTokenForUser(user.get()));
         }
     }
 
@@ -141,67 +137,30 @@ public class UserServiceImpl implements UserService {
     public User resetPassword(final PasswordResetDto passwordResetDto) {
         final User user = userRepository.findByEmail(passwordResetDto.getEmail())
                 .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
-        final ResetToken token = resetTokenRepository.findResetTokenByUserAndTokenAndActiveTrue(user, passwordResetDto.getToken())
-                .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
-        token.verifyResetTokenValidity();
+        final ResetToken token = resetTokenService.getResetTokenFromUserAndToken(user, passwordResetDto.getToken());
 
         if (token.isActive()) {
             user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword()));
-            token.setActive(false);
-            resetTokenRepository.save(token);
+            resetTokenService.deactivateAndSaveToken(token);
+
             return userRepository.save(user);
         }
         throw new NoAuthorizationException("Token expired");
     }
 
     @Override
-    public void deactivateExpiredPasswordResetTokens() {
-        final List<ResetToken> resetTokens = resetTokenRepository.findByActiveTrue();
-
-        for (final ResetToken resetToken : resetTokens) {
-            if (resetToken.getExpirationDate().isBefore(LocalDateTime.now())) {
-                resetToken.setActive(false);
-                resetTokenRepository.save(resetToken);
-                log.info(String.format("Reset token with id %d deactivated", resetToken.getId()));
-            }
-        }
-    }
-
-    @Override
-    public void deleteExpiredPasswordResetTokens() {
-        final List<ResetToken> resetTokens = resetTokenRepository.findByActiveFalse();
-
-        for (final ResetToken resetToken : resetTokens) {
-            if (resetToken.getExpirationDate().plusHours(appProperties.getIpRetentionDurationInHours()).isBefore(LocalDateTime.now())) {
-                resetTokenRepository.delete(resetToken);
-                log.info(String.format("Reset token with id %d deleted", resetToken.getId()));
-            }
-        }
-    }
-
-    @Override
     public void deactivateUnusedUserAccounts() {
-        final List<User> users = userRepository.findAll();
-
-        for (final User user : users) {
-            if (user.getLastLogin().plusDays(appProperties.getDeactivateUserAccountAfterDays()).isBefore(LocalDateTime.now())) {
-                sendingEmailService.sendEmailAccountDeactivated(user);
-                user.setActive(false);
-                userRepository.save(user);
-                log.info(String.format("User with id %d deactivated", user.getId()));
-            }
-        }
-    }
-
-    private void deactivateActiveResetTokenIfExists(final User user) {
-        final List<ResetToken> resetTokens = resetTokenRepository.findByUserAndActiveTrue(user).stream()
-                .map(resetToken -> {
-                    resetToken.setActive(false);
-                    return resetToken;
+        final List<User> users = userRepository.findByLastLoginIsLessThanEqualAndActiveTrue(LocalDateTime.now()
+                .minusDays(appProperties.getDeactivateUserAccountAfterDays())).stream()
+                .map(user -> {
+                    user.setActive(false);
+                    log.info(String.format("Deactivated user with id %d", user.getId()));
+                    return user;
                 })
                 .toList();
 
-        resetTokenRepository.saveAll(resetTokens);
+        userRepository.saveAll(users);
+        log.info(String.format("Deactivated %d users", users.size()));
     }
 
 }

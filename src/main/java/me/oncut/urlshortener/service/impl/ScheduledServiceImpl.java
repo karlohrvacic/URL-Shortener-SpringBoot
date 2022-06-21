@@ -1,7 +1,9 @@
 package me.oncut.urlshortener.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.oncut.urlshortener.service.ApiKeyService;
 import me.oncut.urlshortener.service.IPAddressService;
+import me.oncut.urlshortener.service.ResetTokenService;
 import me.oncut.urlshortener.service.ScheduledService;
 import me.oncut.urlshortener.service.UserService;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -15,6 +17,8 @@ public class ScheduledServiceImpl implements ScheduledService {
 
     private final IPAddressService ipAddressService;
     private final UserService userService;
+    private final ApiKeyService apiKeyService;
+    private final ResetTokenService resetTokenService;
 
     @Override
     @Scheduled(cron = "0 */1 * * * *")
@@ -31,19 +35,25 @@ public class ScheduledServiceImpl implements ScheduledService {
     @Override
     @Scheduled(cron = "0 */1 * * * *")
     public void deactivateExpiredPasswordResetTokens() {
-        userService.deactivateExpiredPasswordResetTokens();
+        resetTokenService.deactivateExpiredPasswordResetTokens();
     }
 
     @Override
     @Scheduled(cron = "5 */1 * * * *")
     public void deleteExpiredPasswordResetTokens() {
-        userService.deleteExpiredPasswordResetTokens();
+        resetTokenService.deleteExpiredPasswordResetTokens();
     }
 
     @Override
-    @Scheduled(cron = "0 10 * * 1-5 *")
+    @Scheduled(cron = "0 10 * * * *")
     public void deactivateUnusedUserAccounts() {
         userService.deactivateUnusedUserAccounts();
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 * * * *")
+    public void deactivateExpiredApiKeys() {
+        apiKeyService.deactivateExpired();
     }
 
 }

@@ -19,4 +19,6 @@ public interface ApiKeyService {
     List<ApiKey> fetchAllApiKeys();
 
     ApiKey updateKey(ApiKeyUpdateDto apiKeyUpdateDto);
+
+    void deactivateExpired();
 }

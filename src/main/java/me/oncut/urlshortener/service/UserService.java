@@ -31,9 +31,5 @@ public interface UserService {
 
     User resetPassword(PasswordResetDto passwordResetDto);
 
-    void deactivateExpiredPasswordResetTokens();
-
-    void deleteExpiredPasswordResetTokens();
-
     void deactivateUnusedUserAccounts();
 }

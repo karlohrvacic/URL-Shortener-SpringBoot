@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import me.oncut.urlshortener.model.ResetToken;
@@ -14,6 +15,8 @@ public interface ResetTokenRepository extends JpaRepository<ResetToken, Long> {
 
     List<ResetToken> findByUserAndActiveTrue(User user);
 
-    List<ResetToken> findByActiveFalse();
+    List<ResetToken> findByExpirationDateIsLessThanEqualAndActiveTrue(LocalDateTime expirationDate);
+
+    List<ResetToken> findByExpirationDateIsLessThanEqualAndActiveFalse(LocalDateTime expirationDate);
 
 }

@@ -46,27 +46,31 @@ public class IPAddressServiceImpl implements IPAddressService {
 
     @Override
     public void deactivateDeprecatedIps() {
-        final List<IPAddress> ipAddresses = ipAddressRepository.findByActiveTrue();
+        final List<IPAddress> ipAddresses = ipAddressRepository.findByCreateDateIsLessThanEqualAndActiveTrue(
+                LocalDateTime.now().minusHours(appProperties.getInactiveVisitIncrementPerIpInHours())).stream()
+                .map(ipAddress -> {
+                    ipAddress.setActive(false);
+                    log.info(String.format("Deactivated IP address with id %d", ipAddress.getId()));
+                    return ipAddress;
+                })
+                .toList();
 
-        for (final IPAddress ipAddress : ipAddresses) {
-            if (ipAddress.getCreateDate().plusHours(appProperties.getInactiveVisitIncrementPerIpInHours()).isBefore(LocalDateTime.now())) {
-                ipAddress.setActive(false);
-                ipAddressRepository.save(ipAddress);
-                log.info(String.format("IP address with id %d deactivated", ipAddress.getId()));
-            }
-        }
+        ipAddressRepository.saveAll(ipAddresses);
+        log.info(String.format("Deactivated %d IP adresses", ipAddresses.size()));
     }
 
     @Override
     public void deleteDeactivatedIps() {
-        final List<IPAddress> ipAddresses = ipAddressRepository.findByActiveFalse();
+        final List<IPAddress> ipAddresses = ipAddressRepository.findByCreateDateIsLessThanEqualAndActiveFalse(
+                LocalDateTime.now().minusHours(appProperties.getIpRetentionDurationInHours())).stream()
+                .map(ipAddress -> {
+                    ipAddress.setActive(false);
+                    return ipAddress;
+                })
+                .toList();
 
-        for (final IPAddress ipAddress : ipAddresses) {
-            if (ipAddress.getCreateDate().plusHours(appProperties.getIpRetentionDurationInHours()).isBefore(LocalDateTime.now())) {
-                ipAddressRepository.delete(ipAddress);
-                log.info(String.format("IP address with id %d deleted", ipAddress.getId()));
-            }
-        }
+        ipAddressRepository.deleteAll(ipAddresses);
+        log.info(String.format("Deleted %d IP adresses", ipAddresses.size()));
     }
 
     private void addVisitToUrl(final IPAddress ipAddress) {

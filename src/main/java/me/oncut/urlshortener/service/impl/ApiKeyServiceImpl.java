@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.config.AppProperties;
 import me.oncut.urlshortener.converter.ApiKeyUpdateDtoToApiKeyConverter;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@CommonsLog
 @RequiredArgsConstructor
 public class ApiKeyServiceImpl implements ApiKeyService {
 
@@ -82,6 +84,19 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Transactional
     public ApiKey updateKey(final ApiKeyUpdateDto apiKeyUpdateDto) {
         return apiKeyRepository.save(Objects.requireNonNull(apiKeyConverter.convert(apiKeyUpdateDto)));
+    }
+
+    @Override
+    public void deactivateExpired() {
+        final List<ApiKey> apiKeys = apiKeyRepository.findByExpirationDateIsLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
+                .map(apiKey -> {
+                    apiKey.setActive(false);
+                    return apiKey;
+                })
+                .toList();
+
+        apiKeyRepository.saveAll(apiKeys);
+        log.info(String.format("Deactivated %d api keys", apiKeys.size()));
     }
 
 }
