@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import me.oncut.urlshortener.model.Url;
@@ -21,5 +22,7 @@ public interface UrlRepository extends JpaRepository<Url, Long> {
     boolean existsUrlByLongUrlAndActiveTrueAndOwnerIsNull(String longUrl);
 
     boolean existsUrlByShortUrlAndActiveTrue(String shortUrl);
+
+    List<Url> findByExpirationDateLessThanEqualAndActiveTrue(LocalDateTime expirationDate);
 
 }

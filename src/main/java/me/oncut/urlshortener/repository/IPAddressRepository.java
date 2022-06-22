@@ -14,4 +14,6 @@ public interface IPAddressRepository extends JpaRepository<IPAddress, Long> {
 
     List<IPAddress> findByCreateDateIsLessThanEqualAndActiveFalse(LocalDateTime createDate);
 
+    List<IPAddress> findAllByUrl(Url url);
+
 }

@@ -5,6 +5,7 @@ import me.oncut.urlshortener.service.ApiKeyService;
 import me.oncut.urlshortener.service.IPAddressService;
 import me.oncut.urlshortener.service.ResetTokenService;
 import me.oncut.urlshortener.service.ScheduledService;
+import me.oncut.urlshortener.service.UrlService;
 import me.oncut.urlshortener.service.UserService;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,7 @@ public class ScheduledServiceImpl implements ScheduledService {
     private final UserService userService;
     private final ApiKeyService apiKeyService;
     private final ResetTokenService resetTokenService;
+    private final UrlService urlService;
 
     @Override
     @Scheduled(cron = "0 */1 * * * *")
@@ -54,6 +56,12 @@ public class ScheduledServiceImpl implements ScheduledService {
     @Scheduled(cron = "0 0 * * * *")
     public void deactivateExpiredApiKeys() {
         apiKeyService.deactivateExpired();
+    }
+
+    @Override
+    @Scheduled(cron = "0 */1 * * * *")
+    public void deactivateExpiredUrls() {
+        urlService.deactivateExpiredUrls();
     }
 
 }

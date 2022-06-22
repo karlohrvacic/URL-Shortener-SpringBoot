@@ -11,4 +11,6 @@ public interface IPAddressService {
     void deactivateDeprecatedIps();
 
     void deleteDeactivatedIps();
+
+    void deleteRecordsForUrl(Url url);
 }

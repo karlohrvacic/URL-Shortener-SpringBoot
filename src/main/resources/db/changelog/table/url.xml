@@ -52,4 +52,10 @@
         </rollback>
     </changeSet>
 
+    <changeSet id="url-expiration-date" author="khrvacic">
+        <addColumn tableName="url">
+            <column name="expiration_date" type="datetime"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

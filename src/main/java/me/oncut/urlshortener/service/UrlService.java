@@ -28,4 +28,7 @@ public interface UrlService {
     Url updateUrl(UrlUpdateDto url);
 
     Url checkIPUniquenessAndReturnUrl(String shortUrl, String clientIP);
+
+    void deactivateExpiredUrls();
+
 }

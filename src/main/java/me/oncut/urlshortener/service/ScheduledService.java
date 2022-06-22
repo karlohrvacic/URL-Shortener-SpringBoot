@@ -14,4 +14,6 @@ public interface ScheduledService {
 
     void deactivateExpiredApiKeys();
 
+    void deactivateExpiredUrls();
+
 }

@@ -72,7 +72,7 @@ public class UrlController {
         return urlService.getAllUrls();
     }
 
-    @GetMapping("/revoke/{id}")
+    @GetMapping("/deactivate/{id}")
     public Url revokeUrl(@PathVariable("id") final Long id) {
         return urlService.revokeUrl(id);
     }

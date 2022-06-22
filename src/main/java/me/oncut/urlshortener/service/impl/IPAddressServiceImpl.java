@@ -11,6 +11,7 @@ import me.oncut.urlshortener.repository.IPAddressRepository;
 import me.oncut.urlshortener.service.IPAddressService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @CommonsLog
@@ -71,6 +72,12 @@ public class IPAddressServiceImpl implements IPAddressService {
 
         ipAddressRepository.deleteAll(ipAddresses);
         if (!ipAddresses.isEmpty()) log.info(String.format("Deleted %d IP addresses", ipAddresses.size()));
+    }
+
+    @Override
+    @Transactional
+    public void deleteRecordsForUrl(final Url url) {
+        ipAddressRepository.deleteAll(ipAddressRepository.findAllByUrl(url));
     }
 
     private void addVisitToUrl(final IPAddress ipAddress) {

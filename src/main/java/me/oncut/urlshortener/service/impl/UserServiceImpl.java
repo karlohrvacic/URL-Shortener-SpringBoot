@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
                 .toList();
 
         userRepository.saveAll(users);
-        log.info(String.format("Deactivated %d users", users.size()));
+        if (!users.isEmpty())log.info(String.format("Deactivated %d users", users.size()));
     }
 
 }

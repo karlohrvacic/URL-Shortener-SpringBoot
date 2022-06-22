@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
@@ -127,11 +128,14 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
+    @Transactional
     public void deleteUrl(final Long id) {
         final Url url = urlRepository.findById(id)
                 .orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
 
         urlValidator.verifyUserAdminOrOwner(url);
+
+        ipAddressService.deleteRecordsForUrl(url);
         urlRepository.delete(url);
     }
 
@@ -139,6 +143,7 @@ public class UrlServiceImpl implements UrlService {
     @Transactional
     public Url updateUrl(final UrlUpdateDto updateDto) {
         final Url url = urlUpdateDtoToUrlConverter.convert(updateDto);
+
         url.verifyUrlValidity();
         return urlRepository.save(url);
     }
@@ -149,6 +154,19 @@ public class UrlServiceImpl implements UrlService {
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
         checkIfVisitUnique(clientIP, url);
         return url;
+    }
+
+    @Override
+    public void deactivateExpiredUrls() {
+        final List<Url> urls = urlRepository.findByExpirationDateLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
+                .map(url -> {
+                    url.setActive(false);
+                    return url;
+                })
+                .toList();
+
+        urlRepository.saveAll(urls);
+        if (!urls.isEmpty()) log.info(String.format("Deactivated %d urls", urls.size()));
     }
 
     private void checkIfVisitUnique(final String clientIP, final Url url) {

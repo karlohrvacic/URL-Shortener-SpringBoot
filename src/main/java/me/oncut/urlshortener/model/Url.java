@@ -22,8 +22,8 @@ import org.hibernate.validator.constraints.URL;
 @Builder
 @Getter
 @Setter
-@RequiredArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Url {
 
     @Id
@@ -31,8 +31,8 @@ public class Url {
     @GeneratedValue(generator = "url_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NotBlank(message = "You need to add url for shortening")
     @URL(message = "Long URL not valid")
+    @NotBlank(message = "You need to add url for shortening")
     private String longUrl;
 
     @Column(unique = true)
@@ -47,6 +47,8 @@ public class Url {
     private LocalDateTime createDate;
 
     private LocalDateTime lastAccessed;
+
+    private LocalDateTime expirationDate;
 
     private Long visits;
 

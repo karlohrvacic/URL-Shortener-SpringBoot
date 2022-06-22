@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.dto;
 
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +17,7 @@ public class UrlUpdateDto {
     private Long id;
 
     private Long visitLimit;
+
+    private LocalDateTime expirationDate;
+
 }
