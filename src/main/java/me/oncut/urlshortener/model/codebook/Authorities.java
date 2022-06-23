@@ -1,6 +1,5 @@
 package me.oncut.urlshortener.model.codebook;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +23,6 @@ public class Authorities implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
     private String name;
 
     private Boolean active;
@@ -33,4 +31,5 @@ public class Authorities implements GrantedAuthority {
     public String getAuthority() {
         return getName();
     }
+
 }

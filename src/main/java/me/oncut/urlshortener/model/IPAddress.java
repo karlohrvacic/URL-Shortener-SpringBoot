@@ -53,4 +53,5 @@ public class IPAddress {
         this.visits++;
         return this;
     }
+
 }

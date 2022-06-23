@@ -21,14 +21,12 @@ public class UrlValidatorImpl implements UrlValidator {
 
     @Override
     public void longUrlInUrl(final Url url) {
-        if (url.getLongUrl() == null)
-            throw new LongUrlNotSpecifiedException("URL for shortening is not specified");
+        if (url.getLongUrl() == null) throw new LongUrlNotSpecifiedException("URL for shortening is not specified");
     }
 
     @Override
     public void checkIfShortUrlIsUnique(final String shortUrl) {
-        if (urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl))
-            throw new ShortUrlAlreadyExistsException("Short URL is already in use");
+        if (urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)) throw new ShortUrlAlreadyExistsException("Short URL is already in use");
     }
 
     @Override
@@ -36,6 +34,7 @@ public class UrlValidatorImpl implements UrlValidator {
         final User currentUser = userService.getUserFromToken();
         final boolean isCurrentUserAdmin = currentUser.getAuthorities().stream()
                 .anyMatch(authorities -> authorities.getName().equals("ROLE_ADMIN"));
+
         if (!url.getOwner().equals(currentUser) && !isCurrentUserAdmin) {
             throw new NoAuthorizationException("You don't have authorization for this action");
         }

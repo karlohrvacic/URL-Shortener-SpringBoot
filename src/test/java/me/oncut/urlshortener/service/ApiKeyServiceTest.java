@@ -58,7 +58,6 @@ class ApiKeyServiceTest {
         final ApiKey apiKey = ApiKey.builder().build();
 
         when(userService.getUserFromToken()).thenReturn(user);
-        when(appProperties.getApiKeyLength()).thenReturn(1L);
         when(apiKeyRepository.save(any(ApiKey.class))).thenReturn(apiKey);
 
         assertThat(apiKeyService.generateNewApiKey()).isEqualTo(apiKey);

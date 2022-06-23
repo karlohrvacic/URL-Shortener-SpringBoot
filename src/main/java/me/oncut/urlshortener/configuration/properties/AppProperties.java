@@ -20,10 +20,6 @@ public class AppProperties {
 
     @NotNull
     @Positive
-    private Long apiKeyLength;
-
-    @NotNull
-    @Positive
     private Long shortUrlLength;
 
     @NotNull

@@ -3,6 +3,7 @@ package me.oncut.urlshortener.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
@@ -15,7 +16,6 @@ import me.oncut.urlshortener.repository.ApiKeyRepository;
 import me.oncut.urlshortener.service.ApiKeyService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,6 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     private final UserService userService;
     private final AppProperties appProperties;
     private final ApiKeyValidator apiKeyValidator;
-
     private final ApiKeyUpdateDtoToApiKeyConverter apiKeyConverter;
 
     @Override
@@ -39,7 +38,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
         apiKeyValidator.apiKeySlotsAvailable();
 
-        apiKey.setKey(RandomStringUtils.random(Math.toIntExact(appProperties.getApiKeyLength()), true, true));
+        apiKey.setKey(UUID.randomUUID().toString());
         apiKey.setOwner(user);
         apiKey.setApiCallsLimit(appProperties.getApiKeyCallsLimit());
         apiKey.setExpirationDate(LocalDateTime.now().plusMonths(appProperties.getApiKeyExpirationInMonths()));
@@ -97,6 +96,17 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
         apiKeyRepository.saveAll(apiKeys);
         if (!apiKeys.isEmpty()) log.info(String.format("Deactivated %d api keys", apiKeys.size()));
+    }
+
+    @Override
+    public int getActiveApiKeysCountForUser(final User user) {
+        return apiKeyRepository.findByOwnerAndActiveTrue(user).size();
+    }
+
+    @Override
+    public ApiKey findApiKeyByKey(final String key) {
+        return apiKeyRepository.findApiKeyByKey(key)
+                .orElseThrow(() -> new ApiKeyDoesntExistException("API key doesn't exist"));
     }
 
 }

@@ -55,8 +55,8 @@ public class ApiKeyValidatorImpl implements ApiKeyValidator {
     public void apiKeySlotsAvailable() {
         final User currentUser = userService.getUserFromToken();
 
-        if (currentUser.getApiKeySlots() <= currentUser.getApiKeys().stream().filter(ApiKey::isActive).count()) {
-            throw new ApiKeySlotException("Can't create new API key as it will exceed API key slot limit\nContact admin for bigger slot.");
+        if (currentUser.getApiKeySlots() <= apiKeyRepository.findByOwnerAndActiveTrue(currentUser).size()) {
+            throw new ApiKeySlotException("Can't create new API key as it exceeds API key slot limit. Contact admin for bigger slot.");
         }
     }
 }

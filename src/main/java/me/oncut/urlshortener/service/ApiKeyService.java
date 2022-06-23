@@ -3,6 +3,7 @@ package me.oncut.urlshortener.service;
 import java.util.List;
 import me.oncut.urlshortener.dto.ApiKeyUpdateDto;
 import me.oncut.urlshortener.model.ApiKey;
+import me.oncut.urlshortener.model.User;
 
 public interface ApiKeyService {
 
@@ -21,4 +22,8 @@ public interface ApiKeyService {
     ApiKey updateKey(ApiKeyUpdateDto apiKeyUpdateDto);
 
     void deactivateExpired();
+
+    int getActiveApiKeysCountForUser(User user);
+
+    ApiKey findApiKeyByKey(String key);
 }

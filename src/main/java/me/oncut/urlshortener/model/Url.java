@@ -81,4 +81,5 @@ public class Url {
         this.apiKey = null;
         this.visitLimit = null;
     }
+
 }
