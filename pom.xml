@@ -10,7 +10,7 @@
     </parent>
     <groupId>me.oncut</groupId>
     <artifactId>urlShortener</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <name>Url Shortener</name>
     <description>Url Shortener project</description>
 
@@ -18,7 +18,7 @@
         <java.version>17</java.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <apache.commons.version>3.12.0</apache.commons.version>
-        <springframework.version>5.3.20</springframework.version>
+        <springframework.version>5.3.21</springframework.version>
         <springframework.boot.version>2.7.0</springframework.boot.version>
         <springdoc.version>1.6.9</springdoc.version>
         <maven.compiler.source>17</maven.compiler.source>
