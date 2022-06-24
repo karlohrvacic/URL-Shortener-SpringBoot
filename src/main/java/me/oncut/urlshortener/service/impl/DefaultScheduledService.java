@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableScheduling
 @RequiredArgsConstructor
-public class ScheduledServiceImpl implements ScheduledService {
+public class DefaultScheduledService implements ScheduledService {
 
     private final IPAddressService ipAddressService;
     private final UserService userService;

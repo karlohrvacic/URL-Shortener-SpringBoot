@@ -7,22 +7,18 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
-import me.oncut.urlshortener.converter.UserRegisterDtoToUserConverter;
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
 import me.oncut.urlshortener.dto.PasswordResetDto;
 import me.oncut.urlshortener.dto.UpdatePasswordDto;
-import me.oncut.urlshortener.dto.UserRegisterDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.exception.UserDoesntExistException;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
-import me.oncut.urlshortener.repository.AuthoritiesRepository;
 import me.oncut.urlshortener.repository.UserRepository;
 import me.oncut.urlshortener.service.ResetTokenService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.AuthValidator;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,28 +27,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @CommonsLog
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class DefaultUserService implements UserService {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final AuthoritiesRepository authoritiesRepository;
-    private final AuthValidator authValidator;
     private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
     private final AppProperties appProperties;
-    private final SendingEmailServiceImpl sendingEmailService;
-    private final UserRegisterDtoToUserConverter userRegisterDtoToUserConverter;
+    private final DefaultSendingEmailService sendingEmailService;
     private final ResetTokenService resetTokenService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthValidator authValidator;
+
 
     @Override
-    public User register(final UserRegisterDto userRegisterDto) {
-        final User user = userRegisterDtoToUserConverter.convert(userRegisterDto);
-
-        authValidator.emailUniqueness(user.getEmail());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setAuthorities(List.of(Objects.requireNonNull(authoritiesRepository.findByName("ROLE_USER")
-                .orElse(null))));
-        user.setApiKeySlots(appProperties.getUserApiKeySlots());
-
+    public User register(final User user) {
         final User savedUser = userRepository.save(user);
         sendingEmailService.sendWelcomeEmail(savedUser);
 
@@ -61,21 +48,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserFromToken() {
-        final Authentication loggedInUser = SecurityContextHolder
-                .getContext()
-                .getAuthentication();
-        final String username = loggedInUser.getName();
+        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        return userRepository.findByEmail(username)
-                .orElse(null);
+        return userRepository.findByEmail(username).orElse(null);
     }
 
     @Override
     public User fetchCurrentUser() {
-        return Optional.ofNullable(getUserFromToken()).map(u -> {
-            u.setPassword("hidden");
-            return u;
-        }).orElseThrow(() -> new NoAuthorizationException("Invalid user"));
+        return Optional.ofNullable(getUserFromToken()).map(user -> {
+            user.setPassword("hidden");
+            return user;
+        }).orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
     }
 
     @Override
@@ -138,6 +121,7 @@ public class UserServiceImpl implements UserService {
     public User resetPassword(final PasswordResetDto passwordResetDto) {
         final User user = userRepository.findByEmail(passwordResetDto.getEmail())
                 .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
+
         final ResetToken token = resetTokenService.getResetTokenFromUserAndToken(user, passwordResetDto.getToken());
 
         if (token.isActive()) {
@@ -146,6 +130,7 @@ public class UserServiceImpl implements UserService {
 
             return userRepository.save(user);
         }
+
         throw new NoAuthorizationException("Token expired");
     }
 
@@ -162,6 +147,13 @@ public class UserServiceImpl implements UserService {
 
         userRepository.saveAll(users);
         if (!users.isEmpty())log.info(String.format("Deactivated %d users", users.size()));
+    }
+
+    @Override
+    public void userHasLoggedIn(final String email) {
+        final User user = fetchUserFromEmail(email);
+        user.userLoggedIn();
+        persistUser(user);
     }
 
 }

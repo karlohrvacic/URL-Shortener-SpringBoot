@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ApiKeyValidatorImpl implements ApiKeyValidator {
+public class DefaultApiKeyValidator implements ApiKeyValidator {
 
     private final ApiKeyRepository apiKeyRepository;
     private final UserService userService;

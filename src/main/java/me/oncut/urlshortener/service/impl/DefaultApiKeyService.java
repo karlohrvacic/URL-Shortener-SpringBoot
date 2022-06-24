@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @CommonsLog
 @RequiredArgsConstructor
-public class ApiKeyServiceImpl implements ApiKeyService {
+public class DefaultApiKeyService implements ApiKeyService {
 
     private final ApiKeyRepository apiKeyRepository;
     private final UserService userService;

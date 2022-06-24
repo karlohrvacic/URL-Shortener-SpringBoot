@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UrlValidatorImpl implements UrlValidator {
+public class DefaultUrlValidator implements UrlValidator {
 
     private final UrlRepository urlRepository;
 

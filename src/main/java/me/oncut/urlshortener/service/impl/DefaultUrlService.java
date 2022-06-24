@@ -27,7 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Service
 @CommonsLog
 @RequiredArgsConstructor
-public class UrlServiceImpl implements UrlService {
+public class DefaultUrlService implements UrlService {
 
     private final UrlRepository urlRepository;
     private final ApiKeyService apiKeyService;
@@ -210,7 +210,7 @@ public class UrlServiceImpl implements UrlService {
         url.setOwner(apiKey.getOwner());
         apiKeyService.apiKeyUseAction(apiKey);
 
-        log.info("URL got api key attached and is keeping custom short url: " + url.getShortUrl());
+        log.info("URL is created with API key and is keeping custom short url: " + url.getShortUrl());
     }
 
     private ApiKey getFirstApiKeyForLoggedInUser() {

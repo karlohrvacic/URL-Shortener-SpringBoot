@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component("userDetailsService")
-public class DomainUserDetailsServiceImpl implements UserDetailsService {
+public class DefaultDomainUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public DomainUserDetailsServiceImpl(final UserRepository userRepository) {
+    public DefaultDomainUserDetailsService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

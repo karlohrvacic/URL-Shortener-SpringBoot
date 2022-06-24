@@ -9,7 +9,7 @@ import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UrlRepository;
-import me.oncut.urlshortener.service.impl.UrlServiceImpl;
+import me.oncut.urlshortener.service.impl.DefaultUrlService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
 import me.oncut.urlshortener.validator.UrlValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +58,7 @@ class UrlServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.urlService = new UrlServiceImpl(
+        this.urlService = new DefaultUrlService(
                 urlRepository,
                 apiKeyService,
                 userService,

@@ -19,9 +19,9 @@ import org.thymeleaf.context.Context;
 @Service
 @CommonsLog
 @RequiredArgsConstructor
-public class SendingEmailServiceImpl implements SendingEmailService {
+public class DefaultSendingEmailService implements SendingEmailService {
 
-    private final EmailServiceImpl emailService;
+    private final DefaultEmailService emailService;
     private final AppProperties appProperties;
     private final TemplateEngine templateEngine;
 

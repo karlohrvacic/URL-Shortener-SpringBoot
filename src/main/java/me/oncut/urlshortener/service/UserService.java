@@ -3,13 +3,12 @@ package me.oncut.urlshortener.service;
 import java.util.List;
 import me.oncut.urlshortener.dto.PasswordResetDto;
 import me.oncut.urlshortener.dto.UpdatePasswordDto;
-import me.oncut.urlshortener.dto.UserRegisterDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.model.User;
 
 public interface UserService {
 
-    User register(UserRegisterDto user);
+    User register(User user);
 
     User getUserFromToken();
 
@@ -32,4 +31,6 @@ public interface UserService {
     User resetPassword(PasswordResetDto passwordResetDto);
 
     void deactivateUnusedUserAccounts();
+
+    void userHasLoggedIn(String email);
 }

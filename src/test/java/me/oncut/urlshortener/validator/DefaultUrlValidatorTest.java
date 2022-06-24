@@ -5,7 +5,7 @@ import me.oncut.urlshortener.exception.ShortUrlAlreadyExistsException;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.repository.UrlRepository;
 import me.oncut.urlshortener.service.UserService;
-import me.oncut.urlshortener.validator.impl.UrlValidatorImpl;
+import me.oncut.urlshortener.validator.impl.DefaultUrlValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UrlValidatorImplTest {
+class DefaultUrlValidatorTest {
 
     private UrlValidator urlValidator;
 
@@ -29,7 +29,7 @@ class UrlValidatorImplTest {
 
     @BeforeEach
     void setUp() {
-        this.urlValidator = new UrlValidatorImpl(urlRepository, userService);
+        this.urlValidator = new DefaultUrlValidator(urlRepository, userService);
     }
 
     @Test

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @CommonsLog
 @RequiredArgsConstructor
-public class IPAddressServiceImpl implements IPAddressService {
+public class DefaultIPAddressService implements IPAddressService {
 
     private final PasswordEncoder encoder;
     private final IPAddressRepository ipAddressRepository;

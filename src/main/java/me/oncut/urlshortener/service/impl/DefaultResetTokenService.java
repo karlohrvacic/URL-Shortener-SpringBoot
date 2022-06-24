@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @CommonsLog
 @RequiredArgsConstructor
-public class ResetTokenServiceImpl implements ResetTokenService {
+public class DefaultResetTokenService implements ResetTokenService {
 
     private final ResetTokenRepository resetTokenRepository;
     private final AppProperties appProperties;

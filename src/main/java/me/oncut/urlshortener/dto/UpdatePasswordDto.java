@@ -1,6 +1,6 @@
 package me.oncut.urlshortener.dto;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdatePasswordDto {
 
-    @NotNull
+    @NotBlank
     private String oldPassword;
 
-    @NotNull
+    @NotBlank
     private String newPassword;
 
 }

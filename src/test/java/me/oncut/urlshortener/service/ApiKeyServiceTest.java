@@ -10,7 +10,7 @@ import me.oncut.urlshortener.exception.ApiKeyDoesntExistException;
 import me.oncut.urlshortener.model.ApiKey;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
-import me.oncut.urlshortener.service.impl.ApiKeyServiceImpl;
+import me.oncut.urlshortener.service.impl.DefaultApiKeyService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ class ApiKeyServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.apiKeyService = new ApiKeyServiceImpl(apiKeyRepository,
+        this.apiKeyService = new DefaultApiKeyService(apiKeyRepository,
                 userService,
                 appProperties,
                 apiKeyValidator,

@@ -10,7 +10,7 @@ import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.model.codebook.Authorities;
 import me.oncut.urlshortener.repository.ApiKeyRepository;
 import me.oncut.urlshortener.service.UserService;
-import me.oncut.urlshortener.validator.impl.ApiKeyValidatorImpl;
+import me.oncut.urlshortener.validator.impl.DefaultApiKeyValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ApiKeyValidatorImplTest {
+class DefaultApiKeyValidatorTest {
 
     private ApiKeyValidator apiKeyValidator;
 
@@ -36,7 +36,7 @@ class ApiKeyValidatorImplTest {
 
     @BeforeEach
     void setUp() {
-        this.apiKeyValidator = new ApiKeyValidatorImpl(
+        this.apiKeyValidator = new DefaultApiKeyValidator(
                 this.apiKeyRepository,
                 this.userService
         );

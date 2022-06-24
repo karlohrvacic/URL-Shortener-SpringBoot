@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
-import me.oncut.urlshortener.service.impl.DomainUserDetailsServiceImpl;
+import me.oncut.urlshortener.service.impl.DefaultDomainUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -29,7 +29,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final DomainUserDetailsServiceImpl userDetailsService;
+    private final DefaultDomainUserDetailsService userDetailsService;
 
     private final JwtFilter jwtFilter;
 
