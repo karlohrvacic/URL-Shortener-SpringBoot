@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.service.UrlService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +20,15 @@ public class UrlRedirectController {
 
     @GetMapping({"/{short}"})
     public RedirectView fetchUrlByShortUrlOrRedirectToFrontend(@PathVariable("short") final String shortUrl) {
-        String remoteAddr = "";
+        String remoteAddress = "";
         if (request != null) {
-            remoteAddr = request.getHeader("X-FORWARDED-FOR");
-            if (remoteAddr == null || "".equals(remoteAddr)) {
-                remoteAddr = request.getRemoteAddr();
+            remoteAddress = request.getHeader("X-FORWARDED-FOR");
+            if (StringUtils.isEmpty(remoteAddress) || "".equals(remoteAddress)) {
+                remoteAddress = request.getRemoteAddr();
             }
         }
-        return urlService.redirectResultUrl(shortUrl, remoteAddr);
+
+        return urlService.redirectResultUrl(shortUrl, remoteAddress);
     }
 
     @GetMapping({"/"})

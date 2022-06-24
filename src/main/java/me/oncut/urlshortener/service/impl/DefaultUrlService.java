@@ -19,6 +19,7 @@ import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.ApiKeyValidator;
 import me.oncut.urlshortener.validator.UrlValidator;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,18 +42,8 @@ public class DefaultUrlService implements UrlService {
 
     @Transactional
     @Override
-    public Url saveUrlWithApiKey(final Url url, String key) {
-        urlValidator.longUrlInUrl(url);
-        final ApiKey apiKey;
-
-        if (key != null) {
-            apiKey = apiKeyService.fetchApiKeyByKey(key);
-        } else {
-            apiKey = getFirstApiKeyForLoggedInUser();
-            key = apiKey.getKey();
-        }
-
-        apiKeyValidator.apiKeyExistsByKeyAndIsValid(key);
+    public Url saveUrlWithApiKey(final Url url, final String key) {
+        final ApiKey apiKey = getApiKey(key);
         setShortUrlForLoggedInUser(url, apiKey);
 
         log.info("Saving URL");
@@ -62,7 +53,8 @@ public class DefaultUrlService implements UrlService {
     @Override
     public RedirectView redirectResultUrl(final String shortUrl, final String clientIP) {
         final RedirectView redirectView = new RedirectView();
-        if (shortUrl != null && urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)) {
+
+        if (StringUtils.isNotEmpty(shortUrl) && urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)) {
             redirectView.setUrl(checkIPUniquenessAndReturnUrl(shortUrl, clientIP).getLongUrl());
         } else {
             redirectView.setUrl(appProperties.getFrontendUrl());
@@ -73,6 +65,8 @@ public class DefaultUrlService implements UrlService {
     @Transactional
     @Override
     public Url saveUrlRouting(final Url url) {
+        urlValidator.longUrlInUrl(url);
+
         if (userService.getUserFromToken() != null) {
             return saveUrlWithApiKey(url, null);
         } else {
@@ -80,29 +74,10 @@ public class DefaultUrlService implements UrlService {
         }
     }
 
-    private Url createUrlForAnonymousUser(final Url url) {
-        url.clearForAnonymousUser();
-
-        urlValidator.longUrlInUrl(url);
-
-        if (urlRepository.existsUrlByLongUrlAndActiveTrueAndOwnerIsNull(url.getLongUrl())) {
-            final Url existingLongUrl = getUrlByLongUrl(url.getLongUrl());
-            log.warn("Long url already exists in DB, will return URL from long URL " + existingLongUrl.getShortUrl());
-            return existingLongUrl;
-        }
-
-        url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
-
-        urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
-
-        log.info("Saving URL");
-        return urlRepository.save(url);
-    }
-
     @Override
     public List<Url> getAllMyUrls(final String apiKey) {
         final User user;
-        if (apiKey != null) {
+        if (StringUtils.isNotEmpty(apiKey)) {
             apiKeyValidator.apiKeyExistsByKeyAndIsValid(apiKey);
             user = apiKeyService.fetchApiKeyByKey(apiKey).getOwner();
         } else {
@@ -152,7 +127,7 @@ public class DefaultUrlService implements UrlService {
     public Url checkIPUniquenessAndReturnUrl(final String shortUrl, final String clientIP) {
         final Url url = urlRepository.findByShortUrlAndActiveTrue(shortUrl)
                 .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
-        checkIfVisitUnique(clientIP, url);
+        asyncCheckIfVisitUnique(clientIP, url);
         return url;
     }
 
@@ -169,7 +144,49 @@ public class DefaultUrlService implements UrlService {
         if (!urls.isEmpty()) log.info(String.format("Deactivated %d urls", urls.size()));
     }
 
-    private void checkIfVisitUnique(final String clientIP, final Url url) {
+    @Override
+    public Url getUrlByLongUrl(final String longUrl) {
+        return urlRepository.findByLongUrlAndActiveTrue(longUrl)
+                .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
+    }
+
+    @Override
+    public String generateShortUrl(final Long length) {
+        return RandomStringUtils.random(Math.toIntExact(length), true, true);
+    }
+
+    private ApiKey getApiKey(String key) {
+        final ApiKey apiKey;
+
+        if (StringUtils.isNotEmpty(key)) {
+            apiKey = apiKeyService.fetchApiKeyByKey(key);
+        } else {
+            apiKey = getFirstApiKeyForLoggedInUser();
+            key = apiKey.getKey();
+        }
+
+        apiKeyValidator.apiKeyExistsByKeyAndIsValid(key);
+        return apiKey;
+    }
+
+    private Url createUrlForAnonymousUser(final Url url) {
+        url.clearForAnonymousUser();
+
+        if (urlRepository.existsUrlByLongUrlAndActiveTrueAndOwnerIsNull(url.getLongUrl())) {
+            final Url existingLongUrl = getUrlByLongUrl(url.getLongUrl());
+            log.warn("Long url already exists in DB, will return URL from long URL " + existingLongUrl.getShortUrl());
+            return existingLongUrl;
+        }
+
+        url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
+
+        urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
+
+        log.info("Saving URL");
+        return urlRepository.save(url);
+    }
+
+    private void asyncCheckIfVisitUnique(final String clientIP, final Url url) {
         taskExecutor.execute(() -> {
             if (!ipAddressService.urlAlreadyVisitedByIP(url, clientIP)) {
                 incrementVisitForUrl(url);
@@ -181,30 +198,15 @@ public class DefaultUrlService implements UrlService {
         urlRepository.save(url.onVisit());
     }
 
-    @Override
-    public Url getUrlByLongUrl(final String longUrl) {
-        return urlRepository.findByLongUrlAndActiveTrue(longUrl)
-                .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
-    }
-
-    @Override
-    public String generateShortUrl(final Long length) {
-        return RandomStringUtils.random(Math.toIntExact(length), true, false);
-    }
-
     private void setShortUrlForLoggedInUser(final Url url, final ApiKey apiKey) {
         log.info("Setting short URL");
 
-        if (url.getShortUrl() == null) {
-            url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
-        }
-
-        urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
-
-        if (url.getShortUrl().length() < 1) {
+        if (StringUtils.isEmpty(url.getShortUrl())) {
             url.setShortUrl(generateShortUrl(appProperties.getShortUrlLength()));
             log.info(String.format("URL got generated short URL %s", url.getShortUrl()));
         }
+
+        urlValidator.checkIfShortUrlIsUnique(url.getShortUrl());
 
         url.setApiKey(apiKey);
         url.setOwner(apiKey.getOwner());

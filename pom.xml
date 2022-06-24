@@ -10,7 +10,7 @@
     </parent>
     <groupId>me.oncut</groupId>
     <artifactId>urlShortener</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <name>Url Shortener</name>
     <description>Url Shortener project</description>
 

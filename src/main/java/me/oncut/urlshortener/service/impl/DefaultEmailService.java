@@ -7,13 +7,17 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
+import me.oncut.urlshortener.exception.MailingException;
 import me.oncut.urlshortener.model.Email;
 import me.oncut.urlshortener.service.EmailService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
+@CommonsLog
 @RequiredArgsConstructor
 public class DefaultEmailService implements EmailService {
 
@@ -23,19 +27,28 @@ public class DefaultEmailService implements EmailService {
     public void sendEmail(final Email email, final File attachment) throws MessagingException {
         final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
         if (attachment != null) {
             try {
                 attachFileToEmail(attachment, mimeMessage);
             } catch (final IOException | MessagingException e) {
-                throw new MessagingException("Exception while attaching file to email.", e);
+                log.error("Exception while attaching file to email.", e);
+                throw new MailingException("Error while attaching file to email.");
             }
         }
+
         setEmailMessageParameters(email, message);
-        javaMailSender.send(mimeMessage);
+
+        try {
+            javaMailSender.send(mimeMessage);
+        } catch (final Exception e) {
+            log.error("Exception while sending email.", e);
+            throw new MailingException("Email couldn't be sent");
+        }
     }
 
     private void setEmailMessageParameters(final Email email, final MimeMessageHelper message) throws MessagingException {
-        if (email.getSender() != null) {
+        if (StringUtils.isNotEmpty(email.getSender())) {
             message.setFrom(email.getSender());
         }
         message.setTo(email.getReceivers());
