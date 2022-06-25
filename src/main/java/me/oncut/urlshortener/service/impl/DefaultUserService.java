@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.UserUpdateDtoToUserConverter;
 import me.oncut.urlshortener.dto.PasswordResetDto;
+import me.oncut.urlshortener.dto.RequestPasswordResetDto;
 import me.oncut.urlshortener.dto.UpdatePasswordDto;
 import me.oncut.urlshortener.dto.UserUpdateDto;
 import me.oncut.urlshortener.exception.NoAuthorizationException;
@@ -36,6 +38,7 @@ public class DefaultUserService implements UserService {
     private final ResetTokenService resetTokenService;
     private final PasswordEncoder passwordEncoder;
     private final AuthValidator authValidator;
+    private final ObjectMapper objectMapper;
 
 
     @Override
@@ -106,8 +109,8 @@ public class DefaultUserService implements UserService {
 
     @Override
     @Transactional
-    public void sendPasswordResetLinkToUser(final String email) {
-        final Optional<User> user = userRepository.findByEmail(email);
+    public void sendPasswordResetLinkToUser(final RequestPasswordResetDto requestPasswordResetDto) {
+        final Optional<User> user = userRepository.findByEmail(requestPasswordResetDto.getEmail());
 
         if (user.isPresent()) {
             resetTokenService.deactivateActiveResetTokenIfExists(user.get());

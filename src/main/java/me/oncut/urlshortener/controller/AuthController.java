@@ -6,6 +6,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.dto.JWTTokenDto;
 import me.oncut.urlshortener.dto.LoginDto;
 import me.oncut.urlshortener.dto.PasswordResetDto;
+import me.oncut.urlshortener.dto.RequestPasswordResetDto;
 import me.oncut.urlshortener.dto.UserRegisterDto;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.AuthService;
@@ -33,9 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public void requestPasswordReset(@RequestBody final String email) {
-        log.info("Forgot password controller invoked for " + email);
-        userService.sendPasswordResetLinkToUser(email);
+    public void requestPasswordReset(@RequestBody final RequestPasswordResetDto requestPasswordResetDto) {
+        log.info("Forgot password controller invoked for " + requestPasswordResetDto.getEmail());
+        userService.sendPasswordResetLinkToUser(requestPasswordResetDto);
     }
 
     @PostMapping("/reset-password/set-password")

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ApiKeyUpdateDto {
 
     @NotNull(message = "ID of API key can't be null!")
