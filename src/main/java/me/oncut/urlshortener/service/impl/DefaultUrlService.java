@@ -45,6 +45,7 @@ public class DefaultUrlService implements UrlService {
     public Url saveUrlWithApiKey(final Url url, final String key) {
         final ApiKey apiKey = getApiKey(key);
         setShortUrlForLoggedInUser(url, apiKey);
+        urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
         log.info("Saving URL");
         return urlRepository.save(url);
@@ -118,6 +119,7 @@ public class DefaultUrlService implements UrlService {
     @Transactional
     public Url updateUrl(final UrlUpdateDto updateDto) {
         final Url url = urlUpdateDtoToUrlConverter.convert(updateDto);
+        urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
         url.verifyUrlValidity();
         return urlRepository.save(url);

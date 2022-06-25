@@ -24,11 +24,13 @@ public class ApiKeyController {
     private final ApiKeyService apiKeyService;
 
     @GetMapping("/new")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ApiKey generateNewApiKey() throws UserDoesntExistException {
         return apiKeyService.generateNewApiKey();
     }
 
     @GetMapping("/my")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<ApiKey> fetchMyApiKeys() throws UserDoesntExistException {
         return apiKeyService.fetchMyApiKeys();
     }

@@ -8,4 +8,6 @@ public interface UrlValidator {
     void checkIfShortUrlIsUnique(String shortUrl);
 
     void verifyUserAdminOrOwner(Url url);
+
+    void checkIfUrlExpirationDateIsInThePast(Url url);
 }

@@ -1,9 +1,11 @@
 package me.oncut.urlshortener.validator.impl;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import me.oncut.urlshortener.exception.LongUrlNotSpecifiedException;
 import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.exception.ShortUrlAlreadyExistsException;
+import me.oncut.urlshortener.exception.UrlValidationException;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UrlRepository;
@@ -37,6 +39,13 @@ public class DefaultUrlValidator implements UrlValidator {
 
         if (!url.getOwner().equals(currentUser) && !isCurrentUserAdmin) {
             throw new NoAuthorizationException("You don't have authorization for this action");
+        }
+    }
+
+    @Override
+    public void checkIfUrlExpirationDateIsInThePast(final Url url) {
+        if (LocalDateTime.now().isAfter(url.getExpirationDate())) {
+            throw new UrlValidationException("Expiration date can't be in the past");
         }
     }
 }

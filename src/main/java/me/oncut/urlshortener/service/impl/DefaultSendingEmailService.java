@@ -30,7 +30,7 @@ public class DefaultSendingEmailService implements SendingEmailService {
         final Context ctx = getContext(user);
         ctx.setVariable("request_date", resetToken.getCreateDate().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
         ctx.setVariable("token", resetToken.getToken());
-        ctx.setVariable("full_password_reset_link", MessageFormat.format("{0}/#/reset-password/{1}", appProperties.getFrontendUrl(), resetToken.getToken()));
+        ctx.setVariable("full_password_reset_link", MessageFormat.format("{0}/#/reset-password?token={1}", appProperties.getFrontendUrl(), resetToken.getToken()));
 
         final String htmlContent = templateEngine.process("reset_password", ctx);
 
@@ -95,7 +95,7 @@ public class DefaultSendingEmailService implements SendingEmailService {
         ctx.setVariable("api_documentation", MessageFormat.format("{0}/swagger-ui/index.html", appProperties.getServerUrl()));
         ctx.setVariable("days_of_inactivity", appProperties.getDeactivateUserAccountAfterDays().toString());
         ctx.setVariable("contact_email", appProperties.getContactEmail());
-        ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password/", appProperties.getFrontendUrl()));
+        ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password", appProperties.getFrontendUrl()));
         ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
         ctx.setVariable("github_image", "github");
         ctx.setVariable("password_reset_image", "password_reset");
