@@ -66,4 +66,7 @@ public class AppProperties {
     @NotBlank
     private String serverUrl;
 
+    @NotNull
+    @Positive
+    private Long maxLoginAttempts;
 }

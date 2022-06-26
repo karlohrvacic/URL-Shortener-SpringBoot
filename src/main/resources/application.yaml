@@ -4,13 +4,11 @@ spring:
   liquibase:
     change-log: classpath:/db/dbchangelog.xml
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "health, info"
+  endpoint.web.exposure.include: "health, info"
 server:
   error:
     include-message: always
+
 app:
   frontend-url: https://app.oncut.me
   app-name: Url Cutter by Oncut

@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.service.impl;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.beans.JwtFilter;
@@ -8,10 +9,13 @@ import me.oncut.urlshortener.converter.UserRegisterDtoToUserConverter;
 import me.oncut.urlshortener.dto.JWTTokenDto;
 import me.oncut.urlshortener.dto.LoginDto;
 import me.oncut.urlshortener.dto.UserRegisterDto;
+import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.AuthService;
+import me.oncut.urlshortener.service.LoginAttemptService;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.UserValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,7 @@ public class DefaultAuthService implements AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRegisterDtoToUserConverter userRegisterDtoToUserConverter;
     private final UserValidator userValidator;
+    private final LoginAttemptService loginAttemptService;
 
     @Override
     public String register(final UserRegisterDto userRegisterDto) {
@@ -41,13 +46,28 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public ResponseEntity<JWTTokenDto> login(final LoginDto loginDto) {
+    public ResponseEntity<JWTTokenDto> login(final LoginDto loginDto, final HttpServletRequest request) {
+        if (loginAttemptService.isBlocked(getClientIP(request))) {
+            throw new NoAuthorizationException("Request has been blocked");
+        }
         final String token = getToken(loginDto);
         final HttpHeaders httpHeaders = getHttpHeaders(token);
 
         userService.userHasLoggedIn(loginDto.getEmail());
 
         return new ResponseEntity<>(new JWTTokenDto(token), httpHeaders, HttpStatus.OK);
+    }
+
+    @Override
+    public String getClientIP(final HttpServletRequest request) {
+        String ipAddress = "";
+        if (request != null) {
+            ipAddress = request.getHeader("X-FORWARDED-FOR");
+            if (StringUtils.isEmpty(ipAddress) || "".equals(ipAddress)) {
+                ipAddress = request.getRemoteAddr();
+            }
+        }
+        return ipAddress;
     }
 
     private String getToken(final LoginDto loginDto) {

@@ -1,5 +1,6 @@
 package me.oncut.urlshortener.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
@@ -24,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-
     private final UserService userService;
+    private final HttpServletRequest request;
 
     @PostMapping("/register")
     public String register(@Valid @RequestBody final UserRegisterDto user) {
@@ -48,6 +49,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JWTTokenDto> login(@Valid @RequestBody final LoginDto login) {
         log.info("Login controller invoked for user " + login.getEmail());
-        return authService.login(login);
+        return authService.login(login, request);
     }
 }

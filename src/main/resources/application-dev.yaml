@@ -9,16 +9,15 @@ spring:
         format_sql: 'true'
     show-sql: false
   application:
-    name: URL Shortener DevMode
+    name: URL Shortener
   mail:
-    host: hh.test
-    port: 0000
-    username: 688
-    password: 6886
+    host: localhost
+    port: 365
+    username: root
+    password: root
     properties:
-      mail:
-        smtp:
-          auth: true
+      mail.smtp.auth: true
+
 app:
   short-url-length: 5
   api-key-calls-limit: 8
@@ -33,5 +32,7 @@ app:
   deactivate-user-account-after-days: 365
   contact-email: info@localhost
   server-url: localhost
+  max-login-attempts: 2
+
 server:
   port: 8080
