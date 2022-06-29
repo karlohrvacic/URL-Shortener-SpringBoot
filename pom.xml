@@ -20,7 +20,7 @@
         <apache.commons.version>3.12.0</apache.commons.version>
         <springframework.version>5.3.21</springframework.version>
         <springframework.boot.version>2.7.1</springframework.boot.version>
-        <guava.version>20.0</guava.version>
+        <guava.version>23.0</guava.version>
         <springdoc.version>1.6.9</springdoc.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
