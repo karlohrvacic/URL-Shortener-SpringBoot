@@ -227,4 +227,5 @@ public class DefaultUrlService implements UrlService {
                 .findFirst()
                 .orElseGet(apiKeyService::generateNewApiKey);
     }
+
 }

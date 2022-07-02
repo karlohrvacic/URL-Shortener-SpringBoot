@@ -19,4 +19,5 @@ public class DefaultAuthValidator implements AuthValidator {
             throw new NoAuthorizationException("Password doesn't match existing password");
         }
     }
+
 }

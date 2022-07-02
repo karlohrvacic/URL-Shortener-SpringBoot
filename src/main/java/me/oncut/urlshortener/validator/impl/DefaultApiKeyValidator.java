@@ -59,4 +59,5 @@ public class DefaultApiKeyValidator implements ApiKeyValidator {
             throw new ApiKeySlotException("Can't create new API key as it exceeds API key slot limit. Contact admin for bigger slot.");
         }
     }
+
 }

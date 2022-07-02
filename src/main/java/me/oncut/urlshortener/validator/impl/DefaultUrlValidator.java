@@ -48,5 +48,6 @@ public class DefaultUrlValidator implements UrlValidator {
             throw new UrlValidationException("Expiration date can't be in the past");
         }
     }
+
 }
 

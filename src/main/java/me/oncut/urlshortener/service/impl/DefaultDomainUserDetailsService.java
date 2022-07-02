@@ -39,4 +39,5 @@ public class DefaultDomainUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
     }
+
 }

@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <version>2.7.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>me.oncut</groupId>
     <artifactId>urlShortener</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <name>Url Shortener</name>
     <description>Url Shortener project</description>
 
@@ -20,7 +20,7 @@
         <apache.commons.version>3.12.0</apache.commons.version>
         <springframework.version>5.3.21</springframework.version>
         <springframework.boot.version>2.7.1</springframework.boot.version>
-        <guava.version>23.0</guava.version>
+        <guava.version>31.1-jre</guava.version>
         <springdoc.version>1.6.9</springdoc.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

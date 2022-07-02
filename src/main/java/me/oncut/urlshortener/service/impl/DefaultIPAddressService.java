@@ -84,4 +84,5 @@ public class DefaultIPAddressService implements IPAddressService {
         final IPAddress savedIpAddress = ipAddressRepository.save(ipAddress.addVisit());
         log.info(String.format("IP address with id %d saved", savedIpAddress.getId()));
     }
+
 }
