@@ -23,4 +23,5 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
             loginAttemptService.loginSucceeded(xfHeader.split(",")[0]);
         }
     }
+
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,13 +19,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import me.oncut.urlshortener.configuration.properties.AppProperties;
 
 @Entity
-@Builder
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ApiKey {
 
     @Id
@@ -52,6 +54,13 @@ public class ApiKey {
 
     private boolean active;
 
+    public ApiKey(final User user, final AppProperties appProperties) {
+        this.key = UUID.randomUUID().toString();
+        this.owner = user;
+        this.apiCallsLimit = appProperties.getApiKeyCallsLimit();
+        this.expirationDate = LocalDateTime.now().plusMonths(appProperties.getApiKeyExpirationInMonths());
+    }
+
     @PrePersist
     public void onCreate() {
         this.createDate = LocalDateTime.now();
@@ -62,6 +71,7 @@ public class ApiKey {
     public ApiKey apiKeyUsed() {
         this.apiCallsUsed++;
         verifyApiKeyValidity();
+
         return this;
     }
 
@@ -70,6 +80,12 @@ public class ApiKey {
                 Optional.ofNullable(this.expirationDate).orElse(LocalDateTime.now().plusDays(1)).isBefore(LocalDateTime.now())) {
             this.active = false;
         }
+    }
+
+    public ApiKey deactivate() {
+        this.active = false;
+
+        return this;
     }
 
 }

@@ -19,16 +19,16 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.oncut.urlshortener.model.codebook.Authorities;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Builder
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_account")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

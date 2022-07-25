@@ -29,7 +29,7 @@ public class DefaultScheduledService implements ScheduledService {
     }
 
     @Override
-    @Scheduled(cron = "5 */1 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void deleteDeactivatedIps() {
         ipAddressService.deleteDeactivatedIps();
     }
@@ -41,13 +41,13 @@ public class DefaultScheduledService implements ScheduledService {
     }
 
     @Override
-    @Scheduled(cron = "5 */1 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void deleteExpiredPasswordResetTokens() {
         resetTokenService.deleteExpiredPasswordResetTokens();
     }
 
     @Override
-    @Scheduled(cron = "0 10 * * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     public void deactivateUnusedUserAccounts() {
         userService.deactivateUnusedUserAccounts();
     }

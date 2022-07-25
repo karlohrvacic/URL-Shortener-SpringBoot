@@ -6,7 +6,9 @@ import java.util.Optional;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ResetTokenRepository extends JpaRepository<ResetToken, Long> {
 
     Optional<ResetToken> findResetTokenByUserAndTokenAndActiveTrue(User user, String token);

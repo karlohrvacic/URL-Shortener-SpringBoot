@@ -2,6 +2,7 @@ package me.oncut.urlshortener.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,8 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Service
 @Component("userDetailsService")
 public class DefaultDomainUserDetailsService implements UserDetailsService {
 
@@ -24,7 +26,6 @@ public class DefaultDomainUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-
         return userRepository
                 .findByEmail(email)
                 .map(this::createSpringSecurityUser)

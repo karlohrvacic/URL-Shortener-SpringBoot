@@ -3,7 +3,6 @@ package me.oncut.urlshortener.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
@@ -33,17 +32,11 @@ public class DefaultApiKeyService implements ApiKeyService {
     @Override
     @Transactional
     public ApiKey generateNewApiKey() {
-        final ApiKey apiKey = new ApiKey();
         final User user = userService.getUserFromToken();
 
-        apiKeyValidator.apiKeySlotsAvailable();
+        apiKeyValidator.apiKeySlotsAvailable(user);
 
-        apiKey.setKey(UUID.randomUUID().toString());
-        apiKey.setOwner(user);
-        apiKey.setApiCallsLimit(appProperties.getApiKeyCallsLimit());
-        apiKey.setExpirationDate(LocalDateTime.now().plusMonths(appProperties.getApiKeyExpirationInMonths()));
-
-        return apiKeyRepository.save(apiKey);
+        return apiKeyRepository.save(new ApiKey(user, appProperties));
     }
 
     @Override
@@ -88,10 +81,7 @@ public class DefaultApiKeyService implements ApiKeyService {
     @Override
     public void deactivateExpired() {
         final List<ApiKey> apiKeys = apiKeyRepository.findByExpirationDateIsLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
-                .map(apiKey -> {
-                    apiKey.setActive(false);
-                    return apiKey;
-                })
+                .map(ApiKey::deactivate)
                 .toList();
 
         apiKeyRepository.saveAll(apiKeys);
@@ -106,7 +96,7 @@ public class DefaultApiKeyService implements ApiKeyService {
     @Override
     public ApiKey findApiKeyByKey(final String key) {
         return apiKeyRepository.findApiKeyByKey(key)
-                .orElseThrow(() -> new ApiKeyDoesntExistException("API key doesn't exist"));
+            .orElseThrow(() -> new ApiKeyDoesntExistException("API key doesn't exist"));
     }
 
 }

@@ -6,6 +6,7 @@ import me.oncut.urlshortener.model.codebook.Authorities;
 import me.oncut.urlshortener.repository.AuthoritiesRepository;
 import me.oncut.urlshortener.service.AuthoritiesService;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 @Service
 @CommonsLog
@@ -19,7 +20,7 @@ public class DefaultAuthoritiesService implements AuthoritiesService {
     @Override
     public Authorities getDefaultAuthority() {
         return authoritiesRepository.findByName(DEFAULT_AUTHORITY_NAME)
-                .orElse(authoritiesRepository.getById(1L));
+            .orElse(authoritiesRepository.findById(1L).orElseThrow(() -> new NotFoundException("Authority not found")));
     }
 
 }

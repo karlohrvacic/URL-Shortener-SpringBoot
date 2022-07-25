@@ -52,10 +52,8 @@ public class DefaultApiKeyValidator implements ApiKeyValidator {
     }
 
     @Override
-    public void apiKeySlotsAvailable() {
-        final User currentUser = userService.getUserFromToken();
-
-        if (currentUser.getApiKeySlots() <= apiKeyRepository.findByOwnerAndActiveTrue(currentUser).size()) {
+    public void apiKeySlotsAvailable(final User user) {
+        if (user.getApiKeySlots() <= apiKeyRepository.findByOwnerAndActiveTrue(user).size()) {
             throw new ApiKeySlotException("Can't create new API key as it exceeds API key slot limit. Contact admin for bigger slot.");
         }
     }

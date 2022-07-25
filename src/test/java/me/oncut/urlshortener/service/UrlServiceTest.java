@@ -104,7 +104,6 @@ class UrlServiceTest {
         when(apiKeyService.fetchApiKeyByKey(api)).thenReturn(apiKey);
         assertThat(urlService.saveUrlWithApiKey(url, api)).isEqualTo(url);
 
-        verify(urlValidator).longUrlInUrl(url);
         verify(apiKeyValidator).apiKeyExistsByKeyAndIsValid(api);
         verify(apiKeyService).apiKeyUseAction(any(ApiKey.class));
     }
