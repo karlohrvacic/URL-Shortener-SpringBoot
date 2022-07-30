@@ -1,9 +1,7 @@
 package me.oncut.urlshortener.service.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -17,8 +15,7 @@ import me.oncut.urlshortener.model.Email;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.SendingEmailService;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
@@ -114,7 +111,7 @@ public class DefaultSendingEmailService implements SendingEmailService {
     private String encodeResourceImageToBase64(final String imageName) {
         try {
             final File file = ResourceUtils.getFile("classpath:images/" + imageName);
-            return Base64.getEncoder().encodeToString(file.toString().getBytes());
+            return Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file));
         }
         catch (final IOException exception) {
             log.error(exception);
