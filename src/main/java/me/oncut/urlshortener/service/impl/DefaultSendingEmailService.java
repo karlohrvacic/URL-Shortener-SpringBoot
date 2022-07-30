@@ -1,9 +1,14 @@
 package me.oncut.urlshortener.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Base64;
 import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
@@ -12,7 +17,10 @@ import me.oncut.urlshortener.model.Email;
 import me.oncut.urlshortener.model.ResetToken;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.SendingEmailService;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -97,10 +105,21 @@ public class DefaultSendingEmailService implements SendingEmailService {
         ctx.setVariable("contact_email", appProperties.getContactEmail());
         ctx.setVariable("password_reset_link", MessageFormat.format("{0}/#/reset-password", appProperties.getFrontendUrl()));
         ctx.setVariable("token_expiration", appProperties.getResetTokenExpirationInHours().toString());
-        ctx.setVariable("github_image", "github");
-        ctx.setVariable("password_reset_image", "password_reset");
+        ctx.setVariable("github_image", encodeResourceImageToBase64("github.png"));
+        ctx.setVariable("password_reset_image", encodeResourceImageToBase64("password_reset.png"));
 
         return ctx;
+    }
+
+    private String encodeResourceImageToBase64(final String imageName) {
+        try {
+            final File file = ResourceUtils.getFile("classpath:images/" + imageName);
+            return Base64.getEncoder().encodeToString(file.toString().getBytes());
+        }
+        catch (final IOException exception) {
+            log.error(exception);
+            return "";
+        }
     }
 
 }
