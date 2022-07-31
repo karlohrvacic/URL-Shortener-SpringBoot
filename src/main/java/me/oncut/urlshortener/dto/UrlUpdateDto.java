@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UrlUpdateDto {
 
-    @NotNull
+    @NotNull(message = "ID is required")
     private Long id;
 
     private Long visitLimit;

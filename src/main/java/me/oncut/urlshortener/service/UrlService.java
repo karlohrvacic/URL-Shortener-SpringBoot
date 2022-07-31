@@ -1,6 +1,8 @@
 package me.oncut.urlshortener.service;
 
 import java.util.List;
+import javax.validation.Valid;
+import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.model.Url;
 import org.springframework.web.servlet.view.RedirectView;
@@ -13,9 +15,9 @@ public interface UrlService {
 
     String generateShortUrl(Long length);
 
-    Url saveUrlRouting(Url url);
+    Url saveUrlRouting(@Valid CreateUrlDto url);
 
-    Url saveUrlWithApiKey(Url url, String apiKey);
+    Url saveUrlWithApiKey(@Valid CreateUrlDto createUrlDto, String apiKey);
 
     RedirectView redirectResultUrl(String shortUrl, String clientIP);
 

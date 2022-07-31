@@ -10,13 +10,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserRegisterDto {
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password is required")
     private String password;
 
 }

@@ -2,10 +2,13 @@ package me.oncut.urlshortener.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
+import me.oncut.urlshortener.converter.CreateUrlToUrlConverter;
 import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
+import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.exception.UrlNotFoundException;
 import me.oncut.urlshortener.model.ApiKey;
@@ -38,18 +41,8 @@ public class DefaultUrlService implements UrlService {
     private final AppProperties appProperties;
     private final IPAddressService ipAddressService;
     private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
+    private final CreateUrlToUrlConverter createUrlToUrlConverter;
     private final TaskExecutor taskExecutor;
-
-    @Transactional
-    @Override
-    public Url saveUrlWithApiKey(final Url url, final String key) {
-        final ApiKey apiKey = getApiKey(key);
-        setShortUrlForLoggedInUser(url, apiKey);
-        urlValidator.checkIfUrlExpirationDateIsInThePast(url);
-
-        log.info("Saving URL");
-        return urlRepository.save(url);
-    }
 
     @Override
     public RedirectView redirectResultUrl(final String shortUrl, final String clientIP) {
@@ -65,14 +58,28 @@ public class DefaultUrlService implements UrlService {
 
     @Transactional
     @Override
-    public Url saveUrlRouting(final Url url) {
+    public Url saveUrlRouting(final @Valid CreateUrlDto createUrlDto) {
+        final Url url = createUrlToUrlConverter.convert(createUrlDto);
         urlValidator.longUrlInUrl(url);
+        urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
         if (userService.getUserFromToken() != null) {
-            return saveUrlWithApiKey(url, null);
+            return saveUrlWithApiKey(createUrlDto, null);
         } else {
             return createUrlForAnonymousUser(url);
         }
+    }
+
+
+    @Override
+    @Transactional
+    public Url saveUrlWithApiKey(final @Valid CreateUrlDto createUrlDto, final String key) {
+        final Url url = createUrlToUrlConverter.convert(createUrlDto);
+        final ApiKey apiKey = getApiKey(key);
+        setShortUrlForLoggedInUser(url, apiKey);
+
+        log.info("Saving URL");
+        return urlRepository.save(url);
     }
 
     @Override
@@ -149,26 +156,12 @@ public class DefaultUrlService implements UrlService {
     @Override
     public Url getUrlByLongUrl(final String longUrl) {
         return urlRepository.findByLongUrlAndActiveTrue(longUrl)
-                .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
+            .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 
     @Override
     public String generateShortUrl(final Long length) {
         return RandomStringUtils.random(Math.toIntExact(length), true, true);
-    }
-
-    private ApiKey getApiKey(String key) {
-        final ApiKey apiKey;
-
-        if (StringUtils.isNotEmpty(key)) {
-            apiKey = apiKeyService.fetchApiKeyByKey(key);
-        } else {
-            apiKey = getFirstApiKeyForLoggedInUser();
-            key = apiKey.getKey();
-        }
-
-        apiKeyValidator.apiKeyExistsByKeyAndIsValid(key);
-        return apiKey;
     }
 
     private Url createUrlForAnonymousUser(final Url url) {
@@ -188,6 +181,20 @@ public class DefaultUrlService implements UrlService {
         return urlRepository.save(url);
     }
 
+    private ApiKey getApiKey(String key) {
+        final ApiKey apiKey;
+
+        if (StringUtils.isNotEmpty(key)) {
+            apiKey = apiKeyService.fetchApiKeyByKey(key);
+        } else {
+            apiKey = getFirstApiKeyForLoggedInUser();
+            key = apiKey.getKey();
+        }
+
+        apiKeyValidator.apiKeyExistsByKeyAndIsValid(key);
+        return apiKey;
+    }
+
     private void asyncCheckIfVisitUnique(final String clientIP, final Url url) {
         taskExecutor.execute(() -> {
             if (!ipAddressService.urlAlreadyVisitedByIP(url, clientIP)) {
@@ -200,7 +207,7 @@ public class DefaultUrlService implements UrlService {
         urlRepository.save(url.onVisit());
     }
 
-    private void setShortUrlForLoggedInUser(final Url url, final ApiKey apiKey) {
+    private void setShortUrlForLoggedInUser(final @Valid Url url, final ApiKey apiKey) {
         log.info("Setting short URL");
 
         if (StringUtils.isEmpty(url.getShortUrl())) {

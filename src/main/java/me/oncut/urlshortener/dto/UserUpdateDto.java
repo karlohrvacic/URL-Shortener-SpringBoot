@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserUpdateDto {
 
-    @NotNull(message = "User ID can't be null!")
+    @NotNull(message = "ID is required")
     private Long id;
     private String name;
     private String email;

@@ -44,7 +44,7 @@ public class DefaultUrlValidator implements UrlValidator {
 
     @Override
     public void checkIfUrlExpirationDateIsInThePast(final Url url) {
-        if (url.getExpirationDate() != null &&LocalDateTime.now().isAfter(url.getExpirationDate())) {
+        if (url.getExpirationDate() != null && LocalDateTime.now().isAfter(url.getExpirationDate())) {
             throw new UrlValidationException("Expiration date can't be in the past");
         }
     }

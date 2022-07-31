@@ -9,6 +9,9 @@ spring:
       hibernate:
         format_sql: 'true'
     show-sql: false
+  h2:
+    console:
+      enabled: true
   application:
     name: URL Shortener
   mail:
@@ -33,7 +36,7 @@ app:
   deactivate-user-account-after-days: 365
   contact-email: info@localhost
   server-url: localhost
-  max-login-attempts: 2
+  max-login-attempts: 20
 
 server:
   port: 8080

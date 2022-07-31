@@ -10,10 +10,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class UpdatePasswordDto {
 
-    @NotBlank
+    @NotBlank(message = "Old password is required")
     private String oldPassword;
 
-    @NotBlank
+  @NotBlank(message = "New password is required")
     private String newPassword;
 
 }

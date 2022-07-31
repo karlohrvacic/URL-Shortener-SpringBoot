@@ -10,12 +10,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class PasswordResetDto {
 
-    @NotBlank
+    @NotBlank(message = "Token is required")
     private String token;
 
-    @NotBlank
+  @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank
+  @NotBlank(message = "Password is required")
     private String password;
 }

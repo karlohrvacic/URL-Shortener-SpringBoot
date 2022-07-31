@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestPasswordResetDto {
 
-    @NotBlank
+    @NotBlank(message = "Email is required")
     private String email;
 
 }

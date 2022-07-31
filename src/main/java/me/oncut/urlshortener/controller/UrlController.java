@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.service.UrlService;
@@ -28,26 +29,26 @@ public class UrlController {
     private final HttpServletRequest request;
 
     @PostMapping("/new")
-    public Url saveUrl(@Valid @RequestBody final Url url) {
-        return urlService.saveUrlRouting(url);
+    public Url saveUrl(@Valid @RequestBody final CreateUrlDto createUrlDto) {
+        return urlService.saveUrlRouting(createUrlDto);
     }
 
     @PostMapping("/new/{apiKey}")
-    public Url saveUrlWithApiKey(@Valid @RequestBody final Url url,
+    public Url saveUrlWithApiKey(@Valid @RequestBody final CreateUrlDto createUrlDto,
                                  @PathVariable(required = false, value = "apiKey") final String apiKey) {
-        return urlService.saveUrlWithApiKey(url, apiKey);
+        return urlService.saveUrlWithApiKey(createUrlDto, apiKey);
     }
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
-        String remoteAddr = "";
+        String remoteAddress = "";
         if (request != null) {
-            remoteAddr = request.getHeader("X-FORWARDED-FOR");
-            if (remoteAddr == null || "".equals(remoteAddr)) {
-                remoteAddr = request.getRemoteAddr();
+            remoteAddress = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddress == null || "".equals(remoteAddress)) {
+                remoteAddress = request.getRemoteAddr();
             }
         }
-        return urlService.checkIPUniquenessAndReturnUrl(shortUrl, remoteAddr);
+        return urlService.checkIPUniquenessAndReturnUrl(shortUrl, remoteAddress);
     }
 
     @PutMapping()

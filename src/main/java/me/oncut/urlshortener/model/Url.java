@@ -80,6 +80,7 @@ public class Url {
         this.owner = null;
         this.apiKey = null;
         this.visitLimit = null;
+        this.expirationDate = null;
     }
 
 }
