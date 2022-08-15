@@ -21,7 +21,7 @@
         <springframework.version>5.3.22</springframework.version>
         <springframework.boot.version>2.7.2</springframework.boot.version>
         <guava.version>31.1-jre</guava.version>
-        <springdoc.version>1.6.9</springdoc.version>
+        <springdoc.version>1.6.10</springdoc.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
