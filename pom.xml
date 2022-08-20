@@ -10,7 +10,7 @@
     </parent>
     <groupId>me.oncut</groupId>
     <artifactId>urlShortener</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
     <name>Url Shortener</name>
     <description>Url Shortener project</description>
 
@@ -19,9 +19,10 @@
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <apache.commons.version>3.12.0</apache.commons.version>
         <springframework.version>5.3.22</springframework.version>
-        <springframework.boot.version>2.7.2</springframework.boot.version>
+        <springframework.boot.version>2.7.3</springframework.boot.version>
         <guava.version>31.1-jre</guava.version>
-        <springdoc.version>1.6.9</springdoc.version>
+        <springdoc.version>1.6.10</springdoc.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -140,7 +141,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <version>${commons.io.version}</version>
         </dependency>
 
         <dependency>
@@ -151,12 +152,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
     </dependencies>
