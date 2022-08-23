@@ -23,10 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DefaultApiKeyService implements ApiKeyService {
 
-    private final ApiKeyRepository apiKeyRepository;
     private final UserService userService;
     private final AppProperties appProperties;
     private final ApiKeyValidator apiKeyValidator;
+    private final ApiKeyRepository apiKeyRepository;
     private final ApiKeyUpdateDtoToApiKeyConverter apiKeyConverter;
 
     @Override

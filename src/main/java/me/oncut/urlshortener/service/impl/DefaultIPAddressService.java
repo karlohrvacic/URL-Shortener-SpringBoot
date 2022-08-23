@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultIPAddressService implements IPAddressService {
 
     private final PasswordEncoder encoder;
-    private final IPAddressRepository ipAddressRepository;
     private final AppProperties appProperties;
+    private final IPAddressRepository ipAddressRepository;
 
     @Override
     public boolean urlAlreadyVisitedByIP(final Url url, final String clientIP) {

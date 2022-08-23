@@ -63,16 +63,16 @@ class UrlServiceTest {
     @BeforeEach
     void setUp() {
         this.urlService = new DefaultUrlService(
-            urlRepository,
-            apiKeyService,
             userService,
             urlValidator,
-            apiKeyValidator,
+            taskExecutor,
+            apiKeyService,
+            urlRepository,
             appProperties,
+            apiKeyValidator,
             ipAddressService,
-            urlUpdateDtoToUrlConverter,
             createUrlToUrlConverter,
-            taskExecutor
+            urlUpdateDtoToUrlConverter
         );
     }
 

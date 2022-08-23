@@ -2,7 +2,6 @@ package me.oncut.urlshortener.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;

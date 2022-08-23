@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DefaultResetTokenService implements ResetTokenService {
 
-    private final ResetTokenRepository resetTokenRepository;
     private final AppProperties appProperties;
+    private final ResetTokenRepository resetTokenRepository;
 
     @Override
     public void deactivateExpiredPasswordResetTokens() {

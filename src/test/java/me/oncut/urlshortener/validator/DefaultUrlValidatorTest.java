@@ -29,7 +29,7 @@ class DefaultUrlValidatorTest {
 
     @BeforeEach
     void setUp() {
-        this.urlValidator = new DefaultUrlValidator(urlRepository, userService);
+        this.urlValidator = new DefaultUrlValidator(userService, urlRepository);
     }
 
     @Test

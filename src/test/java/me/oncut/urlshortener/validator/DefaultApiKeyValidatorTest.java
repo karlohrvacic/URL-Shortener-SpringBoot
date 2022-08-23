@@ -37,8 +37,8 @@ class DefaultApiKeyValidatorTest {
     @BeforeEach
     void setUp() {
         this.apiKeyValidator = new DefaultApiKeyValidator(
-                this.apiKeyRepository,
-                this.userService
+                this.userService,
+                this.apiKeyRepository
         );
 
         this.apiKey = ApiKey.builder()

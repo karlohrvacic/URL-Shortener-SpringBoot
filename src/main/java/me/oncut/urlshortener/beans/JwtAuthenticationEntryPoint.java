@@ -31,11 +31,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         apiError.setMessage(e.getMessage());
         apiError.setDebugMessage(e.getMessage());
 
-        final ServerHttpResponse outputMessage = new ServletServerHttpResponse(httpServletResponse);
-        outputMessage.setStatusCode(HttpStatus.UNAUTHORIZED);
+        try (final ServerHttpResponse outputMessage = new ServletServerHttpResponse(httpServletResponse)) {
+            outputMessage.setStatusCode(HttpStatus.UNAUTHORIZED);
 
-        messageConverter.write(objectMapper.writeValueAsString(apiError), MediaType.APPLICATION_JSON, outputMessage);
-        outputMessage.close();
+            messageConverter.write(objectMapper.writeValueAsString(apiError), MediaType.APPLICATION_JSON, outputMessage);
+        }
     }
 
 }

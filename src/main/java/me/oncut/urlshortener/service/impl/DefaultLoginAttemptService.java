@@ -12,14 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultLoginAttemptService implements LoginAttemptService {
 
-    private final LoadingCache<String, Integer> attemptsCache;
     private final AppProperties appProperties;
+    private final LoadingCache<String, Integer> attemptsCache;
 
     public DefaultLoginAttemptService(final AppProperties appProperties) {
         super();
         this.appProperties = appProperties;
-        attemptsCache = CacheBuilder.newBuilder().
-                expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<>() {
+        attemptsCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<>() {
                     public Integer load(final String key) {
                         return 0;
                     }

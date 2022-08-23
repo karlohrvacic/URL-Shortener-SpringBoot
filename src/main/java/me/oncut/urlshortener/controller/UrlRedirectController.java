@@ -15,10 +15,9 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class UrlRedirectController {
 
-    private final HttpServletRequest request;
     private final UrlService urlService;
-
     private final AuthService authService;
+    private final HttpServletRequest request;
 
     @GetMapping({"/{short}"})
     public RedirectView fetchUrlByShortUrlOrRedirectToFrontend(@PathVariable("short") final String shortUrl) {

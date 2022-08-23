@@ -17,9 +17,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DefaultUrlValidator implements UrlValidator {
 
-    private final UrlRepository urlRepository;
-
     private final UserService userService;
+    private final UrlRepository urlRepository;
 
     @Override
     public void longUrlInUrl(final Url url) {

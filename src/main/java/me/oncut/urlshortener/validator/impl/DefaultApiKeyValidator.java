@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DefaultApiKeyValidator implements ApiKeyValidator {
 
-    private final ApiKeyRepository apiKeyRepository;
     private final UserService userService;
+    private final ApiKeyRepository apiKeyRepository;
 
     @Override
     public void apiKeyExistsByKeyAndIsValid(final String key) {

@@ -45,10 +45,11 @@ class ApiKeyServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.apiKeyService = new DefaultApiKeyService(apiKeyRepository,
+        this.apiKeyService = new DefaultApiKeyService(
                 userService,
                 appProperties,
                 apiKeyValidator,
+                apiKeyRepository,
                 apiKeyConverter);
     }
 

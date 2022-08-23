@@ -13,9 +13,9 @@ import org.webjars.NotFoundException;
 @RequiredArgsConstructor
 public class DefaultAuthoritiesService implements AuthoritiesService {
 
-    private final AuthoritiesRepository authoritiesRepository;
-
     private static final String DEFAULT_AUTHORITY_NAME = "ROLE_USER";
+
+    private final AuthoritiesRepository authoritiesRepository;
 
     @Override
     public Authorities getDefaultAuthority() {

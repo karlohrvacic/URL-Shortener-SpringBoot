@@ -1,6 +1,5 @@
 package me.oncut.urlshortener.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -31,15 +30,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DefaultUserService implements UserService {
 
-    private final UserRepository userRepository;
-    private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
     private final AppProperties appProperties;
-    private final DefaultSendingEmailService sendingEmailService;
-    private final ResetTokenService resetTokenService;
-    private final PasswordEncoder passwordEncoder;
     private final AuthValidator authValidator;
-    private final ObjectMapper objectMapper;
-
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final ResetTokenService resetTokenService;
+    private final DefaultSendingEmailService sendingEmailService;
+    private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
 
     @Override
     public User register(final User user) {

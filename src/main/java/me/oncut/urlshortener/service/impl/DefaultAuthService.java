@@ -31,11 +31,11 @@ import org.springframework.stereotype.Service;
 public class DefaultAuthService implements AuthService {
 
     private final UserService userService;
+    private final UserValidator userValidator;
     private final TokenProvider tokenProvider;
+    private final LoginAttemptService loginAttemptService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRegisterDtoToUserConverter userRegisterDtoToUserConverter;
-    private final UserValidator userValidator;
-    private final LoginAttemptService loginAttemptService;
 
     @Override
     public String register(final UserRegisterDto userRegisterDto) {

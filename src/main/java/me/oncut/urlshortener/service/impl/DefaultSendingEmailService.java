@@ -27,9 +27,9 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class DefaultSendingEmailService implements SendingEmailService {
 
-    private final DefaultEmailService emailService;
     private final AppProperties appProperties;
     private final TemplateEngine templateEngine;
+    private final DefaultEmailService emailService;
 
     @Override
     public void sendEmailForgotPassword(final User user, final ResetToken resetToken) {

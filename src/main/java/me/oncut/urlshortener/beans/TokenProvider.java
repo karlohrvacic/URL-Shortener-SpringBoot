@@ -13,9 +13,8 @@ import java.util.Date;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,11 +23,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 @Component
+@CommonsLog
 @RequiredArgsConstructor
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
-    private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
+    private static final Long SECONDS_TO_MILISECONDS = 1000L;
+
     private final AppProperties appProperties;
+
     private Key key;
     private long tokenValidityInMilliseconds;
 
@@ -37,18 +39,15 @@ public class TokenProvider {
         final byte[] keyBytes;
         keyBytes = Decoders.BASE64.decode(appProperties.getJwtBase64Secret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.tokenValidityInMilliseconds = 1000L * appProperties.getJwtTokenValiditySeconds();
+        this.tokenValidityInMilliseconds = SECONDS_TO_MILISECONDS * appProperties.getJwtTokenValiditySeconds();
     }
 
     public String createToken(final Authentication authentication) {
+        final long now = (new Date()).getTime();
+        final Date validity = new Date(now + this.tokenValidityInMilliseconds);
         final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
-        final long now = (new Date()).getTime();
-        final Date validity;
-        validity = new Date(now + this.tokenValidityInMilliseconds);
-
-        return Jwts
-                .builder()
+        return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -72,12 +71,15 @@ public class TokenProvider {
     public boolean validateToken(final String authToken) {
         try {
             Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
+
             return true;
         } catch (final JwtException | IllegalArgumentException e) {
             log.info("Invalid JWT token.");
             log.trace("Invalid JWT token trace.", e);
         }
+
         return false;
     }
+
 }
 

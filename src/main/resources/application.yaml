@@ -10,5 +10,4 @@ server:
     include-message: always
 
 app:
-  frontend-url: https://app.oncut.me
-  app-name: Url Cutter by Oncut
+  app-name: Url Shortener by Oncut

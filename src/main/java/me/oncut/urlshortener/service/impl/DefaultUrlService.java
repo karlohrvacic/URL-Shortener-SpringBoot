@@ -33,16 +33,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class DefaultUrlService implements UrlService {
 
-    private final UrlRepository urlRepository;
-    private final ApiKeyService apiKeyService;
     private final UserService userService;
     private final UrlValidator urlValidator;
-    private final ApiKeyValidator apiKeyValidator;
-    private final AppProperties appProperties;
-    private final IPAddressService ipAddressService;
-    private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
-    private final CreateUrlToUrlConverter createUrlToUrlConverter;
     private final TaskExecutor taskExecutor;
+    private final ApiKeyService apiKeyService;
+    private final UrlRepository urlRepository;
+    private final AppProperties appProperties;
+    private final ApiKeyValidator apiKeyValidator;
+    private final IPAddressService ipAddressService;
+    private final CreateUrlToUrlConverter createUrlToUrlConverter;
+    private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
 
     @Override
     public RedirectView redirectResultUrl(final String shortUrl, final String clientIP) {
