@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Optional;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.CreateUrlToUrlConverter;
+import me.oncut.urlshortener.converter.UrlToPeekUrlConverter;
 import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
 import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.model.ApiKey;
@@ -60,19 +61,23 @@ class UrlServiceTest {
     @Mock
     private CreateUrlToUrlConverter createUrlToUrlConverter;
 
+    @Mock
+    private UrlToPeekUrlConverter urlToPeekUrlConverter;
+
     @BeforeEach
     void setUp() {
         this.urlService = new DefaultUrlService(
-            userService,
-            urlValidator,
-            taskExecutor,
-            apiKeyService,
-            urlRepository,
-            appProperties,
-            apiKeyValidator,
-            ipAddressService,
-            createUrlToUrlConverter,
-            urlUpdateDtoToUrlConverter
+                userService,
+                urlValidator,
+                taskExecutor,
+                apiKeyService,
+                urlRepository,
+                appProperties,
+                apiKeyValidator,
+                ipAddressService,
+                createUrlToUrlConverter,
+                urlUpdateDtoToUrlConverter,
+                urlToPeekUrlConverter
         );
     }
 

@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.configuration.properties.AppProperties;
 import me.oncut.urlshortener.converter.CreateUrlToUrlConverter;
+import me.oncut.urlshortener.converter.UrlToPeekUrlConverter;
 import me.oncut.urlshortener.converter.UrlUpdateDtoToUrlConverter;
 import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
 import me.oncut.urlshortener.exception.UrlNotFoundException;
 import me.oncut.urlshortener.model.ApiKey;
+import me.oncut.urlshortener.model.PeekUrl;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UrlRepository;
@@ -43,6 +45,7 @@ public class DefaultUrlService implements UrlService {
     private final IPAddressService ipAddressService;
     private final CreateUrlToUrlConverter createUrlToUrlConverter;
     private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
+    private final UrlToPeekUrlConverter urlToPeekUrlConverter;
 
     @Override
     public RedirectView redirectResultUrl(final String shortUrl, final String clientIP) {
@@ -56,10 +59,11 @@ public class DefaultUrlService implements UrlService {
         return redirectView;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Url saveUrlRouting(final @Valid CreateUrlDto createUrlDto) {
         final Url url = createUrlToUrlConverter.convert(createUrlDto);
+
         urlValidator.longUrlInUrl(url);
         urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
@@ -69,7 +73,6 @@ public class DefaultUrlService implements UrlService {
             return createUrlForAnonymousUser(url);
         }
     }
-
 
     @Override
     @Transactional
@@ -102,8 +105,7 @@ public class DefaultUrlService implements UrlService {
 
     @Override
     public Url revokeUrl(final Long id) {
-        final Url url = urlRepository.findById(id)
-                .orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
+        final Url url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
 
         urlValidator.verifyUserAdminOrOwner(url);
         url.setActive(false);
@@ -113,8 +115,7 @@ public class DefaultUrlService implements UrlService {
     @Override
     @Transactional
     public void deleteUrl(final Long id) {
-        final Url url = urlRepository.findById(id)
-                .orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
+        final Url url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
 
         urlValidator.verifyUserAdminOrOwner(url);
 
@@ -133,11 +134,19 @@ public class DefaultUrlService implements UrlService {
     }
 
     @Override
+    @Transactional
     public Url checkIPUniquenessAndReturnUrl(final String shortUrl, final String clientIP) {
-        final Url url = urlRepository.findByShortUrlAndActiveTrue(shortUrl)
-                .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
+        final Url url = findUrlByShortUrlAndActive(shortUrl);
+
         asyncCheckIfVisitUnique(clientIP, url);
         return url;
+    }
+
+    @Override
+    public PeekUrl peekUrlByShortUrl(final String shortUrl) {
+        final Url url = findUrlByShortUrlAndActive(shortUrl);
+
+        return urlToPeekUrlConverter.convert(url);
     }
 
     @Override
@@ -155,13 +164,16 @@ public class DefaultUrlService implements UrlService {
 
     @Override
     public Url getUrlByLongUrl(final String longUrl) {
-        return urlRepository.findByLongUrlAndActiveTrue(longUrl)
-            .orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
+        return urlRepository.findByLongUrlAndActiveTrue(longUrl).orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 
     @Override
     public String generateShortUrl(final Long length) {
         return RandomStringUtils.random(Math.toIntExact(length), true, true);
+    }
+
+    private Url findUrlByShortUrlAndActive(final String shortUrl) {
+        return urlRepository.findByShortUrlAndActiveTrue(shortUrl).orElseThrow(() -> new UrlNotFoundException("URL doesn't exist"));
     }
 
     private Url createUrlForAnonymousUser(final Url url) {

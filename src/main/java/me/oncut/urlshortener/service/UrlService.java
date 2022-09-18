@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
+import me.oncut.urlshortener.model.PeekUrl;
 import me.oncut.urlshortener.model.Url;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -31,6 +32,8 @@ public interface UrlService {
 
     Url checkIPUniquenessAndReturnUrl(String shortUrl, String clientIP);
 
-    void deactivateExpiredUrls();
+  PeekUrl peekUrlByShortUrl(String shortUrl);
+
+  void deactivateExpiredUrls();
 
 }

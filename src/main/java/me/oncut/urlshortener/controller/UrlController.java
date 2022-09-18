@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import me.oncut.urlshortener.dto.CreateUrlDto;
 import me.oncut.urlshortener.dto.UrlUpdateDto;
+import me.oncut.urlshortener.model.PeekUrl;
 import me.oncut.urlshortener.model.Url;
 import me.oncut.urlshortener.service.UrlService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,7 +49,13 @@ public class UrlController {
                 remoteAddress = request.getRemoteAddr();
             }
         }
+
         return urlService.checkIPUniquenessAndReturnUrl(shortUrl, remoteAddress);
+    }
+
+    @GetMapping("/peek/{short}")
+    public PeekUrl peekUrlByShortUrl(@PathVariable("short") final String shortUrl) {
+        return urlService.peekUrlByShortUrl(shortUrl);
     }
 
     @PutMapping()
