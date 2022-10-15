@@ -9,4 +9,5 @@ public class MailingException extends CommonException {
     public MailingException(final String message) {
         super(message);
     }
+
 }

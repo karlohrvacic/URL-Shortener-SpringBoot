@@ -32,7 +32,7 @@ public class DefaultApiKeyService implements ApiKeyService {
     @Override
     @Transactional
     public ApiKey generateNewApiKey() {
-        final User user = userService.getUserFromToken();
+        final var user = userService.getUserFromToken();
 
         apiKeyValidator.apiKeySlotsAvailable(user);
 
@@ -47,7 +47,7 @@ public class DefaultApiKeyService implements ApiKeyService {
     @Override
     @Transactional
     public ApiKey revokeApiKey(final Long id) {
-        final ApiKey apiKey = apiKeyRepository.findById(id)
+        final var apiKey = apiKeyRepository.findById(id)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("Api key doesn't exist"));
 
         apiKeyValidator.verifyUserAdminOrOwner(apiKey);
@@ -80,7 +80,7 @@ public class DefaultApiKeyService implements ApiKeyService {
 
     @Override
     public void deactivateExpired() {
-        final List<ApiKey> apiKeys = apiKeyRepository.findByExpirationDateIsLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
+        final var apiKeys = apiKeyRepository.findByExpirationDateIsLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
                 .map(ApiKey::deactivate)
                 .toList();
 

@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UserDoesntExistException extends CommonException {
+
     public UserDoesntExistException(final String message) {
         super(message);
     }
+
 }

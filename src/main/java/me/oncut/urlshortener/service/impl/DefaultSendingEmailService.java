@@ -1,6 +1,5 @@
 package me.oncut.urlshortener.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
@@ -33,14 +32,14 @@ public class DefaultSendingEmailService implements SendingEmailService {
 
     @Override
     public void sendEmailForgotPassword(final User user, final ResetToken resetToken) {
-        final Context ctx = getContext(user);
+        final var ctx = getContext(user);
         ctx.setVariable("request_date", resetToken.getCreateDate().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
         ctx.setVariable("token", resetToken.getToken());
         ctx.setVariable("full_password_reset_link", MessageFormat.format("{0}/#/reset-password?token={1}", appProperties.getFrontendUrl(), resetToken.getToken()));
 
-        final String htmlContent = templateEngine.process("reset_password", ctx);
+        final var htmlContent = templateEngine.process("reset_password", ctx);
 
-        final Email email = Email.builder()
+        final var email = Email.builder()
                 .sender(appProperties.getEmailSenderAddress())
                 .receivers(new String[]{user.getEmail()})
                 .subject("Password reset token")
@@ -52,11 +51,11 @@ public class DefaultSendingEmailService implements SendingEmailService {
 
     @Override
     public void sendEmailAccountDeactivated(final User user) {
-        final Context ctx = getContext(user);
+        final var ctx = getContext(user);
 
-        final String htmlContent = templateEngine.process("account_deactivated", ctx);
+        final var htmlContent = templateEngine.process("account_deactivated", ctx);
 
-        final Email email = Email.builder()
+        final var email = Email.builder()
                 .sender(appProperties.getEmailSenderAddress())
                 .receivers(new String[]{user.getEmail()})
                 .subject("Account deactivated")
@@ -68,11 +67,11 @@ public class DefaultSendingEmailService implements SendingEmailService {
 
     @Override
     public void sendWelcomeEmail(final User user) {
-        final Context ctx = getContext(user);
+        final var ctx = getContext(user);
 
-        final String htmlContent = templateEngine.process("welcome", ctx);
+        final var htmlContent = templateEngine.process("welcome", ctx);
 
-        final Email email = Email.builder()
+        final var email = Email.builder()
                 .sender(appProperties.getEmailSenderAddress())
                 .receivers(new String[]{user.getEmail()})
                 .subject("Welcome")
@@ -92,7 +91,7 @@ public class DefaultSendingEmailService implements SendingEmailService {
     }
 
     private Context getContext(final User user) {
-        final Context ctx = new Context();
+        final var ctx = new Context();
         ctx.setVariable("name", user.getName());
         ctx.setVariable("number_of_api_keys", user.getApiKeySlots().toString());
         ctx.setVariable("app_name", appProperties.getAppName());
@@ -111,12 +110,13 @@ public class DefaultSendingEmailService implements SendingEmailService {
 
     private String generateBase64Image(final String imageName) {
         try {
-            final File file = ResourceUtils.getFile("classpath:images/" + imageName);
+            final var file = ResourceUtils.getFile("classpath:images/" + imageName);
 
             return String.format("data:image/%s;base64,%s", FilenameUtils.getExtension(imageName),
                 Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file)));
         } catch (final IOException exception) {
             log.error(exception);
+
             return "";
         }
     }

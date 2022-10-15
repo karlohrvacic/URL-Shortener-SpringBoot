@@ -40,7 +40,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User register(final User user) {
-        final User savedUser = userRepository.save(user);
+        final var savedUser = userRepository.save(user);
         sendingEmailService.sendWelcomeEmail(savedUser);
 
         return savedUser;
@@ -48,7 +48,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User getUserFromToken() {
-        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        final var username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return userRepository.findByEmail(username).orElse(null);
     }
@@ -63,7 +63,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User fetchUserFromEmail(final String email) {
-        final User user = userRepository.findByEmail(email)
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDoesntExistException("User not found"));
 
         if (Boolean.FALSE.equals(user.getActive()))
@@ -96,7 +96,7 @@ public class DefaultUserService implements UserService {
     @Override
     @Transactional
     public User updatePassword(final UpdatePasswordDto updatePasswordDto) {
-        final User user = getUserFromToken();
+        final var user = getUserFromToken();
 
         authValidator.passwordMatchesCurrentPassword(user, updatePasswordDto.getOldPassword());
 
@@ -107,11 +107,10 @@ public class DefaultUserService implements UserService {
     @Override
     @Transactional
     public void sendPasswordResetLinkToUser(final RequestPasswordResetDto requestPasswordResetDto) {
-        final Optional<User> user = userRepository.findByEmail(requestPasswordResetDto.getEmail());
+        final var user = userRepository.findByEmail(requestPasswordResetDto.getEmail());
 
         if (user.isPresent()) {
             resetTokenService.deactivateActiveResetTokenIfExists(user.get());
-
             sendingEmailService.sendEmailForgotPassword(user.get(), resetTokenService.createTokenForUser(user.get()));
         }
     }
@@ -119,10 +118,10 @@ public class DefaultUserService implements UserService {
     @Override
     @Transactional
     public User resetPassword(final PasswordResetDto passwordResetDto) {
-        final User user = userRepository.findByEmail(passwordResetDto.getEmail())
+        final var user = userRepository.findByEmail(passwordResetDto.getEmail())
                 .orElseThrow(() -> new NoAuthorizationException("Invalid credentials"));
 
-        final ResetToken token = resetTokenService.getResetTokenFromUserAndToken(user, passwordResetDto.getToken());
+        final var token = resetTokenService.getResetTokenFromUserAndToken(user, passwordResetDto.getToken());
 
         if (token.isActive()) {
             user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword()));
@@ -136,7 +135,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void deactivateUnusedUserAccounts() {
-        final List<User> users = userRepository.findByLastLoginIsLessThanEqualAndActiveTrue(LocalDateTime.now()
+        final var users = userRepository.findByLastLoginIsLessThanEqualAndActiveTrue(LocalDateTime.now()
                 .minusDays(appProperties.getDeactivateUserAccountAfterDays())).stream()
                 .map(user -> {
                     user.setActive(false);
@@ -151,7 +150,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void userHasLoggedIn(final String email) {
-        final User user = fetchUserFromEmail(email);
+        final var user = fetchUserFromEmail(email);
         user.userLoggedIn();
         persistUser(user);
     }

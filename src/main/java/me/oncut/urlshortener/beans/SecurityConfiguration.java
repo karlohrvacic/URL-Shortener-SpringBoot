@@ -36,7 +36,7 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        final var authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
 
@@ -81,8 +81,8 @@ public class SecurityConfiguration {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final var configuration = new CorsConfiguration();
+        final var source = new UrlBasedCorsConfigurationSource();
 
         configuration.setAllowedOrigins(List.of(appProperties.getFrontendUrl()));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST"));

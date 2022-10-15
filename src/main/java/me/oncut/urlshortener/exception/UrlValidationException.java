@@ -9,4 +9,5 @@ public class UrlValidationException extends CommonException {
     public UrlValidationException(final String message) {
         super(message);
     }
+
 }

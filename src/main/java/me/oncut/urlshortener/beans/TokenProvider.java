@@ -36,16 +36,15 @@ public class TokenProvider {
 
     @PostConstruct
     public void init() {
-        final byte[] keyBytes;
-        keyBytes = Decoders.BASE64.decode(appProperties.getJwtBase64Secret());
+        final var keyBytes = Decoders.BASE64.decode(appProperties.getJwtBase64Secret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.tokenValidityInMilliseconds = SECONDS_TO_MILISECONDS * appProperties.getJwtTokenValiditySeconds();
     }
 
     public String createToken(final Authentication authentication) {
-        final long now = (new Date()).getTime();
-        final Date validity = new Date(now + this.tokenValidityInMilliseconds);
-        final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        final var now = (new Date()).getTime();
+        final var validity = new Date(now + this.tokenValidityInMilliseconds);
+        final var authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
@@ -56,14 +55,14 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(final String token) {
-        final Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        final var claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 
-        final Collection<? extends GrantedAuthority> authorities = Arrays
+        final var authorities = Arrays
                 .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        final User principal = new User(claims.getSubject(), "", authorities);
+        final var principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

@@ -24,7 +24,7 @@ public class DefaultIPAddressService implements IPAddressService {
 
     @Override
     public boolean urlAlreadyVisitedByIP(final Url url, final String clientIP) {
-        final List<IPAddress> ipAddresses = ipAddressRepository.findByUrlAndActiveTrue(url);
+        final var ipAddresses = ipAddressRepository.findByUrlAndActiveTrue(url);
         for (final IPAddress ipAddress : ipAddresses) {
             if (encoder.matches(clientIP, ipAddress.getHashedIPAddress())) {
                 addVisitToUrl(ipAddress);
@@ -32,12 +32,13 @@ public class DefaultIPAddressService implements IPAddressService {
             }
         }
         saveUrlVisitByIP(url, clientIP);
+
         return false;
     }
 
     @Override
     public void saveUrlVisitByIP(final Url url, final String clientIP) {
-        final IPAddress ipAddress = IPAddress.builder()
+        final var ipAddress = IPAddress.builder()
                 .hashedIPAddress(encoder.encode(clientIP))
                 .url(url)
                 .build();
@@ -47,7 +48,7 @@ public class DefaultIPAddressService implements IPAddressService {
 
     @Override
     public void deactivateDeprecatedIps() {
-        final List<IPAddress> ipAddresses = ipAddressRepository.findByCreateDateIsLessThanEqualAndActiveTrue(
+        final var ipAddresses = ipAddressRepository.findByCreateDateIsLessThanEqualAndActiveTrue(
                 LocalDateTime.now().minusHours(appProperties.getInactiveVisitIncrementPerIpInHours())).stream()
                 .map(ipAddress -> {
                     ipAddress.setActive(false);
@@ -62,7 +63,7 @@ public class DefaultIPAddressService implements IPAddressService {
 
     @Override
     public void deleteDeactivatedIps() {
-        final List<IPAddress> ipAddresses = ipAddressRepository.findByCreateDateIsLessThanEqualAndActiveFalse(
+        final var ipAddresses = ipAddressRepository.findByCreateDateIsLessThanEqualAndActiveFalse(
                 LocalDateTime.now().minusHours(appProperties.getIpRetentionDurationInHours())).stream()
                 .map(ipAddress -> {
                     ipAddress.setActive(false);
@@ -81,7 +82,7 @@ public class DefaultIPAddressService implements IPAddressService {
     }
 
     private void addVisitToUrl(final IPAddress ipAddress) {
-        final IPAddress savedIpAddress = ipAddressRepository.save(ipAddress.addVisit());
+        final var savedIpAddress = ipAddressRepository.save(ipAddress.addVisit());
         log.info(String.format("IP address with id %d saved", savedIpAddress.getId()));
     }
 

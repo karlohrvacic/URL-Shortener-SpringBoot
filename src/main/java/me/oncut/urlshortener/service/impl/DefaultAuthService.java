@@ -10,7 +10,6 @@ import me.oncut.urlshortener.dto.JWTTokenDto;
 import me.oncut.urlshortener.dto.LoginDto;
 import me.oncut.urlshortener.dto.UserRegisterDto;
 import me.oncut.urlshortener.exception.NoAuthorizationException;
-import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.service.AuthService;
 import me.oncut.urlshortener.service.LoginAttemptService;
 import me.oncut.urlshortener.service.UserService;
@@ -21,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +39,7 @@ public class DefaultAuthService implements AuthService {
     public String register(final UserRegisterDto userRegisterDto) {
         userValidator.checkEmailUniqueness(userRegisterDto.getEmail());
 
-        final User user = userRegisterDtoToUserConverter.convert(userRegisterDto);
+        final var user = userRegisterDtoToUserConverter.convert(userRegisterDto);
         return userService.register(user).getEmail();
     }
 
@@ -50,8 +48,8 @@ public class DefaultAuthService implements AuthService {
         if (loginAttemptService.isBlocked(getClientIP(request))) {
             throw new NoAuthorizationException("Request has been blocked");
         }
-        final String token = getToken(loginDto);
-        final HttpHeaders httpHeaders = getHttpHeaders(token);
+        final var token = getToken(loginDto);
+        final var httpHeaders = getHttpHeaders(token);
 
         userService.userHasLoggedIn(loginDto.getEmail());
 
@@ -60,31 +58,33 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public String getClientIP(final HttpServletRequest request) {
-        String ipAddress = "";
+        var ipAddress = "";
         if (request != null) {
             ipAddress = request.getHeader("X-FORWARDED-FOR");
             if (StringUtils.isEmpty(ipAddress) || "".equals(ipAddress)) {
                 ipAddress = request.getRemoteAddr();
             }
         }
+
         return ipAddress;
     }
 
     private String getToken(final LoginDto loginDto) {
-        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        final var authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(),
                 loginDto.getPassword()
         );
 
-        final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        final var authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return tokenProvider.createToken(authentication);
     }
 
     private HttpHeaders getHttpHeaders(final String token) {
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+
         return httpHeaders;
     }
 

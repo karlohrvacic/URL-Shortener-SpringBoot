@@ -42,7 +42,7 @@ public class UrlController {
 
     @GetMapping("/redirect/{short}")
     public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
-        String remoteAddress = "";
+        var remoteAddress = "";
         if (request != null) {
             remoteAddress = request.getHeader("X-FORWARDED-FOR");
             if (remoteAddress == null || "".equals(remoteAddress)) {

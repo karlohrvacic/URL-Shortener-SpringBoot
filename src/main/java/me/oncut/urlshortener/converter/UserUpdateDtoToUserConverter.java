@@ -16,7 +16,7 @@ public class UserUpdateDtoToUserConverter implements Converter<UserUpdateDto, Us
 
     @Override
     public User convert(final UserUpdateDto userUpdateDto) {
-        final User existingUser = userRepository.findById(userUpdateDto.getId())
+        final var existingUser = userRepository.findById(userUpdateDto.getId())
                 .orElseThrow(() -> new UserDoesntExistException(String.format("User with ID %d has not been found",
                         userUpdateDto.getId())));
         existingUser.setName(userUpdateDto.getName());

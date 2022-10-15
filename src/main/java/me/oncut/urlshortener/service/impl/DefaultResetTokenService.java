@@ -33,7 +33,7 @@ public class DefaultResetTokenService implements ResetTokenService {
 
     @Override
     public void deleteExpiredPasswordResetTokens() {
-        final List<ResetToken> resetTokens = resetTokenRepository.findByExpirationDateIsLessThanEqualAndActiveFalse(
+        final var resetTokens = resetTokenRepository.findByExpirationDateIsLessThanEqualAndActiveFalse(
                 LocalDateTime.now().minusHours(appProperties.getIpRetentionDurationInHours()));
 
         resetTokenRepository.deleteAll(resetTokens);

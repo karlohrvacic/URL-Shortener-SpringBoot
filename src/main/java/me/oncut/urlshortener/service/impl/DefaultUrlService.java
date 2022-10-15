@@ -48,6 +48,7 @@ public class DefaultUrlService implements UrlService {
     private final UrlToPeekUrlConverter urlToPeekUrlConverter;
 
     @Override
+    @Transactional
     public RedirectView redirectResultUrl(final String shortUrl, final String clientIP) {
         final RedirectView redirectView = new RedirectView();
 
@@ -105,17 +106,18 @@ public class DefaultUrlService implements UrlService {
 
     @Override
     public Url revokeUrl(final Long id) {
-        final Url url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
+        final var url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
 
         urlValidator.verifyUserAdminOrOwner(url);
         url.setActive(false);
+
         return urlRepository.save(url);
     }
 
     @Override
     @Transactional
     public void deleteUrl(final Long id) {
-        final Url url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
+        final var url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
 
         urlValidator.verifyUserAdminOrOwner(url);
 
@@ -126,7 +128,7 @@ public class DefaultUrlService implements UrlService {
     @Override
     @Transactional
     public Url updateUrl(final UrlUpdateDto updateDto) {
-        final Url url = urlUpdateDtoToUrlConverter.convert(updateDto);
+        final var url = urlUpdateDtoToUrlConverter.convert(updateDto);
         urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
         url.verifyUrlValidity();
@@ -136,7 +138,7 @@ public class DefaultUrlService implements UrlService {
     @Override
     @Transactional
     public Url checkIPUniquenessAndReturnUrl(final String shortUrl, final String clientIP) {
-        final Url url = findUrlByShortUrlAndActive(shortUrl);
+        final var url = findUrlByShortUrlAndActive(shortUrl);
 
         asyncCheckIfVisitUnique(clientIP, url);
         return url;
@@ -144,14 +146,14 @@ public class DefaultUrlService implements UrlService {
 
     @Override
     public PeekUrl peekUrlByShortUrl(final String shortUrl) {
-        final Url url = findUrlByShortUrlAndActive(shortUrl);
+        final var url = findUrlByShortUrlAndActive(shortUrl);
 
         return urlToPeekUrlConverter.convert(url);
     }
 
     @Override
     public void deactivateExpiredUrls() {
-        final List<Url> urls = urlRepository.findByExpirationDateLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
+        final var urls = urlRepository.findByExpirationDateLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
                 .map(url -> {
                     url.setActive(false);
                     return url;
@@ -180,7 +182,7 @@ public class DefaultUrlService implements UrlService {
         url.clearForAnonymousUser();
 
         if (urlRepository.existsUrlByLongUrlAndActiveTrueAndOwnerIsNull(url.getLongUrl())) {
-            final Url existingLongUrl = getUrlByLongUrl(url.getLongUrl());
+            final var existingLongUrl = getUrlByLongUrl(url.getLongUrl());
             log.warn("Long url already exists in DB, will return URL from long URL " + existingLongUrl.getShortUrl());
             return existingLongUrl;
         }
@@ -204,6 +206,7 @@ public class DefaultUrlService implements UrlService {
         }
 
         apiKeyValidator.apiKeyExistsByKeyAndIsValid(key);
+
         return apiKey;
     }
 

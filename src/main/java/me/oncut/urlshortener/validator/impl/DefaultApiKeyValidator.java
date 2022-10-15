@@ -23,7 +23,7 @@ public class DefaultApiKeyValidator implements ApiKeyValidator {
 
     @Override
     public void apiKeyExistsByKeyAndIsValid(final String key) {
-        final ApiKey apiKey = apiKeyRepository.findApiKeyByKey(key)
+        final var apiKey = apiKeyRepository.findApiKeyByKey(key)
                 .orElseThrow(() -> new ApiKeyDoesntExistException("API key doesn't exist"));
 
         if (apiKey.getApiCallsUsed() >= Optional.ofNullable(apiKey.getApiCallsLimit())
@@ -43,7 +43,7 @@ public class DefaultApiKeyValidator implements ApiKeyValidator {
 
     @Override
     public void verifyUserAdminOrOwner(final ApiKey apiKey) {
-        final User currentUser = userService.getUserFromToken();
+        final var currentUser = userService.getUserFromToken();
         final boolean isCurrentUserAdmin = currentUser.getAuthorities().stream()
                 .anyMatch(authorities -> authorities.getName().equals("ROLE_ADMIN"));
         if (!apiKey.getOwner().equals(currentUser) && !isCurrentUserAdmin) {

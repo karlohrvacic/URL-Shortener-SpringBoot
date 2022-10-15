@@ -1,10 +1,8 @@
 package me.oncut.urlshortener.service.impl;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UserRepository;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,7 +30,7 @@ public class DefaultDomainUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(final User user) {
-        final List<GrantedAuthority> grantedAuthorities = user
+        final var grantedAuthorities = user
                 .getAuthorities()
                 .stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName()))

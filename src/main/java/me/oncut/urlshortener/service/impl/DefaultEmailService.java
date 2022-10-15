@@ -25,8 +25,8 @@ public class DefaultEmailService implements EmailService {
 
     @Override
     public void sendEmail(final Email email, final File attachment) throws MessagingException {
-        final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        final var mimeMessage = javaMailSender.createMimeMessage();
+        final var message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         if (attachment != null) {
             try {
@@ -60,10 +60,11 @@ public class DefaultEmailService implements EmailService {
     }
 
     public void attachFileToEmail(final File attachment, final MimeMessage mimeMessage) throws IOException, MessagingException {
-        final MimeBodyPart attachmentPart = new MimeBodyPart();
+        final var attachmentPart = new MimeBodyPart();
+        final var multipart = (Multipart) mimeMessage.getContent();
+
         attachmentPart.setFileName(attachment.getName());
         attachmentPart.attachFile(attachment);
-        final Multipart multipart = (Multipart) mimeMessage.getContent();
         multipart.addBodyPart(attachmentPart);
         mimeMessage.setContent(multipart);
     }

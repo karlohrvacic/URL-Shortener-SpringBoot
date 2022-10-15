@@ -16,7 +16,7 @@ public class UrlUpdateDtoToUrlConverter implements Converter<UrlUpdateDto, Url> 
 
     @Override
     public Url convert(final UrlUpdateDto urlUpdateDto) {
-        final Url existingUrl = urlRepository.findById(urlUpdateDto.getId())
+        final var existingUrl = urlRepository.findById(urlUpdateDto.getId())
                 .orElseThrow(() -> new UrlNotFoundException(String.format("Url with id %d doesn't exist", urlUpdateDto.getId())));
 
         if (urlUpdateDto.getVisitLimit() <= 0 || urlUpdateDto.getVisitLimit() == null) {

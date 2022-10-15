@@ -7,7 +7,6 @@ import me.oncut.urlshortener.exception.NoAuthorizationException;
 import me.oncut.urlshortener.exception.ShortUrlAlreadyExistsException;
 import me.oncut.urlshortener.exception.UrlValidationException;
 import me.oncut.urlshortener.model.Url;
-import me.oncut.urlshortener.model.User;
 import me.oncut.urlshortener.repository.UrlRepository;
 import me.oncut.urlshortener.service.UserService;
 import me.oncut.urlshortener.validator.UrlValidator;
@@ -32,8 +31,8 @@ public class DefaultUrlValidator implements UrlValidator {
 
     @Override
     public void verifyUserAdminOrOwner(final Url url) {
-        final User currentUser = userService.getUserFromToken();
-        final boolean isCurrentUserAdmin = currentUser.getAuthorities().stream()
+        final var currentUser = userService.getUserFromToken();
+        final var isCurrentUserAdmin = currentUser.getAuthorities().stream()
                 .anyMatch(authorities -> authorities.getName().equals("ROLE_ADMIN"));
 
         if (!url.getOwner().equals(currentUser) && !isCurrentUserAdmin) {

@@ -25,8 +25,8 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain filterChain)
             throws IOException, ServletException {
 
-        final HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        final HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        final var httpServletRequest = (HttpServletRequest) servletRequest;
+        final var httpServletResponse = (HttpServletResponse) servletResponse;
 
         httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
@@ -34,7 +34,7 @@ public class JwtFilter extends GenericFilterBean {
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me, Authorization");
 
-        final String jwt = getToken(httpServletRequest);
+        final var jwt = getToken(httpServletRequest);
         if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
             final Authentication authentication = this.tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -43,7 +43,7 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private String getToken(final HttpServletRequest request) {
-        final String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        final var bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
