@@ -19,7 +19,7 @@
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <apache.commons.version>3.12.0</apache.commons.version>
         <springframework.version>5.3.23</springframework.version>
-        <springframework.boot.version>2.7.4</springframework.boot.version>
+        <springframework.boot.version>2.7.5</springframework.boot.version>
         <guava.version>31.1-jre</guava.version>
         <springdoc.version>1.6.11</springdoc.version>
         <commons.io.version>2.11.0</commons.io.version>
