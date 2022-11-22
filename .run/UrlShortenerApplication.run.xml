@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="UrlShortenerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="urlShortener" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="me.oncut.urlshortener.UrlShortenerApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="cc.hrva.urlshortener.UrlShortenerApplication" />
     <option name="ACTIVE_PROFILES" value="dev" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2">

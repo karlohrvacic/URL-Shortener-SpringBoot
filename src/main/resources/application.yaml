@@ -10,4 +10,4 @@ server:
     include-message: always
 
 app:
-  app-name: Url Shortener by Oncut
+  app-name: Open Url Shortener

@@ -24,7 +24,7 @@ app:
   jwt-token-validity-seconds: 36000
   api-key-expiration-in-months: 1
   jwt-base64-secret: MzMzYjg3YTRmYmU0YmM4YzJkZWE4NTJlZGEzMDgzZjkzOWNjM2MwMWQ4NzI2MjgwZWU0MzM5ZTY0MGEzMjg1YzIwMjU1MWM5ZTNkMzg5YWNiMjExNGJlMTE4NjZlMWMxODIxNjYwMTBkZTRiZWRlNzU3MDc5ZThhMDcxMjlkMGE
-  email-sender-address: no-reply@oncut.me
+  email-sender-address: no-reply@hrva.cc
   reset-token-expiration-in-hours: 1
   user-api-key-slots: 2
   inactive-visit-increment-per-ip-in-hours: 24
