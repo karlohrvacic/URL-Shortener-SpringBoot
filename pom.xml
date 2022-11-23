@@ -18,7 +18,7 @@
         <java.version>17</java.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <apache.commons.version>3.12.0</apache.commons.version>
-        <springframework.version>5.3.23</springframework.version>
+        <springframework.version>6.0.1</springframework.version>
         <springframework.boot.version>2.7.5</springframework.boot.version>
         <guava.version>31.1-jre</guava.version>
         <springdoc.version>1.6.12</springdoc.version>
