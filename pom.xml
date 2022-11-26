@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.0.0</version>
+        <relativePath/>
     </parent>
     <groupId>cc.hrva</groupId>
     <artifactId>urlShortener</artifactId>
@@ -18,10 +18,10 @@
         <java.version>17</java.version>
         <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
         <apache.commons.version>3.12.0</apache.commons.version>
-        <springframework.version>5.3.23</springframework.version>
-        <springframework.boot.version>2.7.5</springframework.boot.version>
+        <springframework.version>6.0.2</springframework.version>
+        <springframework.boot.version>3.0.0</springframework.boot.version>
         <guava.version>31.1-jre</guava.version>
-        <springdoc.version>1.6.12</springdoc.version>
+        <springdoc.version>1.6.13</springdoc.version>
         <commons.io.version>2.11.0</commons.io.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -49,13 +49,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>${springframework.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
-            <version>${springframework.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -96,6 +94,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <dependency>
@@ -153,7 +155,6 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -161,9 +162,38 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${project.parent.version}</version>
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>https://repo.spring.io/plugins-release/</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>https://repo.spring.io/plugins-release/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
