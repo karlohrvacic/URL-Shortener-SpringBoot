@@ -1,7 +1,7 @@
 package cc.hrva.urlshortener.service;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import javax.validation.Valid;
 import cc.hrva.urlshortener.dto.CreateUrlDto;
 import cc.hrva.urlshortener.dto.UrlUpdateDto;
 import cc.hrva.urlshortener.model.PeekUrl;

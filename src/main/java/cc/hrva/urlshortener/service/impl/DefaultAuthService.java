@@ -3,7 +3,7 @@ package cc.hrva.urlshortener.service.impl;
 import cc.hrva.urlshortener.converter.UserRegisterDtoToUserConverter;
 import cc.hrva.urlshortener.exception.NoAuthorizationException;
 import cc.hrva.urlshortener.validator.UserValidator;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.beans.JwtFilter;

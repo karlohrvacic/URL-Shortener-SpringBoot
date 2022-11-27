@@ -1,12 +1,12 @@
 package cc.hrva.urlshortener.service.impl;
 
 import cc.hrva.urlshortener.exception.MailingException;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.model.Email;

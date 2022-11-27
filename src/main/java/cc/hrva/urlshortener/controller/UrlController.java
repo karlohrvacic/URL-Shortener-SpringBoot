@@ -1,8 +1,8 @@
 package cc.hrva.urlshortener.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.dto.CreateUrlDto;

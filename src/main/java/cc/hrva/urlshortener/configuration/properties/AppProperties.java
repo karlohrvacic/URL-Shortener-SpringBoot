@@ -1,8 +1,8 @@
 package cc.hrva.urlshortener.configuration.properties;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
@@ -66,7 +66,16 @@ public class AppProperties {
     @NotBlank
     private String serverUrl;
 
+    private String redisAddress;
+
+    private Integer redisPort;
+
+    private String redisUsername;
+
+    private String redisPassword;
+
     @NotNull
     @Positive
     private Long maxLoginAttempts;
+
 }

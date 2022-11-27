@@ -75,9 +75,9 @@ class UrlServiceTest {
                 appProperties,
                 apiKeyValidator,
                 ipAddressService,
+                urlToPeekUrlConverter,
                 createUrlToUrlConverter,
-                urlUpdateDtoToUrlConverter,
-                urlToPeekUrlConverter
+                urlUpdateDtoToUrlConverter
         );
     }
 

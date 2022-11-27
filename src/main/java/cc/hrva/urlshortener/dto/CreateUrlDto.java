@@ -1,7 +1,7 @@
 package cc.hrva.urlshortener.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

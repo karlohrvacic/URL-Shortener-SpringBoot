@@ -1,6 +1,6 @@
 package cc.hrva.urlshortener.listener;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import cc.hrva.urlshortener.service.LoginAttemptService;
 import org.springframework.context.ApplicationListener;

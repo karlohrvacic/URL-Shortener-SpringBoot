@@ -1,22 +1,23 @@
 package cc.hrva.urlshortener.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.cache.annotation.CacheEvict;
 
 @Entity
 @Getter
@@ -66,13 +67,14 @@ public class Url {
     public Url onVisit() {
         this.visits++;
         this.lastAccessed = LocalDateTime.now();
-        verifyUrlValidity();
+        verifyUrlValidity(this);
         return this;
     }
 
-    public void verifyUrlValidity() {
+    @CacheEvict(value = "urls", key = "#url.shortUrl", condition = "#url.active == false")
+    public void verifyUrlValidity(final Url url) {
         if (this.visits >= Optional.ofNullable(visitLimit).orElse(this.visits + 1)) {
-            active = false;
+            this.active = false;
         }
     }
 

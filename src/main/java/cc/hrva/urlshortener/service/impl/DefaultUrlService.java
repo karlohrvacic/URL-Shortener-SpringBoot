@@ -7,9 +7,9 @@ import cc.hrva.urlshortener.exception.UrlNotFoundException;
 import cc.hrva.urlshortener.repository.UrlRepository;
 import cc.hrva.urlshortener.validator.ApiKeyValidator;
 import cc.hrva.urlshortener.validator.UrlValidator;
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.converter.UrlToPeekUrlConverter;
@@ -25,6 +25,8 @@ import cc.hrva.urlshortener.service.UrlService;
 import cc.hrva.urlshortener.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +45,9 @@ public class DefaultUrlService implements UrlService {
     private final AppProperties appProperties;
     private final ApiKeyValidator apiKeyValidator;
     private final IPAddressService ipAddressService;
+    private final UrlToPeekUrlConverter urlToPeekUrlConverter;
     private final CreateUrlToUrlConverter createUrlToUrlConverter;
     private final UrlUpdateDtoToUrlConverter urlUpdateDtoToUrlConverter;
-    private final UrlToPeekUrlConverter urlToPeekUrlConverter;
 
     @Override
     @Transactional
@@ -57,6 +59,7 @@ public class DefaultUrlService implements UrlService {
         } else {
             redirectView.setUrl(appProperties.getFrontendUrl());
         }
+
         return redirectView;
     }
 
@@ -109,9 +112,8 @@ public class DefaultUrlService implements UrlService {
         final var url = urlRepository.findById(id).orElseThrow(() -> new UrlNotFoundException("Url doesn't exist"));
 
         urlValidator.verifyUserAdminOrOwner(url);
-        url.setActive(false);
 
-        return urlRepository.save(url);
+        return urlRepository.save(deactivateUrl(url));
     }
 
     @Override
@@ -131,12 +133,13 @@ public class DefaultUrlService implements UrlService {
         final var url = urlUpdateDtoToUrlConverter.convert(updateDto);
         urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
-        url.verifyUrlValidity();
+        url.verifyUrlValidity(url);
         return urlRepository.save(url);
     }
 
     @Override
     @Transactional
+    @Cacheable(value = "urls", key = "#shortUrl", unless = "#shortUrl.length() < 0")
     public Url checkIPUniquenessAndReturnUrl(final String shortUrl, final String clientIP) {
         final var url = findUrlByShortUrlAndActive(shortUrl);
 
@@ -154,10 +157,7 @@ public class DefaultUrlService implements UrlService {
     @Override
     public void deactivateExpiredUrls() {
         final var urls = urlRepository.findByExpirationDateLessThanEqualAndActiveTrue(LocalDateTime.now()).stream()
-                .map(url -> {
-                    url.setActive(false);
-                    return url;
-                })
+                .map(this::deactivateUrl)
                 .toList();
 
         urlRepository.saveAll(urls);
@@ -248,6 +248,12 @@ public class DefaultUrlService implements UrlService {
                 .filter(ApiKey::isActive)
                 .findFirst()
                 .orElseGet(apiKeyService::generateNewApiKey);
+    }
+
+    @CacheEvict(value = "urls", key = "#url.shortUrl")
+    public Url deactivateUrl(Url url) {
+        url.setActive(false);
+        return url;
     }
 
 }

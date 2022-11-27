@@ -3,8 +3,10 @@ package cc.hrva.urlshortener;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+@EnableCaching
 @OpenAPIDefinition
 @EnableWebSecurity
 @SpringBootApplication

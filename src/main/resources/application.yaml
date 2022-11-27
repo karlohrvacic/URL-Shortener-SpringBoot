@@ -3,8 +3,12 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL82Dialect
   liquibase:
     change-log: classpath:/db/dbchangelog.xml
+  cache:
+    type: redis
+
 management:
   endpoint.web.exposure.include: "health, info"
+
 server:
   error:
     include-message: always

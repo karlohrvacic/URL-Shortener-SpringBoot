@@ -1,6 +1,6 @@
 package cc.hrva.urlshortener.dto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class UpdatePasswordDto {
     @NotBlank(message = "Old password is required")
     private String oldPassword;
 
-  @NotBlank(message = "New password is required")
+    @NotBlank(message = "New password is required")
     private String newPassword;
 
 }

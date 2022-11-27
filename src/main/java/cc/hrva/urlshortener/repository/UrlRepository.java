@@ -6,8 +6,10 @@ import java.util.Optional;
 import cc.hrva.urlshortener.model.Url;
 import cc.hrva.urlshortener.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.stereotype.Repository;
 
+@RedisHash
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Long> {
 

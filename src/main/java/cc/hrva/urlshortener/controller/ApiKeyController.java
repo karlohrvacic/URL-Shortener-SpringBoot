@@ -1,7 +1,7 @@
 package cc.hrva.urlshortener.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import cc.hrva.urlshortener.dto.ApiKeyUpdateDto;
 import cc.hrva.urlshortener.exception.ApiKeyDoesntExistException;

@@ -1,7 +1,7 @@
 package cc.hrva.urlshortener.service;
 
+import jakarta.mail.MessagingException;
 import java.io.File;
-import javax.mail.MessagingException;
 import cc.hrva.urlshortener.model.Email;
 
 public interface EmailService {

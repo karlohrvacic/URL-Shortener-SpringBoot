@@ -1,13 +1,13 @@
 package cc.hrva.urlshortener.service.impl;
 
 import cc.hrva.urlshortener.configuration.properties.AppProperties;
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Base64;
-import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.model.Email;

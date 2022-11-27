@@ -1,10 +1,11 @@
-package cc.hrva.urlshortener.beans;
+package cc.hrva.urlshortener.configuration;
 
+import cc.hrva.urlshortener.beans.JwtFilter;
 import cc.hrva.urlshortener.configuration.properties.AppProperties;
 import cc.hrva.urlshortener.service.impl.DefaultDomainUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,7 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
     private final JwtFilter jwtFilter;
@@ -55,8 +56,8 @@ public class SecurityConfiguration {
                         )
                 )
                 .and()
-                .authorizeRequests()
-                .antMatchers("/api/v1/auth/**", "/api/v1/url/**", "/**")
+                .authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/**", "/api/v1/url/**", "/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
