@@ -11,4 +11,6 @@ public class JWTTokenDto {
 
     private String token;
 
+    private UserDto user;
+
 }

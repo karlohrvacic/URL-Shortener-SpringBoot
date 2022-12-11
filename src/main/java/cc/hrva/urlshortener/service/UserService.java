@@ -1,11 +1,12 @@
 package cc.hrva.urlshortener.service;
 
-import java.util.List;
 import cc.hrva.urlshortener.dto.PasswordResetDto;
 import cc.hrva.urlshortener.dto.RequestPasswordResetDto;
 import cc.hrva.urlshortener.dto.UpdatePasswordDto;
+import cc.hrva.urlshortener.dto.UserDto;
 import cc.hrva.urlshortener.dto.UserUpdateDto;
 import cc.hrva.urlshortener.model.User;
+import java.util.List;
 
 public interface UserService {
 
@@ -13,7 +14,7 @@ public interface UserService {
 
     User getUserFromToken();
 
-    User fetchCurrentUser();
+    UserDto fetchCurrentUser();
 
     User fetchUserFromEmail(String email);
 
@@ -33,5 +34,5 @@ public interface UserService {
 
     void deactivateUnusedUserAccounts();
 
-    void userHasLoggedIn(String email);
+    void userHasLoggedIn(User user);
 }

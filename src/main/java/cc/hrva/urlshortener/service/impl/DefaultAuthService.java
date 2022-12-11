@@ -1,6 +1,7 @@
 package cc.hrva.urlshortener.service.impl;
 
 import cc.hrva.urlshortener.converter.UserRegisterDtoToUserConverter;
+import cc.hrva.urlshortener.converter.UserToUserDtoConverter;
 import cc.hrva.urlshortener.exception.NoAuthorizationException;
 import cc.hrva.urlshortener.validator.UserValidator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ public class DefaultAuthService implements AuthService {
     private final UserValidator userValidator;
     private final TokenProvider tokenProvider;
     private final LoginAttemptService loginAttemptService;
+    private final UserToUserDtoConverter userToUserDtoConverter;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRegisterDtoToUserConverter userRegisterDtoToUserConverter;
 
@@ -50,10 +52,11 @@ public class DefaultAuthService implements AuthService {
         }
         final var token = getToken(loginDto);
         final var httpHeaders = getHttpHeaders(token);
+        final var user = userService.fetchUserFromEmail(loginDto.getEmail());
+        userService.userHasLoggedIn(user);
+        final var jwtTokenDto = new JWTTokenDto(token, userToUserDtoConverter.convert(user));
 
-        userService.userHasLoggedIn(loginDto.getEmail());
-
-        return new ResponseEntity<>(new JWTTokenDto(token), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(jwtTokenDto, httpHeaders, HttpStatus.OK);
     }
 
     @Override
@@ -78,12 +81,12 @@ public class DefaultAuthService implements AuthService {
         final var authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return tokenProvider.createToken(authentication);
+        return "Bearer ".concat(tokenProvider.createToken(authentication));
     }
 
     private HttpHeaders getHttpHeaders(final String token) {
         final var httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, token);
 
         return httpHeaders;
     }

@@ -1,13 +1,14 @@
 package cc.hrva.urlshortener.controller;
 
+import cc.hrva.urlshortener.dto.UpdatePasswordDto;
+import cc.hrva.urlshortener.dto.UserDto;
+import cc.hrva.urlshortener.dto.UserUpdateDto;
+import cc.hrva.urlshortener.model.User;
+import cc.hrva.urlshortener.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import cc.hrva.urlshortener.dto.UpdatePasswordDto;
-import cc.hrva.urlshortener.dto.UserUpdateDto;
-import cc.hrva.urlshortener.exception.UserDoesntExistException;
-import cc.hrva.urlshortener.model.User;
-import cc.hrva.urlshortener.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,32 +25,35 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/whoAmI")
-    public User currentUser() throws UserDoesntExistException {
-        return userService.fetchCurrentUser();
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> currentUser() {
+        return ResponseEntity.ok(userService.fetchCurrentUser());
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<User> fetchAllUsers() {
-        return userService.fetchAllUsers();
+    public ResponseEntity<List<User>> fetchAllUsers() {
+        return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
-    @DeleteMapping({"/{id}"})
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteUser(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") final Long id) {
         userService.deleteUserById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User updateUser(@Valid @RequestBody final UserUpdateDto userUpdateDto) {
-        return userService.updateUser(userUpdateDto);
+    public ResponseEntity<User> updateUser(@Valid @RequestBody final UserUpdateDto userUpdateDto) {
+        return ResponseEntity.ok(userService.updateUser(userUpdateDto));
     }
 
     @PutMapping("/update-password")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public User setPassword(@Valid @RequestBody final UpdatePasswordDto updatePasswordDto) {
-        return userService.updatePassword(updatePasswordDto);
+    public ResponseEntity<User> setPassword(@Valid @RequestBody final UpdatePasswordDto updatePasswordDto) {
+        return ResponseEntity.ok(userService.updatePassword(updatePasswordDto));
     }
+
 }

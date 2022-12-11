@@ -8,6 +8,7 @@ import cc.hrva.urlshortener.exception.ApiKeyDoesntExistException;
 import cc.hrva.urlshortener.exception.UserDoesntExistException;
 import cc.hrva.urlshortener.model.ApiKey;
 import cc.hrva.urlshortener.service.ApiKeyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,31 +26,31 @@ public class ApiKeyController {
 
     @GetMapping("/new")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ApiKey generateNewApiKey() throws UserDoesntExistException {
-        return apiKeyService.generateNewApiKey();
+    public ResponseEntity<ApiKey> generateNewApiKey() throws UserDoesntExistException {
+        return ResponseEntity.ok(apiKeyService.generateNewApiKey());
     }
 
     @GetMapping("/my")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<ApiKey> fetchMyApiKeys() throws UserDoesntExistException {
-        return apiKeyService.fetchMyApiKeys();
+    public ResponseEntity<List<ApiKey>> fetchMyApiKeys() throws UserDoesntExistException {
+        return ResponseEntity.ok(apiKeyService.fetchMyApiKeys());
     }
 
     @GetMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<ApiKey> fetchAllApiKeys() {
-        return apiKeyService.fetchAllApiKeys();
+    public ResponseEntity<List<ApiKey>> fetchAllApiKeys() {
+        return ResponseEntity.ok(apiKeyService.fetchAllApiKeys());
     }
 
     @PutMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ApiKey updateApiKey(@Valid @RequestBody final ApiKeyUpdateDto apiKeyUpdateDto) {
-        return apiKeyService.updateKey(apiKeyUpdateDto);
+    public ResponseEntity<ApiKey> updateApiKey(@Valid @RequestBody final ApiKeyUpdateDto apiKeyUpdateDto) {
+        return ResponseEntity.ok(apiKeyService.updateKey(apiKeyUpdateDto));
     }
 
     @GetMapping("/revoke/{id}")
-    public ApiKey revokeApiKey(@PathVariable("id") final Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
-        return apiKeyService.revokeApiKey(id);
+    public ResponseEntity<ApiKey> revokeApiKey(@PathVariable("id") final Long id) throws UserDoesntExistException, ApiKeyDoesntExistException {
+        return ResponseEntity.ok(apiKeyService.revokeApiKey(id));
     }
 
 }

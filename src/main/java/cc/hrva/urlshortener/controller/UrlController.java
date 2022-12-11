@@ -10,6 +10,7 @@ import cc.hrva.urlshortener.dto.UrlUpdateDto;
 import cc.hrva.urlshortener.model.PeekUrl;
 import cc.hrva.urlshortener.model.Url;
 import cc.hrva.urlshortener.service.UrlService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,22 +27,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class UrlController {
 
     private final UrlService urlService;
-
     private final HttpServletRequest request;
 
     @PostMapping("/new")
-    public Url saveUrl(@Valid @RequestBody final CreateUrlDto createUrlDto) {
-        return urlService.saveUrlRouting(createUrlDto);
+    public ResponseEntity<Url> saveUrl(@Valid @RequestBody final CreateUrlDto createUrlDto) {
+        return ResponseEntity.ok(urlService.saveUrlRouting(createUrlDto));
     }
 
     @PostMapping("/new/{apiKey}")
-    public Url saveUrlWithApiKey(@Valid @RequestBody final CreateUrlDto createUrlDto,
+    public ResponseEntity<Url> saveUrlWithApiKey(@Valid @RequestBody final CreateUrlDto createUrlDto,
                                  @PathVariable(required = false, value = "apiKey") final String apiKey) {
-        return urlService.saveUrlWithApiKey(createUrlDto, apiKey);
+        return ResponseEntity.ok(urlService.saveUrlWithApiKey(createUrlDto, apiKey));
     }
 
     @GetMapping("/redirect/{short}")
-    public Url fetchUrlByShort(@PathVariable("short") final String shortUrl) {
+    public ResponseEntity<Url> fetchUrlByShort(@PathVariable("short") final String shortUrl) {
         var remoteAddress = "";
         if (request != null) {
             remoteAddress = request.getHeader("X-FORWARDED-FOR");
@@ -50,44 +50,46 @@ public class UrlController {
             }
         }
 
-        return urlService.checkIPUniquenessAndReturnUrl(shortUrl, remoteAddress);
+        return ResponseEntity.ok(urlService.checkIPUniquenessAndReturnUrl(shortUrl, remoteAddress));
     }
 
     @GetMapping("/peek/{short}")
-    public PeekUrl peekUrlByShortUrl(@PathVariable("short") final String shortUrl) {
-        return urlService.peekUrlByShortUrl(shortUrl);
+    public ResponseEntity<PeekUrl> peekUrlByShortUrl(@PathVariable("short") final String shortUrl) {
+        return ResponseEntity.ok(urlService.peekUrlByShortUrl(shortUrl));
     }
 
     @PutMapping()
-    public Url updateUrl(@Valid @RequestBody final UrlUpdateDto urlUpdateDto) {
-        return urlService.updateUrl(urlUpdateDto);
+    public ResponseEntity<Url> updateUrl(@Valid @RequestBody final UrlUpdateDto urlUpdateDto) {
+        return ResponseEntity.ok(urlService.updateUrl(urlUpdateDto));
     }
 
     @GetMapping("/my/{apiKey}")
-    public List<Url> getAllMyUrlsWithApiKey(@PathVariable("apiKey") final String apiKey) {
-        return urlService.getAllMyUrls(apiKey);
+    public ResponseEntity<List<Url>> getAllMyUrlsWithApiKey(@PathVariable("apiKey") final String apiKey) {
+        return ResponseEntity.ok(urlService.getAllMyUrls(apiKey));
     }
 
     @GetMapping("/my")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<Url> getAllMyUrls() {
-        return urlService.getAllMyUrls(null);
+    public ResponseEntity<List<Url>> getAllMyUrls() {
+        return ResponseEntity.ok(urlService.getAllMyUrls(null));
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<Url> getAllUrls() {
-        return urlService.getAllUrls();
+    public ResponseEntity<List<Url>> getAllUrls() {
+        return ResponseEntity.ok(urlService.getAllUrls());
     }
 
     @GetMapping("/deactivate/{id}")
-    public Url revokeUrl(@PathVariable("id") final Long id) {
-        return urlService.revokeUrl(id);
+    public ResponseEntity<Url> revokeUrl(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(urlService.revokeUrl(id));
     }
 
     @GetMapping("/delete/{id}")
-    public void deleteUrl(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> deleteUrl(@PathVariable("id") final Long id) {
         urlService.deleteUrl(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -29,21 +29,23 @@ public class AuthController {
     private final HttpServletRequest request;
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody final UserRegisterDto user) {
+    public ResponseEntity<String> register(@Valid @RequestBody final UserRegisterDto user) {
         log.info("Register controller invoked for user " + user.getEmail());
-        return authService.register(user);
+        return ResponseEntity.ok(authService.register(user));
     }
 
     @PostMapping("/reset-password")
-    public void requestPasswordReset(@Valid @RequestBody final RequestPasswordResetDto requestPasswordResetDto) {
+    public ResponseEntity<Void> requestPasswordReset(@Valid @RequestBody final RequestPasswordResetDto requestPasswordResetDto) {
         log.info("Forgot password controller invoked for " + requestPasswordResetDto.getEmail());
         userService.sendPasswordResetLinkToUser(requestPasswordResetDto);
+
+        return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/reset-password/set-password")
-    public User resetPassword(@Valid @RequestBody final PasswordResetDto passwordResetDto) {
+    public ResponseEntity<User> resetPassword(@Valid @RequestBody final PasswordResetDto passwordResetDto) {
         log.info("Forgot password controller invoked for " + passwordResetDto.getEmail());
-        return userService.resetPassword(passwordResetDto);
+        return ResponseEntity.ok(userService.resetPassword(passwordResetDto));
     }
 
     @PostMapping("/login")
