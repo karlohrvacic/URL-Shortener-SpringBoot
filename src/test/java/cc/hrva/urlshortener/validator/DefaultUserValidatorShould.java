@@ -1,5 +1,6 @@
 package cc.hrva.urlshortener.validator;
 
+import cc.hrva.urlshortener.configuration.properties.AppProperties;
 import cc.hrva.urlshortener.exception.EmailExistsException;
 import cc.hrva.urlshortener.repository.UserRepository;
 import cc.hrva.urlshortener.validator.impl.DefaultUserValidator;
@@ -21,11 +22,15 @@ class DefaultUserValidatorShould {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AppProperties appProperties;
+
+
     private String email;
 
     @BeforeEach
     void setUp() {
-        this.userValidator = new DefaultUserValidator(userRepository);
+        this.userValidator = new DefaultUserValidator(userRepository, appProperties);
 
         this.email = "email";
     }

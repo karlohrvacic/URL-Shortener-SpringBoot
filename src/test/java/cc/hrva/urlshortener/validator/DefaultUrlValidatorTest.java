@@ -1,9 +1,11 @@
 package cc.hrva.urlshortener.validator;
 
+import cc.hrva.urlshortener.configuration.properties.AppProperties;
 import cc.hrva.urlshortener.exception.LongUrlNotSpecifiedException;
 import cc.hrva.urlshortener.exception.ShortUrlAlreadyExistsException;
 import cc.hrva.urlshortener.model.Url;
 import cc.hrva.urlshortener.repository.UrlRepository;
+import cc.hrva.urlshortener.service.SafeBrowsingService;
 import cc.hrva.urlshortener.service.UserService;
 import cc.hrva.urlshortener.validator.impl.DefaultUrlValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,9 +29,15 @@ class DefaultUrlValidatorTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private AppProperties appProperties;
+
+    @Mock
+    private SafeBrowsingService safeBrowsingService;
+
     @BeforeEach
     void setUp() {
-        this.urlValidator = new DefaultUrlValidator(userService, urlRepository);
+        this.urlValidator = new DefaultUrlValidator(userService, urlRepository, appProperties, safeBrowsingService);
     }
 
     @Test
