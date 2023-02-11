@@ -1,23 +1,24 @@
 package cc.hrva.urlshortener.exception;
 
+import cc.hrva.urlshortener.beans.LowerCaseClassNameResolver;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import jakarta.validation.ConstraintViolation;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import cc.hrva.urlshortener.beans.LowerCaseClassNameResolver;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,6 +42,10 @@ public class ApiException extends CommonException {
     public ApiException(final HttpStatus status) {
         this();
         this.status = status;
+    }
+
+    public ApiException(final String message) {
+        super(message);
     }
 
     private void addSubError(final ApiSubError subError) {

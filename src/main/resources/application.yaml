@@ -15,3 +15,6 @@ server:
 
 app:
   app-name: Open Url Shortener
+  google-api:
+    client-id: hrva.cc
+    client-version: 1.0.0

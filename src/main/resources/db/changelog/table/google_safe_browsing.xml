@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="02023-02-11" author="khrvacic">
+        <addColumn tableName="url">
+            <column name="last_safe_browsing_check" type="timestamp"/>
+            <column name="platform_type" type="VARCHAR(100)"/>
+            <column name="threat_entry_type" type="VARCHAR(100)"/>
+            <column name="threat_type" type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

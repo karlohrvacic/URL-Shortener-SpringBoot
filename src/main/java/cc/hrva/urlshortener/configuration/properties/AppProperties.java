@@ -78,4 +78,7 @@ public class AppProperties {
     @Positive
     private Long maxLoginAttempts;
 
+    private boolean registrationEnabled = true;
+    private boolean anonymousUrlCreationEnabled = true;
+
 }

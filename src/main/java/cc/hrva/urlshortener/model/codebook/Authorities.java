@@ -4,15 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
+@Data
 @Entity
 @Builder
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Authorities implements GrantedAuthority {

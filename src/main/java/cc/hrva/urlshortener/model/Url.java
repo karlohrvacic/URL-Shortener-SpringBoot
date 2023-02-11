@@ -1,23 +1,16 @@
 package cc.hrva.urlshortener.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.SequenceGenerator;
+import cc.hrva.urlshortener.model.enums.PlatformType;
+import cc.hrva.urlshortener.model.enums.ThreatEntryType;
+import cc.hrva.urlshortener.model.enums.ThreatType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.cache.annotation.CacheEvict;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -46,14 +39,20 @@ public class Url {
     private ApiKey apiKey;
 
     private LocalDateTime createDate;
-
     private LocalDateTime lastAccessed;
-
     private LocalDateTime expirationDate;
-
     private Long visits;
-
     private Long visitLimit;
+    private LocalDateTime lastSafeBrowsingCheck;
+
+    @Enumerated(EnumType.STRING)
+    private PlatformType platformType;
+
+    @Enumerated(EnumType.STRING)
+    private ThreatEntryType threatEntryType;
+
+    @Enumerated(EnumType.STRING)
+    private ThreatType threatType;
 
     private boolean active;
 

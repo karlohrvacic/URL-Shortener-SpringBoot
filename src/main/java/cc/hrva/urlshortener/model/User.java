@@ -4,25 +4,14 @@ import cc.hrva.urlshortener.model.codebook.Authorities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Getter
@@ -72,7 +61,7 @@ public class User {
     @PrePersist
     public void onCreate() {
         this.createDate = LocalDateTime.now();
-        this.active = true;
+        this.active = false;
     }
 
     public void userLoggedIn() {

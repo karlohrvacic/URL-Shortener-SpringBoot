@@ -10,7 +10,13 @@ spring:
     show-sql: false
   application:
     name: URL Shortener
-
+  mail:
+    host:
+    port:
+    username:
+    password:
+    properties:
+      mail.smtp.auth:
 
 app:
   short-url-length: 5
@@ -28,5 +34,8 @@ app:
   server-url: localhost
   max-login-attempts: 20
   frontend-url: http://localhost:8081
+  registration-enabled: false
+  anonymous-url-creation-enabled: false
+
 server:
   port: 8080

@@ -2,27 +2,25 @@ package cc.hrva.urlshortener.service.impl;
 
 import cc.hrva.urlshortener.configuration.properties.AppProperties;
 import cc.hrva.urlshortener.converter.CreateUrlToUrlConverter;
-import cc.hrva.urlshortener.converter.UrlUpdateDtoToUrlConverter;
-import cc.hrva.urlshortener.exception.UrlNotFoundException;
-import cc.hrva.urlshortener.repository.UrlRepository;
-import cc.hrva.urlshortener.validator.ApiKeyValidator;
-import cc.hrva.urlshortener.validator.UrlValidator;
-import jakarta.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.converter.UrlToPeekUrlConverter;
+import cc.hrva.urlshortener.converter.UrlUpdateDtoToUrlConverter;
 import cc.hrva.urlshortener.dto.CreateUrlDto;
 import cc.hrva.urlshortener.dto.UrlUpdateDto;
+import cc.hrva.urlshortener.exception.UrlNotFoundException;
 import cc.hrva.urlshortener.model.ApiKey;
 import cc.hrva.urlshortener.model.PeekUrl;
 import cc.hrva.urlshortener.model.Url;
 import cc.hrva.urlshortener.model.User;
+import cc.hrva.urlshortener.repository.UrlRepository;
 import cc.hrva.urlshortener.service.ApiKeyService;
 import cc.hrva.urlshortener.service.IPAddressService;
 import cc.hrva.urlshortener.service.UrlService;
 import cc.hrva.urlshortener.service.UserService;
+import cc.hrva.urlshortener.validator.ApiKeyValidator;
+import cc.hrva.urlshortener.validator.UrlValidator;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,6 +29,9 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @CommonsLog
@@ -66,22 +67,22 @@ public class DefaultUrlService implements UrlService {
     @Override
     @Transactional
     public Url saveUrlRouting(final @Valid CreateUrlDto createUrlDto) {
-        final Url url = createUrlToUrlConverter.convert(createUrlDto);
+        final var url = createUrlToUrlConverter.convert(createUrlDto);
 
         urlValidator.longUrlInUrl(url);
+        urlValidator.checkIfUrlSafe(url);
         urlValidator.checkIfUrlExpirationDateIsInThePast(url);
 
         if (userService.getUserFromToken() != null) {
             return saveUrlWithApiKey(createUrlDto, null);
-        } else {
-            return createUrlForAnonymousUser(url);
         }
+        return createUrlForAnonymousUser(url);
     }
 
     @Override
     @Transactional
     public Url saveUrlWithApiKey(final @Valid CreateUrlDto createUrlDto, final String key) {
-        final Url url = createUrlToUrlConverter.convert(createUrlDto);
+        final var url = createUrlToUrlConverter.convert(createUrlDto);
         final ApiKey apiKey = getApiKey(key);
         setShortUrlForLoggedInUser(url, apiKey);
 
@@ -179,6 +180,7 @@ public class DefaultUrlService implements UrlService {
     }
 
     private Url createUrlForAnonymousUser(final Url url) {
+        urlValidator.checkIfAnonymousUrlCreationEnabled();
         url.clearForAnonymousUser();
 
         if (urlRepository.existsUrlByLongUrlAndActiveTrueAndOwnerIsNull(url.getLongUrl())) {

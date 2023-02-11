@@ -12,5 +12,6 @@
     <include file="db/changelog/table/user_authorities.xml"/>
     <include file="db/changelog/table/reset_token.xml"/>
     <include file="db/changelog/table/ip_address.xml"/>
+    <include file="db/changelog/table/google_safe_browsing.xml"/>
 
 </databaseChangeLog>

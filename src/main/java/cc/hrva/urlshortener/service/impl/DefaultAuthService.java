@@ -39,6 +39,7 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public String register(final UserRegisterDto userRegisterDto) {
+        userValidator.checkRegistrationEnabled();
         userValidator.checkEmailUniqueness(userRegisterDto.getEmail());
 
         final var user = userRegisterDtoToUserConverter.convert(userRegisterDto);

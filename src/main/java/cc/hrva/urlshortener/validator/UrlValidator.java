@@ -10,4 +10,8 @@ public interface UrlValidator {
     void verifyUserAdminOrOwner(Url url);
 
     void checkIfUrlExpirationDateIsInThePast(Url url);
+
+    void checkIfUrlSafe(Url url);
+
+    void checkIfAnonymousUrlCreationEnabled();
 }

@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="UrlShortenerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="urlShortener" />
+    <option name="ACTIVE_PROFILES" value="dev,hidden" />
+    <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-17-openjdk" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <module name="URL-Shortener-BE" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="cc.hrva.urlshortener.UrlShortenerApplication" />
-    <option name="ACTIVE_PROFILES" value="dev" />
-    <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Database" run_configuration_type="docker-deploy" />
       <option name="Make" enabled="true" />
     </method>
   </configuration>
