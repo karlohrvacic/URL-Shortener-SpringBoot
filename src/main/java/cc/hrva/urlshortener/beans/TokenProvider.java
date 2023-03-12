@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
-    private static final Long SECONDS_TO_MILISECONDS = 1000L;
+    private static final Long SECONDS_TO_MILLISECONDS = 1000L;
 
     private final AppProperties appProperties;
 
@@ -36,7 +36,7 @@ public class TokenProvider {
     public void init() {
         final var keyBytes = Decoders.BASE64.decode(appProperties.getJwtBase64Secret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.tokenValidityInMilliseconds = SECONDS_TO_MILISECONDS * appProperties.getJwtTokenValiditySeconds();
+        this.tokenValidityInMilliseconds = SECONDS_TO_MILLISECONDS * appProperties.getJwtTokenValiditySeconds();
     }
 
     public String createToken(final Authentication authentication) {

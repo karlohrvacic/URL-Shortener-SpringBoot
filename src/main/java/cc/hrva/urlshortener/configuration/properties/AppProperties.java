@@ -66,14 +66,6 @@ public class AppProperties {
     @NotBlank
     private String serverUrl;
 
-    private String redisAddress;
-
-    private Integer redisPort;
-
-    private String redisUsername;
-
-    private String redisPassword;
-
     @NotNull
     @Positive
     private Long maxLoginAttempts;

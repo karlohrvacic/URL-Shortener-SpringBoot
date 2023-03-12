@@ -70,7 +70,6 @@ public class Url {
         return this;
     }
 
-    @CacheEvict(value = "urls", key = "#url.shortUrl", condition = "#url.active == false")
     public void verifyUrlValidity(final Url url) {
         if (this.visits >= Optional.ofNullable(visitLimit).orElse(this.visits + 1)) {
             this.active = false;

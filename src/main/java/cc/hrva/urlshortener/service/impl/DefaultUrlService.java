@@ -140,7 +140,6 @@ public class DefaultUrlService implements UrlService {
 
     @Override
     @Transactional
-    @Cacheable(value = "urls", key = "#shortUrl", unless = "#shortUrl.length() < 0")
     public Url checkIPUniquenessAndReturnUrl(final String shortUrl, final String clientIP) {
         final var url = findUrlByShortUrlAndActive(shortUrl);
 
@@ -252,7 +251,6 @@ public class DefaultUrlService implements UrlService {
                 .orElseGet(apiKeyService::generateNewApiKey);
     }
 
-    @CacheEvict(value = "urls", key = "#url.shortUrl")
     public Url deactivateUrl(Url url) {
         url.setActive(false);
         return url;
