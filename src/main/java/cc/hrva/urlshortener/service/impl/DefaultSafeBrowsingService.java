@@ -5,9 +5,9 @@ import cc.hrva.urlshortener.configuration.properties.GoogleApiProperties;
 import cc.hrva.urlshortener.service.SafeBrowsingService;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.safebrowsing.Safebrowsing;
-import com.google.api.services.safebrowsing.model.ThreatEntry;
-import com.google.api.services.safebrowsing.model.ThreatMatch;
+import com.google.api.services.safebrowsing.v4.Safebrowsing;
+import com.google.api.services.safebrowsing.v4.model.GoogleSecuritySafebrowsingV4ThreatEntry;
+import com.google.api.services.safebrowsing.v4.model.GoogleSecuritySafebrowsingV4ThreatMatch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class DefaultSafeBrowsingService implements SafeBrowsingService {
 
     @Override
     public List<String> checkUrlForThreats(final List<String> urls) {
-        List<ThreatMatch> threatMatches = new LinkedList<>();
+        List<GoogleSecuritySafebrowsingV4ThreatMatch> threatMatches = new LinkedList<>();
 
         try {
              threatMatches = getThreatMatches(urls);
@@ -42,8 +42,8 @@ public class DefaultSafeBrowsingService implements SafeBrowsingService {
 
         if (threatMatches != null) {
             return threatMatches.stream()
-                    .map(ThreatMatch::getThreat)
-                    .map(ThreatEntry::getUrl)
+                    .map(GoogleSecuritySafebrowsingV4ThreatMatch::getThreat)
+                    .map(GoogleSecuritySafebrowsingV4ThreatEntry::getUrl)
                     .collect(Collectors.toList());
         }
 
@@ -55,7 +55,7 @@ public class DefaultSafeBrowsingService implements SafeBrowsingService {
         return checkUrlForThreats(List.of(url));
     }
 
-    private List<ThreatMatch> getThreatMatches(final List<String> urls) throws IOException, GeneralSecurityException {
+    private List<GoogleSecuritySafebrowsingV4ThreatMatch> getThreatMatches(final List<String> urls) throws IOException, GeneralSecurityException {
         final var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         final var jsonFactory = GsonFactory.getDefaultInstance();
         final var findThreatMatchesRequest = googleSafeBrowsingApi.createFindThreatMatchesRequest(urls);
