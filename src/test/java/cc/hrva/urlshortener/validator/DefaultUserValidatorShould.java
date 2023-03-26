@@ -30,7 +30,7 @@ class DefaultUserValidatorShould {
 
     @BeforeEach
     void setUp() {
-        this.userValidator = new DefaultUserValidator(userRepository, appProperties);
+        this.userValidator = new DefaultUserValidator(appProperties, userRepository);
 
         this.email = "email";
     }
