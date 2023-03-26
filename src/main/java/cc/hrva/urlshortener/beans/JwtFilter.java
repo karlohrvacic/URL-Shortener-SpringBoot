@@ -17,6 +17,7 @@ import org.springframework.web.filter.GenericFilterBean;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
+
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final TokenProvider tokenProvider;

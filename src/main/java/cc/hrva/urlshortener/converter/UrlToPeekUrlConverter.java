@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UrlToPeekUrlConverter implements Converter<Url, PeekUrl> {
+
     @Override
     public PeekUrl convert(final Url url) {
         return PeekUrl.builder()
@@ -15,4 +16,5 @@ public class UrlToPeekUrlConverter implements Converter<Url, PeekUrl> {
                 .createDate(url.getCreateDate())
                 .build();
     }
+
 }

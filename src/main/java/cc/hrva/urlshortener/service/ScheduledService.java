@@ -2,18 +2,12 @@ package cc.hrva.urlshortener.service;
 
 public interface ScheduledService {
 
-    void deactivateDeprecatedIps();
-
     void deleteDeactivatedIps();
-
-    void deactivateExpiredPasswordResetTokens();
-
-    void deleteExpiredPasswordResetTokens();
-
-    void deactivateUnusedUserAccounts();
-
-    void deactivateExpiredApiKeys();
-
     void deactivateExpiredUrls();
+    void deactivateDeprecatedIps();
+    void deactivateExpiredApiKeys();
+    void deactivateUnusedUserAccounts();
+    void deleteExpiredPasswordResetTokens();
+    void deactivateExpiredPasswordResetTokens();
 
 }

@@ -3,7 +3,6 @@ package cc.hrva.urlshortener.controller;
 import cc.hrva.urlshortener.dto.*;
 import cc.hrva.urlshortener.model.User;
 import cc.hrva.urlshortener.service.AuthService;
-import cc.hrva.urlshortener.service.SafeBrowsingService;
 import cc.hrva.urlshortener.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @CommonsLog
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +23,6 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
     private final HttpServletRequest request;
-    private final SafeBrowsingService service;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody final UserRegisterDto user) {
@@ -51,7 +47,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JWTTokenDto> login(@Valid @RequestBody final LoginDto login) {
         log.info("Login controller invoked for user " + login.getEmail());
-        log.info(service.checkUrlForThreats(List.of("haha")));
         return authService.login(login, request);
     }
 }

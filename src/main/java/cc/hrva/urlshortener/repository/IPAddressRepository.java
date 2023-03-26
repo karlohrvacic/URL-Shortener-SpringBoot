@@ -10,12 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IPAddressRepository extends JpaRepository<IPAddress, Long> {
 
-    List<IPAddress> findByUrlAndActiveTrue(Url url);
-
-    List<IPAddress> findByCreateDateIsLessThanEqualAndActiveTrue(LocalDateTime createDate);
-
-    List<IPAddress> findByCreateDateIsLessThanEqualAndActiveFalse(LocalDateTime createDate);
-
     List<IPAddress> findAllByUrl(Url url);
+    List<IPAddress> findByUrlAndActiveTrue(Url url);
+    List<IPAddress> findByCreateDateIsLessThanEqualAndActiveTrue(LocalDateTime createDate);
+    List<IPAddress> findByCreateDateIsLessThanEqualAndActiveFalse(LocalDateTime createDate);
 
 }

@@ -22,7 +22,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final HttpMessageConverter<String> messageConverter;
-
     private final ObjectMapper objectMapper;
 
     @Override

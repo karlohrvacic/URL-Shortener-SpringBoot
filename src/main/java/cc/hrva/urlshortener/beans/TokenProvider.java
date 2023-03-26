@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 @CommonsLog
 @RequiredArgsConstructor
 public class TokenProvider {
+
     private static final String AUTHORITIES_KEY = "auth";
     private static final Long SECONDS_TO_MILLISECONDS = 1000L;
 
@@ -58,7 +59,7 @@ public class TokenProvider {
         final var authorities = Arrays
                 .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .toList();
 
         final var principal = new User(claims.getSubject(), "", authorities);
 

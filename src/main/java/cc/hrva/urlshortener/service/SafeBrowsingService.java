@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SafeBrowsingService {
 
-    List<String> checkUrlForThreats(List<String> url);
-    List<String> checkUrlForThreats(String url);
+    List<String> checkUrlsForThreats(String url);
+    List<String> checkUrlsForThreats(List<String> url);
 
 }

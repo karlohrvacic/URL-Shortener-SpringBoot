@@ -7,23 +7,15 @@ import cc.hrva.urlshortener.model.User;
 
 public interface ApiKeyService {
 
+    void deactivateExpired();
     ApiKey generateNewApiKey();
-
-    List<ApiKey> fetchMyApiKeys();
-
     ApiKey revokeApiKey(Long id);
-
-    ApiKey apiKeyUseAction(ApiKey apiKey);
-
-    ApiKey fetchApiKeyByKey(String key);
-
+    List<ApiKey> fetchMyApiKeys();
     List<ApiKey> fetchAllApiKeys();
-
+    ApiKey findApiKeyByKey(String key);
+    ApiKey fetchApiKeyByKey(String key);
+    ApiKey apiKeyUseAction(ApiKey apiKey);
+    int getActiveApiKeysCountForUser(User user);
     ApiKey updateKey(ApiKeyUpdateDto apiKeyUpdateDto);
 
-    void deactivateExpired();
-
-    int getActiveApiKeysCountForUser(User user);
-
-    ApiKey findApiKeyByKey(String key);
 }

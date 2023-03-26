@@ -15,7 +15,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
     private final LoginAttemptService loginAttemptService;
 
     @Override
-    public void onApplicationEvent(final AuthenticationFailureBadCredentialsEvent e) {
+    public void onApplicationEvent(final AuthenticationFailureBadCredentialsEvent ignored) {
         final var xfHeader = request.getHeader("X-Forwarded-For");
         if (xfHeader == null) {
             loginAttemptService.loginFailed(request.getRemoteAddr());
@@ -23,4 +23,5 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
             loginAttemptService.loginFailed(xfHeader.split(",")[0]);
         }
     }
+
 }

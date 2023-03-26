@@ -4,9 +4,9 @@ import cc.hrva.urlshortener.model.ApiKey;
 import cc.hrva.urlshortener.model.User;
 
 public interface ApiKeyValidator {
-    void apiKeyExistsByKeyAndIsValid(String key);
-
-    void verifyUserAdminOrOwner(ApiKey apiKey);
 
     void apiKeySlotsAvailable(User user);
+    void verifyUserAdminOrOwner(ApiKey apiKey);
+    void apiKeyExistsByKeyAndIsValid(String key);
+
 }

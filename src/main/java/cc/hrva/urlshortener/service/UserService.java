@@ -10,29 +10,18 @@ import java.util.List;
 
 public interface UserService {
 
-    User register(User user);
-
     User getUserFromToken();
-
+    User register(User user);
     UserDto fetchCurrentUser();
-
-    User fetchUserFromEmail(String email);
-
-    void persistUser(User user);
-
     List<User> fetchAllUsers();
-
+    void persistUser(User user);
     void deleteUserById(Long id);
-
+    void userHasLoggedIn(User user);
+    void deactivateUnusedUserAccounts();
+    User fetchUserFromEmail(String email);
     User updateUser(UserUpdateDto userUpdateDto);
-
     User updatePassword(UpdatePasswordDto updatePasswordDto);
-
+    User resetPassword(PasswordResetDto passwordResetDto);
     void sendPasswordResetLinkToUser(RequestPasswordResetDto requestPasswordResetDto);
 
-    User resetPassword(PasswordResetDto passwordResetDto);
-
-    void deactivateUnusedUserAccounts();
-
-    void userHasLoggedIn(User user);
 }

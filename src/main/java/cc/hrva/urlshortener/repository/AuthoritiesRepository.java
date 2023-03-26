@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface AuthoritiesRepository extends JpaRepository<Authorities, Long> {
 
     Optional<Authorities> findByName(String name);
+
 }

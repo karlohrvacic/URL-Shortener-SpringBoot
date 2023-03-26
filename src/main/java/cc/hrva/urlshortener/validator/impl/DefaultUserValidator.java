@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DefaultUserValidator implements UserValidator {
 
-    private final UserRepository userRepository;
     private final AppProperties appProperties;
+    private final UserRepository userRepository;
 
     @Override
     public void checkEmailUniqueness(final String email) {

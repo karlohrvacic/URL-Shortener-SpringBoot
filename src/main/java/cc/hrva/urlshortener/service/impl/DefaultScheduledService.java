@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DefaultScheduledService implements ScheduledService {
 
-    private final IPAddressService ipAddressService;
+    private final UrlService urlService;
     private final UserService userService;
     private final ApiKeyService apiKeyService;
+    private final IPAddressService ipAddressService;
     private final ResetTokenService resetTokenService;
-    private final UrlService urlService;
 
     @Override
     @Scheduled(cron = "0 */1 * * * *")

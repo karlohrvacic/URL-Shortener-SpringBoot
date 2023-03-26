@@ -28,7 +28,7 @@ public class DefaultSafeBrowsingService implements SafeBrowsingService {
     private final GoogleSafeBrowsingApi googleSafeBrowsingApi;
 
     @Override
-    public List<String> checkUrlForThreats(final List<String> urls) {
+    public List<String> checkUrlsForThreats(final List<String> urls) {
         List<GoogleSecuritySafebrowsingV4ThreatMatch> threatMatches = new LinkedList<>();
 
         try {
@@ -44,15 +44,15 @@ public class DefaultSafeBrowsingService implements SafeBrowsingService {
             return threatMatches.stream()
                     .map(GoogleSecuritySafebrowsingV4ThreatMatch::getThreat)
                     .map(GoogleSecuritySafebrowsingV4ThreatEntry::getUrl)
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         return new ArrayList<>();
     }
 
     @Override
-    public List<String> checkUrlForThreats(final String url) {
-        return checkUrlForThreats(List.of(url));
+    public List<String> checkUrlsForThreats(final String url) {
+        return checkUrlsForThreats(List.of(url));
     }
 
     private List<GoogleSecuritySafebrowsingV4ThreatMatch> getThreatMatches(final List<String> urls) throws IOException, GeneralSecurityException {

@@ -6,6 +6,6 @@ import cc.hrva.urlshortener.model.Email;
 
 public interface EmailService {
 
-    void sendEmail(final Email email, final File attachment) throws MessagingException;
+    void sendEmail(Email email, File attachment) throws MessagingException;
 
 }

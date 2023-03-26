@@ -2,14 +2,12 @@ package cc.hrva.urlshortener.service.impl;
 
 import cc.hrva.urlshortener.repository.AuthoritiesRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.apachecommons.CommonsLog;
 import cc.hrva.urlshortener.model.codebook.Authorities;
 import cc.hrva.urlshortener.service.AuthoritiesService;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 @Service
-@CommonsLog
 @RequiredArgsConstructor
 public class DefaultAuthoritiesService implements AuthoritiesService {
 

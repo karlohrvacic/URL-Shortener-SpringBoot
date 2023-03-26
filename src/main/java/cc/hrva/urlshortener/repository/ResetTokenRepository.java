@@ -11,14 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ResetTokenRepository extends JpaRepository<ResetToken, Long> {
 
-    Optional<ResetToken> findResetTokenByUserAndTokenAndActiveTrue(User user, String token);
-
     List<ResetToken> findByActiveTrue();
-
     List<ResetToken> findByUserAndActiveTrue(User user);
-
+    Optional<ResetToken> findResetTokenByUserAndTokenAndActiveTrue(User user, String token);
     List<ResetToken> findByExpirationDateIsLessThanEqualAndActiveTrue(LocalDateTime expirationDate);
-
     List<ResetToken> findByExpirationDateIsLessThanEqualAndActiveFalse(LocalDateTime expirationDate);
 
 }

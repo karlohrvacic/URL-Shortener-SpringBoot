@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserRegisterDtoToUserConverter implements Converter<UserRegisterDto, User> {
 
-    private final AuthoritiesService authoritiesService;
-    private final PasswordEncoder passwordEncoder;
     private final AppProperties appProperties;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthoritiesService authoritiesService;
 
     @Override
     public User convert(final UserRegisterDto userRegisterDto) {

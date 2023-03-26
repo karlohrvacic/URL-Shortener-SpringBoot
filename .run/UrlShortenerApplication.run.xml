@@ -3,7 +3,7 @@
     <option name="ACTIVE_PROFILES" value="dev,hidden" />
     <option name="ALTERNATIVE_JRE_PATH" value="openjdk-19" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <module name="URL-Shortener-BE" />
+    <module name="urlShortener" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="cc.hrva.urlshortener.UrlShortenerApplication" />
     <method v="2">
       <option name="Make" enabled="true" />

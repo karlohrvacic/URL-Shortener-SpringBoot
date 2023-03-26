@@ -23,12 +23,16 @@ public class DefaultUrlValidator implements UrlValidator {
 
     @Override
     public void longUrlInUrl(final Url url) {
-        if (url.getLongUrl() == null) throw new LongUrlNotSpecifiedException("URL for shortening is not specified");
+        if (url.getLongUrl() == null) {
+            throw new LongUrlNotSpecifiedException("URL for shortening is not specified");
+        }
     }
 
     @Override
     public void checkIfShortUrlIsUnique(final String shortUrl) {
-        if (urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)) throw new ShortUrlAlreadyExistsException("Short URL is already in use");
+        if (urlRepository.existsUrlByShortUrlAndActiveTrue(shortUrl)) {
+            throw new ShortUrlAlreadyExistsException("Short URL is already in use");
+        }
     }
 
     @Override
@@ -51,7 +55,7 @@ public class DefaultUrlValidator implements UrlValidator {
 
     @Override
     public void checkIfUrlSafe(final Url url) {
-        if (!safeBrowsingService.checkUrlForThreats(url.getLongUrl()).isEmpty()) {
+        if (!safeBrowsingService.checkUrlsForThreats(url.getLongUrl()).isEmpty()) {
             throw new UrlValidationException("Bad URL detected");
         }
     }

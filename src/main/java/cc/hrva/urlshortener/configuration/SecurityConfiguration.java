@@ -2,7 +2,6 @@ package cc.hrva.urlshortener.configuration;
 
 import cc.hrva.urlshortener.beans.JwtFilter;
 import cc.hrva.urlshortener.configuration.properties.AppProperties;
-import cc.hrva.urlshortener.service.impl.DefaultDomainUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,7 +33,7 @@ public class SecurityConfiguration {
 
     private final JwtFilter jwtFilter;
     private final AppProperties appProperties;
-    private final DefaultDomainUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
