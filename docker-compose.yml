@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  url-shortener-backend:
+    container_name: url-shortener-backend
+    image: ghcr.io/karlohrvacic/url-shortener-be:main
+    restart: always
+    networks:
+      - nginx-proxy_default
+
+networks:
+  nginx-proxy_default:
+    external: true
