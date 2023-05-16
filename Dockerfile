@@ -2,7 +2,7 @@ FROM eclipse-temurin:17
 
 RUN mkdir /app
 
-COPY urlShortener-1.3.0.jar /app/app.jar
+COPY target/urlShortener-1.3.0.jar /app/app.jar
 
 WORKDIR /app
 
