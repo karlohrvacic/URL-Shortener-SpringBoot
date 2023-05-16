@@ -1,11 +1,12 @@
 package cc.hrva.urlshortener.service.impl;
 
+import cc.hrva.urlshortener.exception.UserDoesntExistException;
 import cc.hrva.urlshortener.repository.AuthoritiesRepository;
 import lombok.RequiredArgsConstructor;
 import cc.hrva.urlshortener.model.codebook.Authorities;
 import cc.hrva.urlshortener.service.AuthoritiesService;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class DefaultAuthoritiesService implements AuthoritiesService {
     @Override
     public Authorities getDefaultAuthority() {
         return authoritiesRepository.findByName(DEFAULT_AUTHORITY_NAME)
-            .orElse(authoritiesRepository.findById(1L).orElseThrow(() -> new NotFoundException("Authority not found")));
+            .orElse(authoritiesRepository.findById(1L).orElseThrow(() -> new UserDoesntExistException("Authority not found")));
     }
 
 }
