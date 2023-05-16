@@ -1,5 +1,4 @@
-FROM eclipse-temurin:17
-
+FROM --platform=linux/amd64 eclipse-temurin:17
 RUN mkdir /app
 
 COPY target/urlShortener-1.3.0.jar /app/app.jar
