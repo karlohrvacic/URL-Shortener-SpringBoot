@@ -70,12 +70,12 @@ jib {
         image = 'gcr.io/distroless/java21-debian12'
     }
     to {
-        image = "ghcr.io/karlohrvacic/$rootProject.name:$version"
+        image = "ghcr.io/karlohrvacic/url-shortener"
         tags = ['latest', "$version"]
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
