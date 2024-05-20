@@ -17,7 +17,7 @@ jobs:
           cache: gradle
 
       - name: Build with Maven and Jib
-        run: ./gradlew jib
+        run: ./gradlew clean build jib
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
