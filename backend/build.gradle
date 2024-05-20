@@ -79,6 +79,18 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+tasks.register('stage') {
+    dependsOn['build']
+    doLast {
+        java.sourceSets.main.each { src ->
+            copy {
+                from src.output
+                into project.file('build/libs')
+            }
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
 }
