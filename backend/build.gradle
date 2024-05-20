@@ -70,7 +70,7 @@ jib {
         image = 'gcr.io/distroless/java21-debian12'
     }
     to {
-        image = "$rootProject.name:$version"
+        image = "ghcr.io/karlohrvacic/URL-Shortener/$rootProject.name:$version"
         tags = ['latest', "$version"]
     }
 }
