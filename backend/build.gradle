@@ -71,7 +71,7 @@ jib {
     }
     to {
         image = "$rootProject.name:$version"
-        tags = ['latest']
+        tags = ['latest', "$version"]
     }
 }
 

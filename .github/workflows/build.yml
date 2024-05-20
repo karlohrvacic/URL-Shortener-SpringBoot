@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Build with Maven and Jib
+      - name: Build with Gradle and Jib
         run: ./gradlew clean build jib
 
       - name: Setup Node.js environment
