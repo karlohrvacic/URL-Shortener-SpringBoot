@@ -5,5 +5,5 @@ on:
     branches: [ main ]
 
 jobs:
-  call_reusable_workflow:
+  build:
     uses: ./.github/workflows/build.yml

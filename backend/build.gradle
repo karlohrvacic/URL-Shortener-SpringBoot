@@ -67,7 +67,7 @@ dependencyManagement {
 
 jib {
     from {
-        image = 'adoptopenjdk:21-jre-hotspot'
+        image = 'eclipse-temurin:21-jre'
     }
     to {
         image = "$rootProject.name:$version"
