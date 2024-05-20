@@ -69,6 +69,10 @@ jib {
     from {
         image = 'adoptopenjdk:21-jre-hotspot'
     }
+    to {
+        image = "$rootProject.name:$version"
+        tags = ['latest']
+    }
 }
 
 tasks.withType(JavaCompile) {
