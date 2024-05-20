@@ -67,7 +67,7 @@ dependencyManagement {
 
 jib {
     from {
-        image = 'eclipse-temurin:21-jre'
+        image = 'gcr.io/distroless/java21-debian12'
     }
     to {
         image = "$rootProject.name:$version"
