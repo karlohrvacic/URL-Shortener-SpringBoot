@@ -1,10 +1,7 @@
-name: Reusable Workflow
+name: Build images
 
 on:
   workflow_call:
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   build:
