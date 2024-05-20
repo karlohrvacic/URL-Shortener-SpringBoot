@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/url
+    url: jdbc:postgresql://localhost:5432/url_shortener
     username: root
     password: root
   jpa:
@@ -11,8 +11,8 @@ spring:
   application:
     name: URL Shortener
   mail:
-    host:
-    port:
+    host: localhost
+    port: 8025
     username:
     password:
     properties:
@@ -34,7 +34,7 @@ app:
   server-url: localhost
   max-login-attempts: 20
   frontend-url: http://localhost:8081
-  registration-enabled: false
+  registration-enabled: true
   anonymous-url-creation-enabled: false
 
 server:

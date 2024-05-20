@@ -1,8 +1,8 @@
-name: Main Branch Workflow
+name: Dev Branch Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
   call_reusable_workflow:

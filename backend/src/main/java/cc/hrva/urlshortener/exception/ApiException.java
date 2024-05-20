@@ -22,7 +22,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)

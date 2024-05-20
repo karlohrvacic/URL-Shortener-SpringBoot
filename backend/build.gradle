@@ -1,0 +1,80 @@
+plugins {
+    id "io.freefair.lombok" version "8.6"
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+    id 'com.google.cloud.tools.jib' version '3.4.2'
+}
+
+group = 'cc.hrva.url'
+version = '1.4.0'
+description = 'Url Shortener project'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springBootVersion', '3.2.5')
+    set('springdocVersion', '1.8.0')
+    set('jsonwebtokenVersion', '0.11.5')
+    set('apacheCommonsVersion', '3.14.0')
+    set('commonsIoVersion', '2.16.1')
+    set('googleApiClientVersion', '2.5.1')
+    set('googleApiServicesSafebrowsingVersion', 'v4-rev20230212-2.0.0')
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework:spring-context-support'
+
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    compileOnly 'org.projectlombok:lombok'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-impl:${jsonwebtokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jsonwebtokenVersion}"
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsVersion}"
+    implementation "commons-io:commons-io:${commonsIoVersion}"
+    implementation 'org.liquibase:liquibase-core'
+    implementation "com.google.api-client:google-api-client:${googleApiClientVersion}"
+    implementation "com.google.apis:google-api-services-safebrowsing:${googleApiServicesSafebrowsingVersion}"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+    }
+}
+
+//bootJar {
+//    mainClassName = 'cc.hrva.UrlShortenerApplication'
+//}
+
+jib {
+    from {
+        image = 'adoptopenjdk:21-jre-hotspot'
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}
