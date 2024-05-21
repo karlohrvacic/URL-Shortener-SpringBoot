@@ -81,7 +81,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.register('stage') {
-    dependsOn['build']
+    dependsOn('build')
     doLast {
         java.sourceSets.main.each { src ->
             copy {
@@ -91,18 +91,6 @@ tasks.register('stage') {
         }
     }
 }
-
-//tasks.register('stage', Copy) {
-//    dependsOn['build']
-//    from jar.archivePath
-//    into project.rootDir
-//    rename {
-//        'app.jar'
-//    }
-//}
-
-//stage.mustRunAfter(clean)
-
 
 test {
     useJUnitPlatform()
