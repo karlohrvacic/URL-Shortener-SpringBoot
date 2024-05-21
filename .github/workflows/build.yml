@@ -17,9 +17,12 @@ jobs:
           cache: gradle
 
       - name: Build with Gradle and Jib
-        env:
-          GH_PASSWORD: '${{ secrets.GITHUB_TOKEN }}'
-        run: ./gradlew clean build jib
+        run: ./gradlew clean build
+
+      - name: JIB container build and publish
+        uses: MathieuSoysal/jib-container-publish.yml@v2.1.3
+        with:
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
