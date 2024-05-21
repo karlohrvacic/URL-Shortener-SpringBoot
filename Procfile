@@ -1,1 +1,1 @@
-web: java -jar backend/target/backend-*.jar
+web: java -jar backend/build/target/libs/backend-*.jar
