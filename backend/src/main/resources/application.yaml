@@ -8,7 +8,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info
+        include: health, info, env, metrics, beans, mappings, configprops, loggers, threaddump, heapdump, jolokia, prometheus, httptrace, loggers, auditevents, liquibase
 
 server:
   error:
