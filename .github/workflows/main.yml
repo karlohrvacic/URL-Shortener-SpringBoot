@@ -1,9 +1,0 @@
-name: Main Branch Workflow
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  build:
-    uses: ./.github/workflows/build.yml
